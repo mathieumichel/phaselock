@@ -54,7 +54,7 @@ obj_sky/contikimac.o: net/mac/contikimac.c \
  /home/macfly/contiki-2.7/core/./net/rime/timesynch.h \
  /home/macfly/contiki-2.7/core/./net/rime/trickle.h \
  /home/macfly/contiki-2.7/core/./sys/compower.h tools/cooja-debug.h \
- net/mac/phase.h
+ /home/macfly/contiki-2.7/core/net/mac/frame802154.h net/mac/phase.h
 net/mac/contikimac.c :
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h :
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h :
@@ -111,4 +111,4 @@ net/mac/contikimac.c :
  /home/macfly/contiki-2.7/core/./net/rime/timesynch.h :
  /home/macfly/contiki-2.7/core/./net/rime/trickle.h :
  /home/macfly/contiki-2.7/core/./sys/compower.h tools/cooja-debug.h :
- net/mac/phase.h :
+ /home/macfly/contiki-2.7/core/net/mac/frame802154.h net/mac/phase.h :

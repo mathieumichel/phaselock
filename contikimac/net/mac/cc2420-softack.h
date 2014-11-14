@@ -45,9 +45,10 @@
 #include "dev/cc2420.h"
 #include "net/rpl/rpl.h"
 typedef void(softack_input_callback_f)(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufptr, uint8_t *acklen);
+typedef void(softack_coll_callback_f)();
 typedef void(softack_acked_callback_f)(const uint8_t *frame, uint8_t framelen);
 
 /* Subscribe with two callbacks called from FIFOP interrupt */
-void cc2420_softack_subscribe(softack_input_callback_f *input_callback);
-
+void cc2420_softack_subscribe(softack_input_callback_f *input_callback,softack_coll_callback_f *coll_callback);
+void flushrx();
 #endif /* __CC2420_SOFTACK_H__ */

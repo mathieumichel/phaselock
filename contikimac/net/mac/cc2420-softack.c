@@ -66,6 +66,8 @@
 #include "sys/timetable.h"
 
 
+
+
 volatile int need_flush;
 extern volatile uint8_t contikimac_keep_radio_on;
 
@@ -191,7 +193,7 @@ static int channel;
 
 /*---------------------------------------------------------------------------*/
 
-static void
+void
 flushrx(void)
 {
   uint8_t dummy;
@@ -645,13 +647,15 @@ LIST(rf_list);
 #define RXFIFO_ADDR(index) (RXFIFO_START + (index) % RXFIFO_SIZE)
 
 static softack_input_callback_f *softack_input_callback;
-static softack_acked_callback_f *softack_acked_callback;
+//static softack_acked_callback_f *softack_acked_callback;
+static softack_coll_callback_f *softack_coll_callback;
 
 /* Subscribe with one callback called from FIFOP interrupt */
 void
-cc2420_softack_subscribe(softack_input_callback_f *input_callback)
+cc2420_softack_subscribe(softack_input_callback_f *input_callback, softack_coll_callback_f *coll_callback)
 {
   softack_input_callback = input_callback;
+  softack_coll_callback = coll_callback;
 }
 
 int
@@ -660,6 +664,7 @@ cc2420_interrupt(void)
   uint8_t len, seqno, footer1;
   uint8_t len_a, len_b;
   uint8_t *ackbuf, acklen = 0;
+
 
   int do_ack;
   int frame_valid = 0;
@@ -671,9 +676,9 @@ cc2420_interrupt(void)
   timetable_clear(&cc2420_timetable);
   TIMETABLE_TIMESTAMP(cc2420_timetable, "interrupt");
 #endif /* CC2420_TIMETABLE_PROFILING */
-
   /* If the lock is taken, we cannot access the FIFO, just drop frame (flush it) */
   if(locked || need_flush) {
+    COOJA_DEBUG_PRINTF("plop1\n");
     need_flush = 1;
     CC2420_CLEAR_FIFOP_INT();
     return 1;
@@ -682,9 +687,11 @@ cc2420_interrupt(void)
   GET_LOCK();
 
   if(!CC2420_FIFO_IS_1) {
+    COOJA_DEBUG_PRINTF("plop2\n");
     flushrx();
     RELEASE_LOCK();
     CC2420_CLEAR_FIFOP_INT();
+
     return 1;
   }
 
@@ -693,6 +700,7 @@ cc2420_interrupt(void)
 
   if(len > CC2420_MAX_PACKET_LEN
       || len <= AUX_LEN) {
+    COOJA_DEBUG_PRINTF("plop3\n");
     flushrx();
     RELEASE_LOCK();
     CC2420_CLEAR_FIFOP_INT();
@@ -703,12 +711,12 @@ cc2420_interrupt(void)
   rf = memb_alloc(&rf_memb);
 
   if(rf == NULL) {
+    COOJA_DEBUG_PRINTF("plop4\n");
     flushrx();
     RELEASE_LOCK();
     CC2420_CLEAR_FIFOP_INT();
     return 1;
   }
-
   last_packet_timestamp = cc2420_sfd_start_time;
 
   list_add(rf_list, rf);
@@ -727,7 +735,7 @@ cc2420_interrupt(void)
   if(softack_input_callback) {
     softack_input_callback(rf->buf, len_a, &ackbuf, &acklen);
   }
-  do_ack = acklen > 0;
+  do_ack  = acklen > 0;
 
   if(do_ack) {
 	  uint8_t total_acklen = acklen + AUX_LEN;
@@ -746,15 +754,21 @@ cc2420_interrupt(void)
   CC2420_READ_RAM_BYTE(footer1, RXFIFO_ADDR(len + AUX_LEN));
 
   if(!overflow && (footer1 & FOOTER1_CRC_OK)) { /* CRC is correct */
+
     if(do_ack) {
+
       strobe(CC2420_STXON); /* Send ACK */
       rf->acked = 1;
     }
     frame_valid = 1;
   } else { /* CRC is wrong */
-    if(do_ack) {
+#if WITH_STRAWMAN
+    softack_coll_callback();
+#endif /* WITH_STRAWMAN */
+    if(do_ack) {;
       CC2420_STROBE(CC2420_SFLUSHTX); /* Flush Tx fifo */
     }
+
     list_chop(rf_list);
     memb_free(&rf_memb, rf);
   }
@@ -769,11 +783,11 @@ cc2420_interrupt(void)
     off();
   }
 
-  if(frame_valid && do_ack) {
-    if(softack_acked_callback) {
-      softack_acked_callback(rf->buf, len_a);
-    }
-  }
+//  if(frame_valid && do_ack) {
+//    if(softack_acked_callback) {
+//      softack_acked_callback(rf->buf, len_a);
+//    }
+//  }
 
   if(rf && frame_valid && len_b>0) { /* Get rest of the data.
    No need to read the footer; we already checked it in place
@@ -979,6 +993,7 @@ cc2420_cca(void)
   RELEASE_LOCK();
   return cca;
 }
+
 /*---------------------------------------------------------------------------*/
 int
 cc2420_receiving_packet(void)
