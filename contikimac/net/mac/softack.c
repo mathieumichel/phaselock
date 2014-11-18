@@ -51,12 +51,14 @@
 
 #if WITH_STRAWMAN
 #define AUX_LEN (0 + 2) //(CHECKSUM_LEN + FOOTER_LEN)
-extern uint8_t we_are_checking;
-extern unsigned char we_are_sending;
-extern uint8_t we_are_broadcasting;
+extern volatile unsigned char we_are_checking;
+extern volatile unsigned char we_are_sending;
+extern volatile unsigned char we_are_broadcasting;
 int straw_code_competing=0;
 int straw_code_winner=0;
 static int vote_loaded=0;
+
+static uint8_t *probebuf, probelen = 0;
 struct strawman_hdr {
   uint8_t type; /* packet type */
   uint8_t seq; /* data sequence number, also used to ack data */ /* XXX Fairness? */
@@ -65,6 +67,16 @@ struct strawman_hdr {
   rimeaddr_t receiver; /* packet receiver/destination (TYPE_DATA) OR size estimation*/
 };
 
+int is_competing(){
+  return straw_code_competing;
+}
+
+void set_competing(int mode){
+  if(is_competing() != mode){
+    COOJA_DEBUG_PRINTF("straw: compet mode %u\n",mode);
+    straw_code_competing=mode;
+  }
+}
 #endif /* WITH_STRAWMAN */
 
 
@@ -74,6 +86,7 @@ rtimer_clock_t phaselock_target;
 extern volatile rtimer_clock_t current_cycle_start_time;
 /* A buffer where extended 802.15.4 are prepared */
 static unsigned char ackbuf[3 + 10] = {0x02, 0x00};
+
 //static unsigned char probebuf[2 + 8] = {0x07, 0x00};
 /* Seqno of the last acked frame */
 static uint8_t last_acked_seqno = -1;
@@ -81,7 +94,7 @@ uint8_t got_ack=0;
 
 
 /*---------------------------------------------------------------------------*/
-
+#if  WITH_STRAWMAN
 static int get_random_length(void) {
   int len;
   int r;
@@ -244,18 +257,19 @@ preload_voteprobe(uint8_t **probebufptr,uint8_t *probelen)
         /* Append our address to the standard 802.15.4 ack */
         NETSTACK_RADIO.prepare(packetbuf_hdrptr(), packetbuf_totlen());
         /* Append our rank to the ack */
-        COOJA_DEBUG_PRINTF("probe loaded %u\n",sizeof(struct strawman_hdr));
+        COOJA_DEBUG_PRINTF("straw: probe loaded %u\n",sizeof(struct strawman_hdr));
 }
 
 /*---------------------------------------------------------------------------*/
 
 static int last_vote_len = -1;
 static uint8_t tmp_buffer[128];
+struct strawman_hdr* hdr;
 static int preload_vote(void)//can't use packetbuf
 {
   /* Function is executed from interrupt; it must not acccess packetbuf! */
   packetbuf_clear();
-  struct strawman_hdr *hdr = (struct strawman_hdr*)tmp_buffer;
+ hdr = (struct strawman_hdr*)tmp_buffer;
   hdr->type=FRAME802154_BEACONFRAME;
   rimeaddr_copy(&hdr->sender, &rimeaddr_node_addr);
   rimeaddr_copy(&hdr->receiver, &rimeaddr_null);
@@ -280,9 +294,10 @@ rimac_wait(int req_bytes)
   }
   return 1; /* winner */
 }
-
+#endif /* WITH_STRAWMAN */
 /*---------------------------------------------------------------------------*/
 /* Called for every incoming frame from interrupt if concerned we ack and then add our phase*/
+rtimer_clock_t t;
 static void
 orpl_softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufptr, uint8_t *acklen)
 {
@@ -321,46 +336,21 @@ orpl_softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ac
 
 #if WITH_STRAWMAN
   else if(is_probe){
-    if(we_are_sending  && !straw_code_competing  && !we_are_broadcasting){
-            COOJA_DEBUG_PRINTF("strawman: coll \n");
-            int len=0;
-            int winner;
-            if(!vote_loaded){
-
-              straw_code_competing=1;
-              len=preload_vote();
-              leds_on(LEDS_RED);
-
-              rtimer_clock_t t0 = RTIMER_NOW();
-              NETSTACK_RADIO.transmit(0);
-
-              rtimer_clock_t t1 = RTIMER_NOW();
-              leds_off(LEDS_RED);
-              //busywait_until_sfd_true(); /* wait for transmission to start */
-
-              //busywait_until_sfd_false();
-              uint16_t diff=t1-t0;
-              vote_loaded=0;
-              COOJA_DEBUG_PRINTF("strawman: vote %u-%u\n",len,((unsigned long)diff* 100000/RTIMER_ARCH_SECOND));
-              straw_code_winner=rimac_wait(len);
-              straw_code_competing=0;
-            }
-            //busywait_until_sfd_true(); /* wait for transmission to start */
-            //busywait_until_sfd_false(); /* wait for transmission to finish */
-            //flushrx(95);
-            //straw_code_competing=0;
-//            straw_code_winner = rimac_wait(len); /* 7 bytes correspond to 320us + overhead */
-//            straw_code_competing=0;
-//            if (straw_code_winner) {
-//              COOJA_DEBUG_PRINTF("      -- WINNER (rimac) -- ");
-//            } else {
-//              COOJA_DEBUG_PRINTF(" rimac: we lost");
-//            }
-//            straw_code_winner=0;
+    //COOJA_DEBUG_PRINTF("straw: send vote");
+    if(we_are_sending  && !is_competing() && !we_are_broadcasting){
+      int len=0;
+      int winner;
+      straw_code_competing=1;
+      len=preload_vote();
+      NETSTACK_RADIO.transmit(0);
+      COOJA_DEBUG_PRINTF("straw: vote loaded %u\n",len);//,((unsigned long)diff* 100000/RTIMER_ARCH_SECOND));
+      t=RTIMER_NOW();
+      while (RTIMER_CLOCK_LT(RTIMER_NOW(),t + RTIMER_ARCH_SECOND/750));
+      straw_code_competing=0;
     }
-    else{
-      COOJA_DEBUG_PRINTF("not interrested\n");
-    }
+//    else{
+//      COOJA_DEBUG_PRINTF("straw: not interrested\n");
+//    }
   }
 #endif /* WITH_STRAWMAN */
 
@@ -404,7 +394,7 @@ orpl_softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ac
       memcpy(ackbuf+11,&phase, 2);//two bytes needed to store the phase info
       //ackbuf[3+8] = phase & 0xff;
       //ackbuf[3+8+1] = (curr_edc >> 8)& 0xff;
-      COOJA_DEBUG_PRINTF("phase %lu\n",(unsigned long)((unsigned long)phase* 100000/RTIMER_ARCH_SECOND));
+      COOJA_DEBUG_PRINTF("phase %lu\n",(unsigned long)((unsigned long)phase* 100*1000/RTIMER_ARCH_SECOND));
       //leds_off(LEDS_RED);
     } else {
       *acklen = 0;
@@ -412,31 +402,54 @@ orpl_softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ac
 }
 
 /*---------------------------------------------------------------------------*/
-
+#if WITH_STRAWMAN
+rtimer_clock_t wt1;
+rtimer_clock_t wt2;
 static void
 softack_coll_callback()
 {
-  if(we_are_checking){
-    uint8_t *probebuf, probelen = 0;
-    RTIMER_CLOCK_LT(RTIMER_NOW(),(RTIMER_NOW()  +(RTIMER_ARCH_SECOND / 5000 + (random_rand() %(RTIMER_ARCH_SECOND / 2500)))));
+  if(we_are_checking && !we_are_sending){
+    //COOJA_DEBUG_PRINTF("straw: coll detected\n");
+    wt1=RTIMER_NOW();
+    RTIMER_CLOCK_LT(RTIMER_NOW(),(wt1  +(RTIMER_ARCH_SECOND / 5000 + (random_rand() %(RTIMER_ARCH_SECOND / 2500)))));
     preload_voteprobe(&probebuf,&probelen);
     NETSTACK_RADIO.transmit(0);
     //busywait_until_sfd_true(); /* wait for transmission to start */
     //busywait_until_sfd_false(); /* wait for transmission to finish */
+    wt2=RTIMER_NOW();
+    while (RTIMER_CLOCK_LT(RTIMER_NOW(),wt2 + RTIMER_ARCH_SECOND/750));
 
-    rtimer_clock_t wait_time;
-    wait_time = RTIMER_NOW() + RTIMER_ARCH_SECOND/750;
-    //wait_time += 4; /* XXX Added 2011-03-17, Contiki timers changed */
 
-    while (RTIMER_CLOCK_LT(RTIMER_NOW(),wait_time));
-    uint16_t cca_samples=busywait_until_cca_true();
-    int size=samples_to_bytes(cca_samples);
-    COOJA_DEBUG_PRINTF("winner %u -%u\n",cca_samples,size);//-26 (size of struct hdr, -1 type - 1 longueur)
+    int samples=0;
+    leds_on(LEDS_BLUE);
+    /* Busy-wait until CCA is true */
+    while (samples<800 && CC2420_CCA_IS_1) {
+      samples++;
+    }
+    if(samples!=800){
+      leds_on(LEDS_GREEN);
+      uint16_t cca_samples=1;
+      while (cca_samples<800 && !CC2420_CCA_IS_1) {
+        cca_samples++;
+      }
+      leds_off(LEDS_GREEN);
+      leds_off(LEDS_BLUE);
+      //int size=samples_to_bytes(cca_samples);
+      int winner = cca_samples/13;
+      if(winner <=26){
+        winner =0;
+      }
+      else{
+        winner=winner-26;
+      }
+      COOJA_DEBUG_PRINTF("straw: winner %u\n",winner);//-26 (size of struct hdr, -1 type - 1 longueur)
+    }
   }
   else{
-    COOJA_DEBUG_PRINTF("not checking\n");
+    //COOJA_DEBUG_PRINTF("straw: not checking\n");
   }
 }
+#endif /* WITH_STRAWMAN */
 
 /*---------------------------------------------------------------------------*/
 
@@ -445,6 +458,10 @@ void
 softack_init()
 {
   /* Subscribe to 802.15.4 softack driver */
-  cc2420_softack_subscribe(orpl_softack_input_callback,softack_coll_callback);
+#if WITH_STRAWMAN
+  cc2420_softack_subscribe_strawman(orpl_softack_input_callback,softack_coll_callback);
+#else
+  cc2420_softack_subscribe(orpl_softack_input_callback);
+#endif /* WITH_STRAWMAN */
 }
 

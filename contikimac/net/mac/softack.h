@@ -48,5 +48,7 @@
 
 /* Anycast-specific inits */
 void orpl_anycast_init();
+int is_competing();
+void set_competing(int mode);
 
 #endif /* __ORPL_ANYCAST_H__ */

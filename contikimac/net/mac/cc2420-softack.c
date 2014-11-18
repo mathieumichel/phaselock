@@ -652,10 +652,16 @@ static softack_coll_callback_f *softack_coll_callback;
 
 /* Subscribe with one callback called from FIFOP interrupt */
 void
-cc2420_softack_subscribe(softack_input_callback_f *input_callback, softack_coll_callback_f *coll_callback)
+cc2420_softack_subscribe_strawman(softack_input_callback_f *input_callback, softack_coll_callback_f *coll_callback)
 {
   softack_input_callback = input_callback;
   softack_coll_callback = coll_callback;
+}
+
+void
+cc2420_softack_subscribe(softack_input_callback_f *input_callback)
+{
+  softack_input_callback = input_callback;
 }
 
 int
@@ -669,9 +675,7 @@ cc2420_interrupt(void)
   int do_ack;
   int frame_valid = 0;
   struct received_frame_s *rf;
-
   process_poll(&cc2420_process);
-
 #if CC2420_TIMETABLE_PROFILING
   timetable_clear(&cc2420_timetable);
   TIMETABLE_TIMESTAMP(cc2420_timetable, "interrupt");
@@ -754,7 +758,7 @@ cc2420_interrupt(void)
   CC2420_READ_RAM_BYTE(footer1, RXFIFO_ADDR(len + AUX_LEN));
 
   if(!overflow && (footer1 & FOOTER1_CRC_OK)) { /* CRC is correct */
-
+    //COOJA_DEBUG_PRINTF("plop5\n");
     if(do_ack) {
 
       strobe(CC2420_STXON); /* Send ACK */
@@ -762,12 +766,13 @@ cc2420_interrupt(void)
     }
     frame_valid = 1;
   } else { /* CRC is wrong */
-#if WITH_STRAWMAN
-    softack_coll_callback();
-#endif /* WITH_STRAWMAN */
     if(do_ack) {;
       CC2420_STROBE(CC2420_SFLUSHTX); /* Flush Tx fifo */
     }
+#if WITH_STRAWMAN
+    softack_coll_callback();
+#endif /* WITH_STRAWMAN */
+
 
     list_chop(rf_list);
     memb_free(&rf_memb, rf);

@@ -52,18 +52,13 @@
 #include "sys/rtimer.h"
 #include "cooja-debug.h"
 #include "frame802154.h"
-
+#include "softack.h"
 #include <string.h>
 
 
 #if WITH_STRAWMAN
-int straw_code_1=0; // competing
-extern int straw_code_competing; // winner
-extern int straw_code_winner;
-uint8_t we_are_broadcasting=0;
-uint8_t we_are_checking=0;
-extern int cc2420_cca_fast(void);
-extern int ack_required;
+volatile unsigned char we_are_broadcasting = 0;
+volatile unsigned char we_are_checking = 0;
 #endif /* WITH_STRAWMAN */
 
 /* TX/RX cycles are synchronized with neighbor wake periods */
@@ -202,6 +197,7 @@ static int we_are_receiving_burst = 0;
    a transmitted should begin transmitting packets. */
 #if WITH_ADVANCED_PHASELOCK
 #define GUARD_TIME                         (1 * (CHECK_TIME + CHECK_TIME_TX)) * 4  / 5  //not too small so thre receiver can be waked up with a fragment of strobe
+//#define GUARD_TIME                  ((CHECK_TIME + CHECK_TIME_TX) * 3)/5 + (random_rand() %(((CHECK_TIME + CHECK_TIME_TX) * 2)/5))
 #else /* WITH_ADVANCED_PHASELOCK */
 #define GUARD_TIME                         10 * CHECK_TIME + CHECK_TIME_TX  //MF prev (10 * CHECK_TIME + CHECK_TIME_TX)
 #endif /* WITH_ADVANCED_PHASELOCK */
@@ -224,8 +220,11 @@ static int we_are_receiving_burst = 0;
 
 /* MAX_PHASE_STROBE_TIME is the time that we transmit repeated packets
    to a neighbor for which we have a phase lock. */
-#define MAX_PHASE_STROBE_TIME              RTIMER_ARCH_SECOND / 60
-
+#if WITH_ADVANCED_PHASELOCK
+#define MAX_PHASE_STROBE_TIME              RTIMER_ARCH_SECOND / 40 // MF-prev=60
+#else
+#define MAX_PHASE_STROBE_TIME              RTIMER_ARCH_SECOND / 20 //due to the change in cca_sleep_time for softack
+#endif
 
 /* SHORTEST_PACKET_SIZE is the shortest packet that ContikiMAC
    allows. Packets have to be a certain size to be able to be detected
@@ -248,7 +247,6 @@ static struct rtimer rt;
 static struct pt pt;
 
 static volatile uint8_t contikimac_is_on = 0;
-
 volatile uint8_t contikimac_keep_radio_on = 0;
 
 volatile unsigned char we_are_sending = 0;
@@ -369,12 +367,6 @@ powercycle_turn_radio_off(void)
   
   if(we_are_sending == 0 && we_are_receiving_burst == 0) {
     off();
-#if WITH_STRAWMAN
-//    if(straw_code_competing)
-//    {
-//     straw_code_competing=0;
-//    }
-#endif WITH_STRAWMAN
 #if CONTIKIMAC_CONF_COMPOWER
     if(was_on && !radio_is_on) {
       compower_accumulate(&compower_idle_activity);
@@ -405,11 +397,14 @@ powercycle(struct rtimer *t, void *ptr)
   sync_cycle_start = RTIMER_NOW();
 #else
   cycle_start = RTIMER_NOW();
+  current_cycle_start_time = RTIMER_NOW();
 #endif
+
   while(1) {
     static uint8_t packet_seen;
     static rtimer_clock_t t0;
     static uint8_t count;
+    
 #if SYNC_CYCLE_STARTS
     /* Compute cycle start when RTIMER_ARCH_SECOND is not a multiple
        of CHANNEL_CHECK_RATE */
@@ -427,12 +422,15 @@ powercycle(struct rtimer *t, void *ptr)
 #else
     cycle_start += CYCLE_TIME;
 #endif
-    current_cycle_start_time=cycle_start;
+    
 #if WITH_STRAWMAN
-    //COOJA_DEBUG_PRINTF("up\n");
+    current_cycle_start_time += CYCLE_TIME;
+    //COOJA_DEBUG_PRINTF("up %u\n",CYCLE_TIME * 1000 / RTIMER_ARCH_SECOND);
     we_are_checking=1;
 #endif /*WITH_STRAWMAN */
+
     packet_seen = 0;
+    
     for(count = 0; count < CCA_COUNT_MAX; ++count) {
       t0 = RTIMER_NOW();
       if(we_are_sending == 0 && we_are_receiving_burst == 0) {
@@ -452,10 +450,12 @@ powercycle(struct rtimer *t, void *ptr)
       schedule_powercycle_fixed(t, RTIMER_NOW() + CCA_SLEEP_TIME);
       PT_YIELD(&pt);
     }
+    
     if(packet_seen) {
       static rtimer_clock_t start;
       static uint8_t silence_periods, periods;
       start = RTIMER_NOW();
+
       periods = silence_periods = 0;
       while(we_are_sending == 0 && radio_is_on &&
             RTIMER_CLOCK_LT(RTIMER_NOW(),
@@ -490,7 +490,6 @@ powercycle(struct rtimer *t, void *ptr)
             periods > MAX_NONACTIVITY_PERIODS &&
             !(NETSTACK_RADIO.receiving_packet() ||
               NETSTACK_RADIO.pending_packet())) {
-
           powercycle_turn_radio_off();
           break;
         }
@@ -498,11 +497,9 @@ powercycle(struct rtimer *t, void *ptr)
           break;
         }
 
-
         schedule_powercycle(t, CCA_CHECK_TIME + CCA_SLEEP_TIME);
         PT_YIELD(&pt);
       }
-
       if(radio_is_on) {
         if(!(NETSTACK_RADIO.receiving_packet() ||
              NETSTACK_RADIO.pending_packet()) ||
@@ -782,16 +779,9 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
   watchdog_periodic();
   t0 = RTIMER_NOW();
   seqno = packetbuf_attr(PACKETBUF_ATTR_MAC_SEQNO);
-#if WITH_STRAWMAN
-  //straw_code_competing=0;
   for(strobes = 0, collisions = 0;
-      got_strobe_ack == 0 && collisions == 0 && straw_code_competing == 0 &&// !(!is_broadcast && straw_code_competing == 1) && //if we are competing we stop the flux
-      RTIMER_CLOCK_LT(RTIMER_NOW(), t0 + STROBE_TIME); strobes++) {
-#else /* WITH_STRAWMAN */
-    for(strobes = 0, collisions = 0;
         got_strobe_ack == 0 && collisions == 0 &&
         RTIMER_CLOCK_LT(RTIMER_NOW(), t0 + STROBE_TIME); strobes++) {
-#endif /* WITH_STRAWMAN */
     watchdog_periodic();
 
     if(!is_broadcast && (is_receiver_awake || is_known_receiver) &&
@@ -807,15 +797,21 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
       rtimer_clock_t txtime;
       int ret;
 
-      txtime = RTIMER_NOW();
-#if WITH_STRAWMAN
-      if(!(strobes==2 && is_known_receiver)){
-#endif /*WITH_STRAWMAN */
-      ret = NETSTACK_RADIO.transmit(transmit_len);
 
 #if WITH_STRAWMAN
-    }
+      if(is_competing()){
+        break;
+      }
+      if(!((strobes==2 || strobes==3) && is_known_receiver)){
+        txtime = RTIMER_NOW();
+        ret = NETSTACK_RADIO.transmit(transmit_len);
+      }
+#else
+      txtime = RTIMER_NOW();
+      ret = NETSTACK_RADIO.transmit(transmit_len);
 #endif /*WITH_STRAWMAN */
+
+
 
 #if RDC_CONF_HARDWARE_ACK
      /* For radios that block in the transmit routine and detect the
@@ -830,7 +826,6 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
       } else if (ret == RADIO_TX_COLLISION) {
           PRINTF("contikimac: collisions while sending\n");
           collisions++;
-
       }
       wt = RTIMER_NOW();
       while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + INTER_PACKET_INTERVAL)) { }
@@ -844,7 +839,6 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
                            NETSTACK_RADIO.channel_clear() == 0)) {
         uint8_t ackbuf[ACK_LEN];
         wt = RTIMER_NOW();
-
         while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + AFTER_ACK_DETECTECT_WAIT_TIME)) { }
 
         len = NETSTACK_RADIO.read(ackbuf, ACK_LEN);
@@ -861,12 +855,13 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
         }
       }
 #endif /* RDC_CONF_HARDWARE_ACK */
-
     }
   }
+  
   off();
 #if WITH_STRAWMAN
   we_are_broadcasting=0;
+
 #endif /*WITH_STRAWMAN */
   if(!is_broadcast){
 
