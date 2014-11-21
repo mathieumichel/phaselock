@@ -54,14 +54,13 @@
 #include "cc2420-softack.h"
 
 #include "cooja-debug.h"
-
 #include "net/packetbuf.h"
 #include "net/rime/rimestats.h"
 #include "net/netstack.h"
 #include "net/mac/frame802154.h"
 #include "node-id.h"
 #include "lib/memb.h"
-
+#include "rtimer-arch.h"
 
 #include "sys/timetable.h"
 
@@ -649,13 +648,15 @@ LIST(rf_list);
 static softack_input_callback_f *softack_input_callback;
 //static softack_acked_callback_f *softack_acked_callback;
 static softack_coll_callback_f *softack_coll_callback;
+static softack_vote_callback_f *softack_vote_callback;
 
 /* Subscribe with one callback called from FIFOP interrupt */
 void
-cc2420_softack_subscribe_strawman(softack_input_callback_f *input_callback, softack_coll_callback_f *coll_callback)
+cc2420_softack_subscribe_strawman(softack_input_callback_f *input_callback, softack_coll_callback_f *coll_callback, softack_vote_callback_f *vote_callback)
 {
   softack_input_callback = input_callback;
   softack_coll_callback = coll_callback;
+  softack_vote_callback = vote_callback;
 }
 
 void
@@ -665,14 +666,47 @@ cc2420_softack_subscribe(softack_input_callback_f *input_callback)
 }
 
 int
+cc2420_waitVotes(void)
+{
+  int winner=113;//max len is 112
+  rtimer_clock_t wt=RTIMER_NOW();
+  while(RTIMER_CLOCK_LT(RTIMER_NOW(),(wt  +(RTIMER_ARCH_SECOND / 750)))){};
+  int samples=0;
+  leds_on(LEDS_BLUE);
+  /* Busy-wait until CCA is true */
+  while (samples<800 && CC2420_CCA_IS_1) {
+    samples++;
+  }
+  if(samples<800){
+    leds_on(LEDS_GREEN);
+    uint16_t cca_samples=1;
+    while (cca_samples<1500 && !CC2420_CCA_IS_1) {
+      cca_samples++;
+    }
+    leds_off(LEDS_GREEN);
+    leds_off(LEDS_BLUE);
+    winner = cca_samples/14-13;
+    COOJA_DEBUG_PRINTF("straw: winner %u\n",cca_samples);//-26 (size of struct hdr, -1 type - 1 longueur)
+   }
+  else{
+    leds_off(LEDS_BLUE);
+  }
+  return winner;
+}
+
+int
 cc2420_interrupt(void)
 {
   uint8_t len, seqno, footer1;
   uint8_t len_a, len_b;
-  uint8_t *ackbuf, acklen = 0;
+  uint8_t *ackbuf, acklen=0;
+  uint8_t code = 0;//can be used for other stuff
+  extern volatile unsigned char we_are_sending;
 
 
   int do_ack;
+  int do_probe;
+  int do_vote;
   int frame_valid = 0;
   struct received_frame_s *rf;
   process_poll(&cc2420_process);
@@ -682,7 +716,12 @@ cc2420_interrupt(void)
 #endif /* CC2420_TIMETABLE_PROFILING */
   /* If the lock is taken, we cannot access the FIFO, just drop frame (flush it) */
   if(locked || need_flush) {
-    COOJA_DEBUG_PRINTF("plop1\n");
+    if(need_flush){
+    COOJA_DEBUG_PRINTF("plop1A\n");
+    }
+    if (locked){
+    COOJA_DEBUG_PRINTF("plop1B\n");
+    }
     need_flush = 1;
     CC2420_CLEAR_FIFOP_INT();
     return 1;
@@ -737,17 +776,23 @@ cc2420_interrupt(void)
   seqno = rf->buf[2];
   rf->seqno = seqno;
   if(softack_input_callback) {
-    softack_input_callback(rf->buf, len_a, &ackbuf, &acklen);
+    softack_input_callback(rf->buf, len_a, &ackbuf, &acklen, &code);
   }
-  do_ack  = acklen > 0;
+  //do_ack  = acklen > 0;//acklen=13
 
-  if(do_ack) {
+  do_ack=code==SOFTACK_ACK;
+  do_vote=code==SOFTACK_VOTE;
+  code=0;
+  //if(do_ack){
+  if(do_ack || do_vote) {
 	  uint8_t total_acklen = acklen + AUX_LEN;
 	  /* Write ack in fifo */
 	  CC2420_STROBE(CC2420_SFLUSHTX);
 	  CC2420_WRITE_FIFO_BUF(&total_acklen, 1);
 	  CC2420_WRITE_FIFO_BUF(ackbuf, acklen);
   }
+
+
 
   /* Wait for end of reception */
   if(last_packet_timestamp == cc2420_sfd_start_time) {
@@ -764,13 +809,42 @@ cc2420_interrupt(void)
       strobe(CC2420_STXON); /* Send ACK */
       rf->acked = 1;
     }
+    if(do_vote){
+
+          strobe(CC2420_STXON);//send vote
+          CC2420_CLEAR_FIFOP_INT();
+        }
     frame_valid = 1;
   } else { /* CRC is wrong */
-    if(do_ack) {;
+    if(do_ack || do_vote) {;
       CC2420_STROBE(CC2420_SFLUSHTX); /* Flush Tx fifo */
     }
 #if WITH_STRAWMAN
-    softack_coll_callback();
+    if(!(footer1 & FOOTER1_CRC_OK) && contikimac_checking() && !we_are_sending){
+          flushrx();
+      CC2420_CLEAR_FIFOP_INT();
+      softack_coll_callback(&ackbuf,&acklen);
+      do_probe=acklen > 0;
+      if(do_probe){
+        uint8_t total_acklen = acklen + AUX_LEN;
+        /* Write ack in fifo */
+        CC2420_STROBE(CC2420_SFLUSHTX);
+        CC2420_WRITE_FIFO_BUF(&total_acklen, 1);
+        CC2420_WRITE_FIFO_BUF(ackbuf, acklen);
+        strobe(CC2420_STXON);
+        while(CC2420_SFD_IS_1);
+        on();
+        int len=cc2420_waitVotes();//-11 size minimal of a vote - 2 (axu_len)
+        if(len <=112){
+          softack_vote_callback(&ackbuf,&acklen,len);
+          total_acklen=acklen + AUX_LEN;
+          CC2420_STROBE(CC2420_SFLUSHTX);
+          CC2420_WRITE_FIFO_BUF(&total_acklen, 1);
+          CC2420_WRITE_FIFO_BUF(ackbuf, acklen);
+          strobe(CC2420_STXON);
+        }
+      }
+    }
 #endif /* WITH_STRAWMAN */
 
 
@@ -782,7 +856,7 @@ cc2420_interrupt(void)
  * With more than one packet in queue, some corner cases seem to break
  * this softack code. The current workaroud is ContikiMAC-specific.
  */
-  extern volatile unsigned char we_are_sending;
+
   if(!we_are_sending) {
     /* Turn the radio off as early as possible */
     off();

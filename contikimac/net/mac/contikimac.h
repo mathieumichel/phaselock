@@ -46,4 +46,8 @@
 #define EXTRA_ACK_LEN    10 /* Number of bytes we add to standard IEEE 802.15.4 ACK frames */
 extern const struct rdc_driver contikimac_driver;
 
+int contikimac_checking(void);
+int contikimac_sending(void);
+int contikimac_broadcasting(void);
+
 #endif /* CONTIKIMAC_H */

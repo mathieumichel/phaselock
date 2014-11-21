@@ -29,12 +29,14 @@ obj_sky/softack.o: net/mac/softack.c net/mac/softack.h \
  /home/macfly/contiki-2.7/core/./sys/loader.h \
  /home/macfly/contiki-2.7/core/./sys/clock.h \
  /home/macfly/contiki-2.7/core/./sys/energest.h \
- /home/macfly/contiki-2.7/core/./net/uip.h \
+ /home/macfly/contiki-2.7/core/./net/uip.h net/mac/contikimac.h \
+ /home/macfly/contiki-2.7/core/./net/mac/rdc.h \
+ /home/macfly/contiki-2.7/core/./net/mac/mac.h \
+ /home/macfly/contiki-2.7/core/./dev/radio.h \
  /home/macfly/contiki-2.7/core/./net/packetbuf.h \
  /home/macfly/contiki-2.7/core/./net/rime/rimeaddr.h \
  net/mac/cc2420-softack.h /home/macfly/contiki-2.7/core/./dev/cc2420.h \
  /home/macfly/contiki-2.7/core/./dev/spi.h \
- /home/macfly/contiki-2.7/core/./dev/radio.h \
  /home/macfly/contiki-2.7/core/./dev/cc2420_const.h \
  /home/macfly/contiki-2.7/core/./net/rpl/rpl.h \
  /home/macfly/contiki-2.7/core/./net/rpl/rpl-conf.h \
@@ -46,8 +48,6 @@ obj_sky/softack.o: net/mac/softack.c net/mac/softack.h \
  /home/macfly/contiki-2.7/core/./net/uip-ds6-nbr.h \
  /home/macfly/contiki-2.7/core/./net/nbr-table.h \
  /home/macfly/contiki-2.7/core/./net/netstack.h \
- /home/macfly/contiki-2.7/core/./net/mac/mac.h \
- /home/macfly/contiki-2.7/core/./net/mac/rdc.h \
  /home/macfly/contiki-2.7/core/./net/mac/framer.h \
  /home/macfly/contiki-2.7/core/./sys/ctimer.h \
  /home/macfly/contiki-2.7/core/./net/mac/frame802154.h \
@@ -84,12 +84,14 @@ net/mac/softack.c net/mac/softack.h :
  /home/macfly/contiki-2.7/core/./sys/loader.h :
  /home/macfly/contiki-2.7/core/./sys/clock.h :
  /home/macfly/contiki-2.7/core/./sys/energest.h :
- /home/macfly/contiki-2.7/core/./net/uip.h :
+ /home/macfly/contiki-2.7/core/./net/uip.h net/mac/contikimac.h :
+ /home/macfly/contiki-2.7/core/./net/mac/rdc.h :
+ /home/macfly/contiki-2.7/core/./net/mac/mac.h :
+ /home/macfly/contiki-2.7/core/./dev/radio.h :
  /home/macfly/contiki-2.7/core/./net/packetbuf.h :
  /home/macfly/contiki-2.7/core/./net/rime/rimeaddr.h :
  net/mac/cc2420-softack.h /home/macfly/contiki-2.7/core/./dev/cc2420.h :
  /home/macfly/contiki-2.7/core/./dev/spi.h :
- /home/macfly/contiki-2.7/core/./dev/radio.h :
  /home/macfly/contiki-2.7/core/./dev/cc2420_const.h :
  /home/macfly/contiki-2.7/core/./net/rpl/rpl.h :
  /home/macfly/contiki-2.7/core/./net/rpl/rpl-conf.h :
@@ -101,8 +103,6 @@ net/mac/softack.c net/mac/softack.h :
  /home/macfly/contiki-2.7/core/./net/uip-ds6-nbr.h :
  /home/macfly/contiki-2.7/core/./net/nbr-table.h :
  /home/macfly/contiki-2.7/core/./net/netstack.h :
- /home/macfly/contiki-2.7/core/./net/mac/mac.h :
- /home/macfly/contiki-2.7/core/./net/mac/rdc.h :
  /home/macfly/contiki-2.7/core/./net/mac/framer.h :
  /home/macfly/contiki-2.7/core/./sys/ctimer.h :
  /home/macfly/contiki-2.7/core/./net/mac/frame802154.h :
