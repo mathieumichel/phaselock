@@ -48,7 +48,11 @@
 
 /* Anycast-specific inits */
 void orpl_anycast_init();
-unsigned char is_competing(void);
+unsigned char straw_competing(void);
+unsigned char straw_winning(void);
+unsigned char straw_waiting(void);
+void straw_competition_done(void);
+void straw_set_waitpkt(void);
 int get_vote_len(void);
 void reset_competition();
 

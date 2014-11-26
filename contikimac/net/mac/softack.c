@@ -53,7 +53,8 @@
 #if WITH_STRAWMAN
 #define AUX_LEN (0 + 2) //(CHECKSUM_LEN + FOOTER_LEN)
 static volatile int straw_code_competing=0;
-
+static volatile int straw_code_winner=0;
+static volatile int straw_code_waitpkt=0;
 static int last_vote_len = 0;
 //static uint8_t *probebuf, probelen = 0;
 struct strawman_hdr {
@@ -64,8 +65,24 @@ struct strawman_hdr {
   rimeaddr_t receiver; /* packet receiver/destination (TYPE_DATA) OR size estimation*/
 };
 
-unsigned char is_competing(void){
+unsigned char straw_competing(void){
   return straw_code_competing;
+}
+
+unsigned char straw_winning(void){
+  return straw_code_winner;
+}
+
+unsigned char straw_waiting(void){
+  return straw_code_waitpkt;
+}
+
+void straw_set_waitpkt(void){
+  straw_code_waitpkt=1;
+}
+
+void straw_competition_done(void){
+  straw_code_winner=0;
 }
 
 //int get_vote_len(void){
@@ -151,7 +168,6 @@ static int get_random_length(void) {
 }
 
 
-
 /*---------------------------------------------------------------------------*/
 #endif  /* WITH_STRAWMAN */
 /* Called for every incoming frame from interrupt if concerned we ack and then add our phase*/
@@ -175,18 +191,16 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
   *code=SOFTACK_NULL;//by default nothing has to be done
 
 
-  if(is_ack && contikimac_sending()){
+  if(is_ack && contikimac_sending() && !contikimac_broadcasting()){
     rimeaddr_t dest;
     memcpy(&dest, frame+3, 8);
     //COOJA_DEBUG_PRINTF("softack : ack from %u %u\n",node_id_from_rimeaddr(&dest),fcf);
     //COOJA_DEBUG_PRINTF("softack : ack from %u %u\n",frame[10],fcf);//id for cooja
     if(rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
-                      &dest) && contikimac_sending()){
+                      &dest)){
      got_ack=1;
-     uint16_t phase;
-     memcpy(&phase,frame+11,2);
-     phaselock_target=phase;
-     COOJA_DEBUG_PRINTF("softack: ack from %u\n",node_id_from_rimeaddr(&dest));
+     memcpy(&phaselock_target,frame+11,2);
+     //COOJA_DEBUG_PRINTF("softack: ack from %u-%lu\n",node_id_from_rimeaddr(&dest),(unsigned long)((unsigned long)phaselock_target* 100*1000/RTIMER_ARCH_SECOND));
      //printf("softack : ack from %u phase %lu\n",node_id_from_rimeaddr(&dest),\n(,unsigned long)((unsigned long)phase* 1000/RTIMER_ARCH_SECOND));
     }
     else{//we don't have sent the packet data we don't have to handle the phase
@@ -197,8 +211,9 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
 
 #if WITH_STRAWMAN
   else if(is_probe){
-    if(contikimac_sending()){
+    if(contikimac_sending() && straw_code_competing==0){
       straw_code_competing++;
+      straw_code_winner=0;
       if(! contikimac_broadcasting()){
         last_vote_len=get_random_length();
         *ackbufptr = votebuf;
@@ -219,16 +234,26 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
     }
   }
   else if(is_signal){
-    if(is_competing()){
+    if(straw_competing()){
       uint8_t len;
       len=frame[11];
       COOJA_DEBUG_PRINTF("straw: result %u\n",len);
-      reset_competition();
+      if(len-last_vote_len<=3){
+        straw_code_winner=1;
+        reset_competition();
+      }
+      else{
+        //send_probe();
+        //*code=SOFTACK_VOTE;
+        //do_vote=1;
+        reset_competition();
+      }
     }
   }
 #endif /* WITH_STRAWMAN */
 
   else if(is_data) {
+    straw_code_waitpkt=0;
     if(ack_required) {
       uint8_t dest_addr_host_order[8];
       int i;
@@ -262,13 +287,18 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
       /* Append our address to the standard 802.15.4 ack */
       rimeaddr_copy((rimeaddr_t*)(ackbuf+3), &rimeaddr_node_addr);
       /* Append our rank to the ack */
-      if(node_id!= 1 && RTIMER_CLOCK_LT(encounter_time, current_cycle_start_time)){ //not needed for the root
-      phase=encounter_time-current_cycle_start_time;//WHAT IF nodes wake up planned during this reception?
+      if(node_id!= 1){ //not needed for the root
+        if(RTIMER_CLOCK_LT(current_cycle_start_time,encounter_time)){
+          phase=encounter_time-current_cycle_start_time;//WHAT IF nodes wake up planned during this reception?
+        }
+        else{
+          COOJA_DEBUG_PRINTF("mouahahaha\n");
+        }
       }
-      memcpy(ackbuf+11,&phase, 2);//two bytes needed to store the phase info
-      //ackbuf[3+8] = phase & 0xff;
-      //ackbuf[3+8+1] = (curr_edc >> 8)& 0xff;
-      COOJA_DEBUG_PRINTF("phase %lu\n",(unsigned long)((unsigned long)phase* 100*1000/RTIMER_ARCH_SECOND));
+      //memcpy(ackbuf+11,&phase, 2);//two bytes needed to store the phase info
+      ackbuf[3+8] = phase & 0xff;
+      ackbuf[3+8+1] = (phase >> 8)& 0xff;
+      //COOJA_DEBUG_PRINTF("phase %lu\n",(unsigned long)((unsigned long)phase* 100*1000/RTIMER_ARCH_SECOND));
       *code=SOFTACK_ACK;
       //leds_off(LEDS_RED);
     } else if(!do_vote) {
@@ -282,7 +312,7 @@ rtimer_clock_t wt;
 static void
 softack_coll_callback(uint8_t **probebufptr, uint8_t *probelen)
 {
-  if(contikimac_checking()){
+  if(contikimac_checking() && !straw_waiting()){
     wt=RTIMER_NOW();
     while(RTIMER_CLOCK_LT(RTIMER_NOW(),(wt  +(RTIMER_ARCH_SECOND / 5000 )))){};
     *probebufptr = probebuf;
@@ -319,7 +349,7 @@ softack_init()
   cc2420_softack_subscribe_strawman(softack_input_callback,softack_coll_callback,softack_vote_callback);
  // preload_voteprobe();
 #else
-  cc2420_softack_subscribe(orpl_softack_input_callback);
+  cc2420_softack_subscribe(softack_input_callback);
 #endif /* WITH_STRAWMAN */
 }
 

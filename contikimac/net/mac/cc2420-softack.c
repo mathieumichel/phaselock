@@ -701,7 +701,7 @@ cc2420_interrupt(void)
   uint8_t len_a, len_b;
   uint8_t *ackbuf, acklen=0;
   uint8_t code = 0;//can be used for other stuff
-  extern volatile unsigned char we_are_sending;
+  //extern volatile unsigned char we_are_sending;
 
 
   int do_ack;
@@ -820,7 +820,7 @@ cc2420_interrupt(void)
       CC2420_STROBE(CC2420_SFLUSHTX); /* Flush Tx fifo */
     }
 #if WITH_STRAWMAN
-    if(!(footer1 & FOOTER1_CRC_OK) && contikimac_checking() && !we_are_sending){
+    if(!(footer1 & FOOTER1_CRC_OK) && contikimac_checking() && !contikimac_sending()){
           flushrx();
       CC2420_CLEAR_FIFOP_INT();
       softack_coll_callback(&ackbuf,&acklen);
@@ -842,6 +842,7 @@ cc2420_interrupt(void)
           CC2420_WRITE_FIFO_BUF(&total_acklen, 1);
           CC2420_WRITE_FIFO_BUF(ackbuf, acklen);
           strobe(CC2420_STXON);
+          straw_set_waitpkt();
         }
       }
     }
@@ -857,11 +858,13 @@ cc2420_interrupt(void)
  * this softack code. The current workaroud is ContikiMAC-specific.
  */
 
-  if(!we_are_sending) {
+  if(!contikimac_sending() && !straw_waiting()) {// we have to wait in case of competition to see if we receive data
     /* Turn the radio off as early as possible */
     off();
   }
-
+if(straw_waiting()){
+  COOJA_DEBUG_PRINTF("plopiplop\n");
+}
 //  if(frame_valid && do_ack) {
 //    if(softack_acked_callback) {
 //      softack_acked_callback(rf->buf, len_a);

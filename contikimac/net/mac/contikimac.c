@@ -39,7 +39,7 @@
  *         Joakim Eriksson <joakime@sics.se>
  */
 
-#include "contiki-conf.h"AX
+#include "contiki-conf.h"
 #include "dev/leds.h"
 #include "dev/radio.h"
 #include "dev/watchdog.h"
@@ -56,9 +56,9 @@
 #include <string.h>
 
 
+volatile unsigned char we_are_broadcasting = 0;
 #if WITH_STRAWMAN
 volatile unsigned char we_are_checking = 0;
-volatile unsigned char we_are_broadcasting = 0;
 #endif /* WITH_STRAWMAN */
 
 /* TX/RX cycles are synchronized with neighbor wake periods */
@@ -221,7 +221,7 @@ static int we_are_receiving_burst = 0;
 /* MAX_PHASE_STROBE_TIME is the time that we transmit repeated packets
    to a neighbor for which we have a phase lock. */
 #if WITH_ADVANCED_PHASELOCK
-#define MAX_PHASE_STROBE_TIME              RTIMER_ARCH_SECOND / 40 // MF-prev=60
+#define MAX_PHASE_STROBE_TIME              RTIMER_ARCH_SECOND / 20 // MF-prev=60
 #else
 #define MAX_PHASE_STROBE_TIME              RTIMER_ARCH_SECOND / 20 //due to the change in cca_sleep_time for softack
 #endif
@@ -249,7 +249,7 @@ static struct pt pt;
 static volatile uint8_t contikimac_is_on = 0;
 volatile uint8_t contikimac_keep_radio_on = 0;
 
-volatile unsigned char we_are_sending = 0;
+static volatile unsigned char we_are_sending = 0;
 static volatile unsigned char radio_is_on = 0;
 
 #define DEBUG 0
@@ -298,11 +298,6 @@ static int broadcast_rate_counter;
 
 
 /*---------------------------------------------------------------------------*/
-#if WITH_STRAWMAN
-int contikimac_checking(void)
-{
-  return we_are_checking==1;
-}
 
 int contikimac_sending(void)
 {
@@ -313,6 +308,13 @@ int contikimac_broadcasting(void)
 {
   return we_are_broadcasting==1;
 }
+#if WITH_STRAWMAN
+int contikimac_checking(void)
+{
+  return we_are_checking==1;
+}
+
+
 #endif
 /*---------------------------------------------------------------------------*/
 static void
@@ -446,7 +448,7 @@ powercycle(struct rtimer *t, void *ptr)
     current_cycle_start_time += CYCLE_TIME;
 #endif /* WITH_ADVANCED_PHASELOCK */
 #if WITH_STRAWMAN
-    //COOJA_DEBUG_PRINTF("up %u-%u-%u-%u\n",is_competing(),contikimac_broadcasting(),contikimac_checking(),contikimac_sending());
+    //COOJA_DEBUG_PRINTF("up %u-%u\n",NETSTACK_RADIO.receiving_packet(),NETSTACK_RADIO.pending_packet());
     we_are_checking=1;
 #endif /*WITH_STRAWMAN */
 
@@ -526,7 +528,13 @@ powercycle(struct rtimer *t, void *ptr)
              NETSTACK_RADIO.pending_packet()) ||
              !RTIMER_CLOCK_LT(RTIMER_NOW(),
                  (start + LISTEN_TIME_AFTER_PACKET_DETECTED))) {
+#if WITH_STRAWMAN
+          if(!straw_competing() && !straw_waiting()){
           powercycle_turn_radio_off();
+          }
+#else
+          powercycle_turn_radio_off();
+#endif
         }
       }
     }
@@ -578,6 +586,26 @@ broadcast_rate_drop(void)
 #endif /* CONTIKIMAC_CONF_BROADCAST_RATE_LIMIT */
 }
 
+
+static int detect_ack(uint8_t* ackbuf, uint8_t* len)
+{
+  int traffic=0;
+  rtimer_clock_t wt = RTIMER_NOW();
+  NETSTACK_RADIO.on();
+  while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + INTER_PACKET_INTERVAL)) { }
+
+  if(NETSTACK_RADIO.receiving_packet() ||
+      NETSTACK_RADIO.pending_packet() ||
+      NETSTACK_RADIO.channel_clear() == 0) {
+    wt = RTIMER_NOW();
+    while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + AFTER_ACK_DETECTECT_WAIT_TIME)) { }
+
+    traffic = NETSTACK_RADIO.read(ackbuf, ACK_LEN);
+    len=&traffic;
+    return 1;
+  }
+  return 0;
+}
 extern rtimer_clock_t phaselock_target;
 static int
 send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
@@ -589,7 +617,8 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
   phaselock_target=0;
   int strobes;
   uint8_t got_strobe_ack = 0;
-  int hdrlen, len;
+  int hdrlen;//,len;
+  uint8_t* len;
   uint8_t is_broadcast = 0;
   uint8_t is_reliable = 0;
   uint8_t is_known_receiver = 0;
@@ -598,6 +627,7 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
   int ret;
   uint8_t contikimac_was_on;
   uint8_t seqno;
+
 #if WITH_CONTIKIMAC_HEADER
   struct hdr *chdr;
 #endif /* WITH_CONTIKIMAC_HEADER */
@@ -703,7 +733,10 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
   NETSTACK_RADIO.prepare(packetbuf_hdrptr(), transmit_len);
 
   /* Remove the MAC-layer header since it will be recreated next time around. */
+
+#if !WITH_STRAWMAN
   packetbuf_hdr_remove(hdrlen);
+#endif /*WITH_STRAWMAN*/
 
   if(!is_broadcast && !is_receiver_awake) {
 #if WITH_PHASE_OPTIMIZATION
@@ -711,6 +744,9 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
                      CYCLE_TIME, GUARD_TIME,
                      mac_callback, mac_callback_ptr, buf_list);
     if(ret == PHASE_DEFERRED) {
+#if WITH_STRAWMAN
+  packetbuf_hdr_remove(hdrlen);
+#endif /*WITH_STRAWMAN*/
       return MAC_TX_DEFERRED;
     }
     if(ret != PHASE_UNKNOWN) {
@@ -724,9 +760,11 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
   /* By setting we_are_sending to one, we ensure that the rtimer
      powercycle interrupt do not interfere with us sending the packet. */
   we_are_sending = 1;
+#if WITH_STRAWMAN
   if(is_broadcast){
     we_are_broadcasting=1;
   }
+#endif /* WITH_STRAWMAN */
 
   /* If we have a pending packet in the radio, we should not send now,
      because we will trash the received packet. Instead, we signal
@@ -734,9 +772,16 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
      packet will be retransmitted later by the MAC protocol
      instread. */
   if(NETSTACK_RADIO.receiving_packet() || NETSTACK_RADIO.pending_packet()) {
+    t0=RTIMER_NOW();
     we_are_sending = 0;
-    //COOJA_DEBUG_PRINTF("contikimac: collision receiving %d, pending %d\n",
-          // NETSTACK_RADIO.receiving_packet(), NETSTACK_RADIO.pending_packet());
+#if 1//  WITH_STRAWMAN
+    we_are_broadcasting=0;
+#endif /* WITH_STRAWMAN */
+    COOJA_DEBUG_PRINTF("contikimac: collision receiving %d, pending %d\n",
+          NETSTACK_RADIO.receiving_packet(), NETSTACK_RADIO.pending_packet());
+#if WITH_STRAWMAN
+  packetbuf_hdr_remove(hdrlen);
+#endif /*WITH_STRAWMAN*/
     return MAC_TX_COLLISION;
   }
   
@@ -782,9 +827,15 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
 
   if(collisions > 0) {
     we_are_sending = 0;
+#if 1//  WITH_STRAWMAN
+    we_are_broadcasting=0;
+#endif /* WITH_STRAWMAN */
     off();
-    //COOJA_DEBUG_PRINTF("contikimac: collisions before sending\n");
+    COOJA_DEBUG_PRINTF("contikimac: collisions before sending\n");
     contikimac_is_on = contikimac_was_on;
+#if WITH_STRAWMAN
+  packetbuf_hdr_remove(hdrlen);
+#endif /*WITH_STRAWMAN*/
     return MAC_TX_COLLISION;
   }
 #endif /* RDC_CONF_HARDWARE_CSMA */
@@ -798,13 +849,14 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
   //}
 #endif
 
+  rtimer_clock_t txtime;
   uint8_t ackbuf[ACK_LEN];
   watchdog_periodic();
   t0 = RTIMER_NOW();
   seqno = packetbuf_attr(PACKETBUF_ATTR_MAC_SEQNO);
 #if WITH_STRAWMAN
   for(strobes = 0, collisions = 0;
-       got_strobe_ack==0 && collisions == 0 && !is_competing() && RTIMER_CLOCK_LT(RTIMER_NOW(), t0 + STROBE_TIME); strobes++) {
+       got_strobe_ack==0 && collisions == 0 && !straw_competing() && RTIMER_CLOCK_LT(RTIMER_NOW(), t0 + STROBE_TIME); strobes++) {
 #else
     for(strobes = 0, collisions = 0;
           got_strobe_ack==0 && collisions == 0 &&
@@ -813,16 +865,16 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
     watchdog_periodic();
 
     if(!is_broadcast && (is_receiver_awake || is_known_receiver) &&
-       !RTIMER_CLOCK_LT(RTIMER_NOW(), t0 + MAX_PHASE_STROBE_TIME)) {
+       !RTIMER_CLOCK_LT(RTIMER_NOW(), t0 + RTIMER_ARCH_SECOND / 100)) {
       COOJA_DEBUG_PRINTF("miss to %d\n", packetbuf_addr(PACKETBUF_ADDR_RECEIVER)->u8[0]);
       break;
     }
 
-    len = 0;
+   // len = 0;
 
     {
       rtimer_clock_t wt;
-      rtimer_clock_t txtime;
+      //rtimer_clock_t txtime;
       int ret;
 
       txtime = RTIMER_NOW();
@@ -848,58 +900,81 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
       while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + INTER_PACKET_INTERVAL)) { }
 #else /* RDC_CONF_HARDWARE_ACK */
      /* Wait for the ACK packet */
-      wt = RTIMER_NOW();
-     	NETSTACK_RADIO.on();
-      while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + INTER_PACKET_INTERVAL)) { }
-
-      if(NETSTACK_RADIO.receiving_packet() ||
-                           NETSTACK_RADIO.pending_packet() ||
-                           NETSTACK_RADIO.channel_clear() == 0) {
-        wt = RTIMER_NOW();
-        while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + AFTER_ACK_DETECTECT_WAIT_TIME)) { }
-
-        len = NETSTACK_RADIO.read(ackbuf, ACK_LEN);
-        if(is_competing()){
+//      wt = RTIMER_NOW();
+//     	NETSTACK_RADIO.on();
+//      while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + INTER_PACKET_INTERVAL)) { }
+//
+//      if(NETSTACK_RADIO.receiving_packet() ||
+//                           NETSTACK_RADIO.pending_packet() ||
+//                           NETSTACK_RADIO.channel_clear() == 0) {
+//        wt = RTIMER_NOW();
+//        while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + AFTER_ACK_DETECTECT_WAIT_TIME)) { }
+//
+//        len = NETSTACK_RADIO.read(ackbuf, ACK_LEN);
+      int res=detect_ack(ackbuf,len);
+#if WITH_STRAWMAN
+        if(straw_competing()){
           break;
         }
-        if(len == ACK_LEN && seqno == ackbuf[2]) {
-          if(!is_broadcast){
-            got_strobe_ack = 1;
+#endif
+        if(res){
+          if(*len == ACK_LEN && seqno == ackbuf[2]) {
+            if(!is_broadcast){
+              got_strobe_ack = 1;
 
-            encounter_time = txtime;
-            break;
+              encounter_time = txtime;
+              break;
+            }
           }
-        }
-        else {
-            //COOJA_DEBUG_PRINTF("contikimac: collisions while sending\n");
+          else {
+            COOJA_DEBUG_PRINTF("contikimac: collisions while sending\n");
             collisions++;
 
+          }
         }
-      }
 #endif /* RDC_CONF_HARDWARE_ACK */
     }
   }
 
 #if WITH_STRAWMAN
-    if(is_competing()){
-      if(!is_broadcast){
-        COOJA_DEBUG_PRINTF("hereA\n");
-        t0=RTIMER_NOW();
-        while(RTIMER_CLOCK_LT(RTIMER_NOW(), t0 + MAX_PHASE_STROBE_TIME)){}
-        reset_competition();
-        COOJA_DEBUG_PRINTF("hereB\n");
-        //int len=get_vote_len();
-        //COOJA_DEBUG_PRINTF("here \n");//,((unsigned long)diff* 100000/RTIMER_ARCH_SECOND));
+  if(straw_competing()){
+    if(!is_broadcast){
+      collisions=0;
+      //COOJA_DEBUG_PRINTF("hereA\n");
+      t0=RTIMER_NOW();
+      while(RTIMER_CLOCK_LT(RTIMER_NOW(), t0 + MAX_PHASE_STROBE_TIME/4)){
+        if(straw_winning()){
+
+          NETSTACK_RADIO.prepare(packetbuf_hdrptr(), transmit_len);
+          NETSTACK_RADIO.transmit(transmit_len);
+          int res=detect_ack(ackbuf,&len);
+          if(res){
+            if(*len == ACK_LEN && seqno == ackbuf[2]) {
+              got_strobe_ack = 1;
+              encounter_time=txtime;//the tx time when the collision occur
+            }
+            else{
+              collisions++;
+            }
+          }
+          straw_competition_done();
+          break;
+
+        }
       }
+
+    }
+    else{
+      reset_competition();//bcast stops but don't really compete
+
       collisions++;
     }
-
-#endif /*WITH_STRAWMAN */
-#if WITH_STRAWMAN
-  reset_competition();
-#endif
+  }
+  packetbuf_hdr_remove(hdrlen);
+#endif /*WITH_STRAWMAN*/
 
   off();
+
   if(!is_broadcast){
 
   COOJA_DEBUG_PRINTF("contikimac: send (strobes=%u, len=%u, %s, %s, phase=%lu), done\n", strobes,
@@ -910,7 +985,9 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
   }
   else{
     COOJA_DEBUG_PRINTF("contikimac: send broadcast\n");
+#if 1//  WITH_STRAWMAN
     we_are_broadcasting=0;
+#endif /* WITH_STRAWMAN */
   }
 
 

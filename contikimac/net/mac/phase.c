@@ -103,7 +103,7 @@ phase_update(const rimeaddr_t *neighbor, rtimer_clock_t time,
       e->drift = time-e->time;
 #endif
       e->time = time;
-      //COOJA_DEBUG_PRINTF("phase_update new %u\n",time);
+      //COOJA_DEBUG_PRINTF("phase_update new %lu \n",(unsigned long)((unsigned long)time*1000/RTIMER_ARCH_SECOND));
     }
     /* If the neighbor didn't reply to us, it may have switched
        phase (rebooted). We try a number of transmissions to it
@@ -128,7 +128,7 @@ phase_update(const rimeaddr_t *neighbor, rtimer_clock_t time,
       e = nbr_table_add_lladdr(nbr_phase, neighbor);
       if(e) {
         e->time = time;
-        //COOJA_DEBUG_PRINTF("phase_update edit %u\n",time);
+        //COOJA_DEBUG_PRINTF("phase_update edit %lu \n",(unsigned long)((unsigned long)time*1000/RTIMER_ARCH_SECOND));
 #if PHASE_DRIFT_CORRECT
       e->drift = 0;
 #endif

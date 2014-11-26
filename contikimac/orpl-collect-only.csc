@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <simconf>
-  <project EXPORT="discard">[APPS_DIR]/mrm</project>
-  <project EXPORT="discard">[APPS_DIR]/mspsim</project>
-  <project EXPORT="discard">[APPS_DIR]/avrora</project>
-  <project EXPORT="discard">[APPS_DIR]/serial_socket</project>
-  <project EXPORT="discard">[APPS_DIR]/collect-view</project>
-  <project EXPORT="discard">[APPS_DIR]/powertracker</project>
+  <project EXPORT="discard">[CONTIKI_DIR]/tools/cooja/apps/mrm</project>
+  <project EXPORT="discard">[CONTIKI_DIR]/tools/cooja/apps/mspsim</project>
+  <project EXPORT="discard">[CONTIKI_DIR]/tools/cooja/apps/avrora</project>
+  <project EXPORT="discard">[CONTIKI_DIR]/tools/cooja/apps/serial_socket</project>
+  <project EXPORT="discard">[CONTIKI_DIR]/tools/cooja/apps/collect-view</project>
+  <project EXPORT="discard">[CONTIKI_DIR]/tools/cooja/apps/powertracker</project>
   <simulation>
     <title>ORPL -- Collect-only Application</title>
     <randomseed>123461</randomseed>
@@ -157,7 +157,7 @@
   <plugin>
     se.sics.cooja.plugins.SimControl
     <width>264</width>
-    <z>4</z>
+    <z>5</z>
     <height>203</height>
     <location_x>0</location_x>
     <location_y>0</location_y>
@@ -165,7 +165,6 @@
   <plugin>
     se.sics.cooja.plugins.Visualizer
     <plugin_config>
-      <moterelations>true</moterelations>
       <skin>se.sics.cooja.plugins.skins.IDVisualizerSkin</skin>
       <skin>se.sics.cooja.plugins.skins.AttributeVisualizerSkin</skin>
       <skin>se.sics.cooja.plugins.skins.UDGMVisualizerSkin</skin>
@@ -173,7 +172,7 @@
       <viewport>1.129585814092554 0.0 0.0 1.129585814092554 -123.93493657461097 136.01275650891176</viewport>
     </plugin_config>
     <width>238</width>
-    <z>3</z>
+    <z>4</z>
     <height>310</height>
     <location_x>6</location_x>
     <location_y>204</location_y>
@@ -186,7 +185,7 @@
       <coloring />
     </plugin_config>
     <width>572</width>
-    <z>1</z>
+    <z>2</z>
     <height>504</height>
     <location_x>260</location_x>
     <location_y>3</location_y>
@@ -204,10 +203,11 @@
       <mote>7</mote>
       <showRadioRXTX />
       <showRadioHW />
+      <split>-1</split>
       <zoomfactor>44.83214771341773</zoomfactor>
     </plugin_config>
     <width>1297</width>
-    <z>0</z>
+    <z>1</z>
     <height>208</height>
     <location_x>7</location_x>
     <location_y>515</location_y>
@@ -216,16 +216,37 @@
     se.sics.cooja.plugins.RadioLogger
     <plugin_config>
       <split>421</split>
-      <formatted_time />
-      <showdups>false</showdups>
-      <hidenodests>false</hidenodests>
       <analyzers name="6lowpan" />
     </plugin_config>
     <width>450</width>
-    <z>2</z>
+    <z>3</z>
     <height>511</height>
     <location_x>826</location_x>
     <location_y>-2</location_y>
+  </plugin>
+  <plugin>
+    se.sics.cooja.plugins.ScriptRunner
+    <plugin_config>
+      <script>/*&#xD;
+ * Example Contiki test script (JavaScript).&#xD;
+ * A Contiki test script acts on mote output, such as via printf()'s.&#xD;
+ * The script may operate on the following variables:&#xD;
+ *  Mote mote, int id, String msg&#xD;
+ */&#xD;
+&#xD;
+TIMEOUT(600000);&#xD;
+&#xD;
+while (true) {&#xD;
+  log.log(time + ":" + id + ":" + msg + "\n");&#xD;
+  YIELD();&#xD;
+}</script>
+      <active>true</active>
+    </plugin_config>
+    <width>600</width>
+    <z>0</z>
+    <height>700</height>
+    <location_x>150</location_x>
+    <location_y>150</location_y>
   </plugin>
 </simconf>
 
