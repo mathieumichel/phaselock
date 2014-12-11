@@ -49,6 +49,7 @@
 #define SOFTACK_ACK 1
 #define SOFTACK_VOTE 2
 #define SOFTACK_SIGNAL 3
+#define SOFTACK_RESULT 4
 #define SOFTACK_NULL 0;
 typedef void(softack_input_callback_f)(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufptr, uint8_t *acklen, uint8_t *code);
 typedef void(softack_coll_callback_f)(uint8_t **probebufptr, uint8_t *probelen);

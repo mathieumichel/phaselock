@@ -46,14 +46,13 @@
 
 #define EXTRA_ACK_LEN    10 /* Number of bytes we add to standard IEEE 802.15.4 ACK frames */
 
+int straw_code_competing;//probe received and vote sent
+int straw_code_winning;// result
+int straw_code_waiting;//signal sent waiting for winner
+int straw_code_success;
+
 /* Anycast-specific inits */
 void orpl_anycast_init();
-unsigned char straw_competing(void);
-unsigned char straw_winning(void);
-unsigned char straw_waiting(void);
-void straw_competition_done(void);
-void straw_set_waitpkt(void);
 int get_vote_len(void);
-void reset_competition();
 
 #endif /* __ORPL_ANYCAST_H__ */

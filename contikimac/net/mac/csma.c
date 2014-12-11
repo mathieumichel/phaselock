@@ -77,6 +77,8 @@
 #error Change CSMA_CONF_MAX_MAC_TRANSMISSIONS in contiki-conf.h or in your Makefile.
 #endif /* CSMA_CONF_MAX_MAC_TRANSMISSIONS < 1 */
 
+
+volatile unsigned char bypass_allowed=0;
 /* Packet metadata */
 struct qbuf_metadata {
   mac_callback_t sent;
@@ -150,8 +152,19 @@ transmit_packet_list(void *ptr)
     if(q != NULL) {
       PRINTF("csma: preparing number %d %p, queue len %d\n", n->transmissions, q,
           list_length(n->queued_packet_list));
+
+#if WITH_STRAWMAN
+  if(bypass_allowed){
+    NETSTACK_RDC.send(packet_sent,n);
+  }
+  else{
+#endif WITH_STRAWMAN
       /* Send packets in the neighbor's list */
       NETSTACK_RDC.send_list(packet_sent, n, q);
+
+#if WITH_STRAWMAN
+  }
+#endif WITH_STRAWMAN
     }
   }
 }
@@ -188,6 +201,7 @@ free_packet(struct neighbor_queue *n, struct rdc_buf_list *p)
 static void
 packet_sent(void *ptr, int status, int num_transmissions)
 {
+  bypass_allowed=0;
   struct neighbor_queue *n;
   struct rdc_buf_list *q;
   struct qbuf_metadata *metadata;
@@ -229,8 +243,19 @@ packet_sent(void *ptr, int status, int num_transmissions)
       sent = metadata->sent;
       cptr = metadata->cptr;
       num_tx = n->transmissions;
-      if(status == MAC_TX_COLLISION ||
+#if WITH_STRAWMAN
+      if (status==MAC_TX_BYPASS){
+        //COOJA_DEBUG_PRINTF("csma: rexmit collision %d\n", n->transmissions);
+        bypass_allowed=1;
+        COOJA_DEBUG_PRINTF("csma: rexmit strawman %d\n", n->transmissions);
+        transmit_packet_list(n);
+      }
+      else if(status == MAC_TX_COLLISION ||
          status == MAC_TX_NOACK) {
+#else
+      if(status == MAC_TX_COLLISION ||
+           status == MAC_TX_NOACK) {
+#endif WITH_STRAWMAN
 
         /* If the transmission was not performed because of a
            collision or noack, we must retransmit the packet. */
@@ -266,7 +291,6 @@ packet_sent(void *ptr, int status, int num_transmissions)
         }
 
         time = time + (random_rand() % (backoff_transmissions * time));
-
         if(n->transmissions < metadata->max_transmissions) {
           PRINTF("csma: retransmitting with time %lu %p\n", time, q);
           ctimer_set(&n->transmit_timer, time,
