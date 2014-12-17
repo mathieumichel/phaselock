@@ -53,6 +53,6 @@ int straw_code_success;
 
 /* Anycast-specific inits */
 void orpl_anycast_init();
-int get_vote_len(void);
+uint16_t get_vote_len(void);
 
 #endif /* __ORPL_ANYCAST_H__ */

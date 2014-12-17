@@ -152,7 +152,7 @@ PROCESS(cc2420_process, "CC2420-softack driver");
     CC2420_SPI_DISABLE();                                    \
   } while(0)
 
-#define FIFOP_THRESHOLD 43
+#define FIFOP_THRESHOLD 44
 
 int cc2420_on(void);
 int cc2420_off(void);
@@ -666,13 +666,13 @@ cc2420_softack_subscribe(softack_input_callback_f *input_callback)
   softack_input_callback = input_callback;
 }
 
-int
+uint16_t
 cc2420_waitVotes(void)
 {
-  int winner=113;//max len is 112
+  uint16_t winner=113;//max len is 112
   rtimer_clock_t wt=RTIMER_NOW();
   while(RTIMER_CLOCK_LT(RTIMER_NOW(),(wt  +(RTIMER_ARCH_SECOND / 750)))){};
-  int samples=0;
+  uint16_t samples=0;
   //leds_on(LEDS_BLUE);
   /* Busy-wait until CCA is true */
   while (samples<800 && CC2420_CCA_IS_1) {
@@ -785,14 +785,16 @@ cc2420_interrupt(void)
 
   seqno = rf->buf[2];
   rf->seqno = seqno;
+  
   if(softack_input_callback) {
     softack_input_callback(rf->buf, len_a, &ackbuffer, &acklen, &code);
   }
+
   //do_ack  = acklen > 0;//acklen=13
 
   do_ack=code==SOFTACK_ACK;
   do_vote=code==SOFTACK_VOTE;
-  code=0;
+  //code=0;
   //if(do_ack){
   if(do_ack || do_vote) {
 	  uint8_t total_acklen = acklen + AUX_LEN;
@@ -807,8 +809,6 @@ cc2420_interrupt(void)
     while(CC2420_SFD_IS_1);
   }
 
-
-
   int overflow = CC2420_FIFOP_IS_1 && !CC2420_FIFO_IS_1;
   CC2420_READ_RAM_BYTE(footer1, RXFIFO_ADDR(len + AUX_LEN));
 
@@ -817,18 +817,25 @@ cc2420_interrupt(void)
     if(do_ack) {
       strobe(CC2420_STXON); /* Send ACK */
       rf->acked = 1;
-
     }
-    if(do_vote){
+    else if(do_vote){
       strobe(CC2420_STXON);//send vote
-     // flushrx();
+      // flushrx();
       //CC2420_CLEAR_FIFOP_INT();
+    }
+    if(code==SOFTACK_RESULT){
+
+      list_chop(rf_list);
+      memb_free(&rf_memb, rf);
+      //COOJA_DEBUG_PRINTF("straw done %u-%u\n",len_a,len);
+      //off();
     }
     frame_valid = 1;
   } else { /* CRC is wrong */
-    if(do_ack || do_vote) {;
+    if(do_ack || do_vote) {
       CC2420_STROBE(CC2420_SFLUSHTX); /* Flush Tx fifo */
     }
+
     list_chop(rf_list);
     memb_free(&rf_memb, rf);
 #if WITH_STRAWMAN
@@ -846,15 +853,16 @@ cc2420_interrupt(void)
         strobe(CC2420_STXON);
         while(CC2420_SFD_IS_1);
         on();
-        int len=cc2420_waitVotes();//-11 size minimal of a vote - 2 (axu_len)
-        if(len <=112){
-          softack_vote_callback(&ackbuffer,&acklen,len);
+        uint16_t signal_len=cc2420_waitVotes();//-11 size minimal of a vote - 2 (axu_len)
+        if(signal_len <=112){
+          softack_vote_callback(&ackbuffer,&acklen,signal_len);
           total_acklen=acklen + AUX_LEN;
           CC2420_STROBE(CC2420_SFLUSHTX);
           CC2420_WRITE_FIFO_BUF(&total_acklen, 1);
           CC2420_WRITE_FIFO_BUF(ackbuffer, acklen);
           strobe(CC2420_STXON);
           straw_code_waiting=1;
+          while(CC2420_SFD_IS_1);
         }
       }
     }
@@ -937,7 +945,7 @@ PROCESS_THREAD(cc2420_process, ev, data)
     len = cc2420_read(packetbuf_dataptr(), PACKETBUF_SIZE);
 
     int frame_type = ((uint8_t*)packetbuf_dataptr())[0] & 7;
-    if(frame_type == FRAME802154_ACKFRAME) {
+    if (frame_type == FRAME802154_ACKFRAME || frame_type == 3 || frame_type == 7 || frame_type==0) {
       len = 0;
     }
     packetbuf_set_datalen(len);

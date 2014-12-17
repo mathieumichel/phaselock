@@ -875,10 +875,10 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
 
             len = NETSTACK_RADIO.read(ackbuf, ACK_LEN);
 if(bypass){
-              COOJA_DEBUG_PRINTF("straw plop %u-%u-%u-%u\n",a,b,c,len);
+              COOJA_DEBUG_PRINTF("straw plop %u-%u-%u-%u-%u\n",a,b,c,len,ackbuf[2]);
 }
 #if WITH_STRAWMAN
-          if(straw_code_competing==1){
+else if(straw_code_competing==1){
             break;
           }
 #endif
@@ -892,22 +892,28 @@ if(bypass){
               collisions++;
             }
           }
+#if WITH_STRAWMAN
+          else if(straw_code_competing==1){
+            break;
+          }
+#endif
 #endif /* RDC_CONF_HARDWARE_ACK */
         }
       }
 
 #if WITH_STRAWMAN
       if(bypass){
-        if(straw_code_success==1){
+        if(got_strobe_ack==1){//(straw_code_success==1){
         collisions=0;
-        got_strobe_ack=1;
+        //got_strobe_ack=1;
         straw_code_winning=0;
         straw_code_competing=0;
         straw_code_success=0;
         }
         else{
           collisions++;
-          straw_code_competing==0;
+          straw_code_competing=0;
+          straw_code_winning=0;//if not ACK we have lost
         }
       }
 
@@ -942,12 +948,13 @@ if(bypass){
 
   if(!is_broadcast){
 
-  COOJA_DEBUG_PRINTF("contikimac: send (strobes=%u, len=%u, %s, %s, phase=%lu, %s), done\n", strobes,
+  COOJA_DEBUG_PRINTF("contikimac: send (strobes=%u, len=%u, %s, %s, phase=%lu, %s %u), done\n", strobes,
          packetbuf_totlen(),
          got_strobe_ack ? "ack" : "no ack",
          collisions ? "collision" : "no collision",
          (unsigned long)((unsigned long)phaselock_target* 1000/RTIMER_ARCH_SECOND),
-         bypass? "bypass" : "no bypass");
+         bypass? "bypass" : "no bypass",
+             seqno);
   }
   else{
     COOJA_DEBUG_PRINTF("contikimac: send broadcast\n");
