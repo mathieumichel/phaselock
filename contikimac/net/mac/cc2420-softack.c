@@ -113,7 +113,6 @@ extern volatile uint8_t contikimac_keep_radio_on;
 #define LEDS_OFF(x)
 #endif
 
-static struct ctimer ct_check;
 void cc2420_arch_init(void);
 
 /* XXX hack: these will be made as Chameleon packet attributes */
@@ -504,6 +503,11 @@ cc2420_send(const void *payload, unsigned short payload_len)
 int
 cc2420_off(void)
 {
+#if WITH_STRAWMAN
+  if(straw_code_waiting){//a node is waiting for a packet after answering vote session
+    return 1;
+  }
+#endif /* WITH_STRAWMAN */
   /* Don't do anything if we are already turned off. */
   if(receive_on == 0) {
     return 1;
@@ -670,38 +674,41 @@ uint16_t
 cc2420_waitVotes(void)
 {
   uint16_t winner=113;//max len is 112
-  rtimer_clock_t wt=RTIMER_NOW();
-  while(RTIMER_CLOCK_LT(RTIMER_NOW(),(wt  +(RTIMER_ARCH_SECOND / 750)))){};
   uint16_t samples=0;
-  //leds_on(LEDS_BLUE);
-  /* Busy-wait until CCA is true */
-  while (samples<800 && CC2420_CCA_IS_1) {
-    samples++;
-  }
-  if(samples<800){
-    //leds_on(LEDS_GREEN);
-    uint16_t cca_samples=1;
-    while (cca_samples<1500 && !CC2420_CCA_IS_1) {
-      cca_samples++;
-    }
-   // leds_off(LEDS_GREEN);
-    //leds_off(LEDS_BLUE);
-    winner = cca_samples/14-13;
-   // COOJA_DEBUG_PRINTF("straw: winner %u\n",cca_samples);//-26 (size of struct hdr, -1 type - 1 longueur)
-   }
-  else{
-    leds_off(LEDS_BLUE);
-  }
-  return winner;
-}
+  uint16_t cca_samples=1;
+  rtimer_clock_t wait_time=RTIMER_NOW()+77;//RTIMER_ARCH_SECOND/750+ RTIMER_ARCH_SECOND / 990;
+  while(RTIMER_CLOCK_LT(RTIMER_NOW(),wait_time)){};
 
-static void resetWait(){
-  on();
-  ctimer_stop(&ct_check);
-  //off();
-  //RELEASE_LOCK();
-  leds_off(LEDS_RED);
-  //straw_reset_waitpkt();
+  //leds_on(LEDS_BLUE);
+
+  while (cca_samples<1750 && (!CC2420_CCA_IS_1||cca_samples<20)) {
+    cca_samples++;
+  }
+  if(cca_samples<210){
+    winner=0;
+  }
+  else
+    winner=(cca_samples-210)/12;
+  /*printf("P -= %d\n", samples);*/
+  COOJA_DEBUG_PRINTF("straw: winner %u-%u\n",winner,cca_samples);
+  /* Busy-wait until CCA is true */
+//  while (samples<800 && CC2420_CCA_IS_1) {
+//    samples++;
+//  }
+//  if(samples<800){
+//    leds_on(LEDS_GREEN);
+//    while (cca_samples<1750 && !CC2420_CCA_IS_1) {
+//      cca_samples++;
+//    }
+//   leds_off(LEDS_GREEN);
+//   leds_off(LEDS_BLUE);
+//    winner = cca_samples/14-13;
+//   COOJA_DEBUG_PRINTF("straw: winner %u\n",cca_samples);//-26 (size of struct hdr, -1 type - 1 longueur)
+//   }
+//  else{
+//    leds_off(LEDS_BLUE);
+//  }
+  return winner;
 }
 
 int
@@ -726,12 +733,6 @@ cc2420_interrupt(void)
 #endif /* CC2420_TIMETABLE_PROFILING */
   /* If the lock is taken, we cannot access the FIFO, just drop frame (flush it) */
   if(locked || need_flush) {
-    if(need_flush){
-    COOJA_DEBUG_PRINTF("plop1A\n");
-    }
-    if (locked){
-    COOJA_DEBUG_PRINTF("plop1B\n");
-    }
     need_flush = 1;
     CC2420_CLEAR_FIFOP_INT();
     return 1;
@@ -740,7 +741,6 @@ cc2420_interrupt(void)
   GET_LOCK();
 
   if(!CC2420_FIFO_IS_1) {
-    COOJA_DEBUG_PRINTF("plop2\n");
     flushrx();
     RELEASE_LOCK();
     CC2420_CLEAR_FIFOP_INT();
@@ -753,7 +753,6 @@ cc2420_interrupt(void)
 
   if(len > CC2420_MAX_PACKET_LEN
       || len <= AUX_LEN) {
-    COOJA_DEBUG_PRINTF("plop3\n");
     flushrx();
     RELEASE_LOCK();
     CC2420_CLEAR_FIFOP_INT();
@@ -764,7 +763,6 @@ cc2420_interrupt(void)
   rf = memb_alloc(&rf_memb);
 
   if(rf == NULL) {
-    COOJA_DEBUG_PRINTF("plop4\n");
     flushrx();
     RELEASE_LOCK();
     CC2420_CLEAR_FIFOP_INT();
@@ -787,7 +785,13 @@ cc2420_interrupt(void)
   rf->seqno = seqno;
   
   if(softack_input_callback) {
+
     softack_input_callback(rf->buf, len_a, &ackbuffer, &acklen, &code);
+#if WITH_STRAWMAN
+    if(straw_code_waiting){
+      straw_code_waiting=0;
+    }
+#endif
   }
 
   //do_ack  = acklen > 0;//acklen=13
@@ -901,8 +905,6 @@ cc2420_interrupt(void)
   RELEASE_LOCK();
   if(straw_code_waiting==1){
     on();
-    ctimer_set(&ct_check, CLOCK_SECOND/256,
-          (void (*)(void *))resetWait, NULL);
   }
 
   return 1;

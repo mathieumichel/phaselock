@@ -377,13 +377,18 @@ schedule_powercycle_fixed(struct rtimer *t, rtimer_clock_t fixed_time)
   }
 }
 /*---------------------------------------------------------------------------*/
+#if WITH_STRAWMAN
+uint8_t straw_was_waiting;
+#endif /* WITH_STRAWMAN */
 static void
 powercycle_turn_radio_off(void)
 {
 #if CONTIKIMAC_CONF_COMPOWER
   uint8_t was_on = radio_is_on;
 #endif /* CONTIKIMAC_CONF_COMPOWER */
+#if WITH_STRAWMAN
   we_are_checking=0;
+#endif
   if(we_are_sending == 0 && we_are_receiving_burst == 0 && straw_code_waiting==0 && straw_code_competing==0) {
     off();
 #if CONTIKIMAC_CONF_COMPOWER
@@ -392,13 +397,23 @@ powercycle_turn_radio_off(void)
     }
 #endif /* CONTIKIMAC_CONF_COMPOWER */
   }
+#if WITH_STRAWMAN
+  if(straw_was_waiting){
+    straw_code_waiting=0;
+  }
+#endif
 }
 /*---------------------------------------------------------------------------*/
 static void
 powercycle_turn_radio_on(void)
 {
+#if WITH_STRAWMAN
+  straw_was_waiting=straw_code_waiting;
+#endif
   if(we_are_sending == 0 && we_are_receiving_burst == 0 && straw_code_waiting==0 && straw_code_competing==0) {
+#if WITH_STRAWMAN
     we_are_checking=1;
+#endif
     on();
   }
 }
@@ -903,12 +918,10 @@ else if(straw_code_competing==1){
 
 #if WITH_STRAWMAN
       if(bypass){
-        if(got_strobe_ack==1){//(straw_code_success==1){
+        if(got_strobe_ack==1){
         collisions=0;
-        //got_strobe_ack=1;
         straw_code_winning=0;
         straw_code_competing=0;
-        straw_code_success=0;
         }
         else{
           collisions++;
@@ -926,14 +939,11 @@ else if(straw_code_competing==1){
           while(RTIMER_CLOCK_LT(RTIMER_NOW(), t0 + MAX_PHASE_STROBE_TIME/4) && straw_code_winning==0){}
 
           if(straw_code_winning==1){
-            //ret=send_packet(NULL,NULL,buf_list,1,1,probes_count++);//bypass the CA system + receiver_awake to avoid the phase stuff
-            //NETSTACK_RADIO.off();
-            return MAC_TX_BYPASS;
+            return MAC_TX_BYPASS;//resend packet without any cca check
           }
           else{
             straw_code_competing=0;
             collisions++;
-            //return send_packet(NULL,NULL,buf_list,0,1,probes_count++);
           }
         }
         else

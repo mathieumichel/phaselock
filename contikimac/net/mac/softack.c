@@ -66,7 +66,6 @@ struct strawman_hdr {
 straw_code_competing=0;//probe received and vote sent
 straw_code_winning=0;// result
 straw_code_waiting=0;//signal sent waiting for winner
-straw_code_success=0;
 #endif /* WITH_STRAWMAN */
 
 
@@ -83,7 +82,7 @@ static unsigned char signalbuf[3 + 10]= {0x03, 0x00};
 //static unsigned char probebuf[2 + 8] = {0x07, 0x00};
 /* Seqno of the last acked frame */
 static uint8_t last_acked_seqno = -1;
-uint8_t got_ack=0;
+//uint8_t got_ack=0;
 
 
 /*---------------------------------------------------------------------------*/
@@ -165,9 +164,6 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
   seqno = frame[2];
   *code=SOFTACK_NULL;//by default nothing has to be done
 
-  if(straw_code_waiting==1){
-    straw_code_waiting=0;
-  }
 
   if(is_ack && contikimac_sending() && !contikimac_broadcasting()){
     rimeaddr_t dest;
@@ -177,11 +173,7 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
     //COOJA_DEBUG_PRINTF("softack : ack from %u %u\n",frame[10],fcf);//id for cooja
     if(rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
                       &dest)){
-      if(straw_code_winning==1){
-        straw_code_success=1;
-        //reset_competition();
-      }
-     got_ack=1;
+     //got_ack=1;
      memcpy(&phaselock_target,frame+11,2);
      //COOJA_DEBUG_PRINTF("ack\n");
      //COOJA_DEBUG_PRINTF("softack: ack from %u-%lu\n",node_id_from_rimeaddr(&dest),(unsigned long)((unsigned long)phaselock_target* 100*1000/RTIMER_ARCH_SECOND));
@@ -196,24 +188,30 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
 #if WITH_STRAWMAN
   else if(is_probe){
     if(contikimac_sending() && straw_code_competing==0){
-      straw_code_competing=1;
-      straw_code_winning=0;
-      straw_code_success=0;
-      if(!contikimac_broadcasting()){
-        last_vote_len=get_random_length();
-        *ackbufptr = votebuf;
-        *acklen = sizeof(votebuf)+last_vote_len;
-        votebuf[2]=seqno;
-        rimeaddr_copy((rimeaddr_t*)(votebuf+3), &rimeaddr_node_addr);
-        //COOJA_DEBUG_PRINTF("straw: coll %u \n",last_vote_len);
-        *code=SOFTACK_VOTE;
+      rimeaddr_t dest;
+      memcpy(&dest, frame+3, 8);
+      if(1==1){//rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),&dest)){
+        straw_code_competing=1;
+        straw_code_winning=0;
+        if(!contikimac_broadcasting()){
+          last_vote_len=get_random_length();
+          *ackbufptr = votebuf;
+          *acklen = sizeof(votebuf)+last_vote_len;
+          votebuf[2]=seqno;
+          rimeaddr_copy((rimeaddr_t*)(votebuf+3), &rimeaddr_node_addr);
+          COOJA_DEBUG_PRINTF("straw: coll %u \n",last_vote_len);
+          *code=SOFTACK_VOTE;
 
-        do_vote=1;
-        //contikimac handle after checking is_competing
+          do_vote=1;
+          //contikimac handle after checking is_competing
+        }
       }
-      else{
-        //COOJA_DEBUG_PRINTF("straw: coll bcast\n");
+      else{//DO WE NEED THIS? !!!!!!
+        COOJA_DEBUG_PRINTF("probe not pktbuf dest\n");
       }
+    }
+    else{
+      //COOJA_DEBUG_PRINTF("straw: coll bcast\n");
     }
 //    else{
 //      COOJA_DEBUG_PRINTF("straw: coll wtf\n");
@@ -225,8 +223,8 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
       uint16_t signal_len;
       //len=frame[11];
       memcpy(&signal_len,frame+11,2);
-      //COOJA_DEBUG_PRINTF("straw: result %u\n",signal_len);
-      if((last_vote_len >= signal_len && last_vote_len-signal_len <=3) || (signal_len > last_vote_len && signal_len -last_vote_len<=3)){
+      COOJA_DEBUG_PRINTF("straw: result %u\n",signal_len);
+      if((last_vote_len >= signal_len && last_vote_len-signal_len <=3) || (signal_len >= last_vote_len && signal_len -last_vote_len<=3)){
         straw_code_winning=1;
       }
       else{
@@ -255,7 +253,9 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
       }
       else if(!rimeaddr_cmp((rimeaddr_t*)dest_addr_host_order,
                       &rimeaddr_null)) {
-        //COOJA_DEBUG_PRINTF("softack : data not for us %u\n",fcf);
+        if(straw_code_waiting){
+        COOJA_DEBUG_PRINTF("softack : data not for us %u\n",fcf);
+        }
         // Not anycast --> sleep to avoid overhearing
       }
     }
@@ -323,7 +323,7 @@ softack_vote_callback(uint8_t **signalbufptr, uint8_t *signallen, uint16_t len)
     signalbuf[3+8] = len & 0xff;
     signalbuf[3+8+1] = (len >> 8)& 0xff;
     //signalbuf[11]=len;
-    COOJA_DEBUG_PRINTF("straw: signal %u\n",len);
+    //COOJA_DEBUG_PRINTF("straw: signal %u\n",len);
 }
 #endif /* WITH_STRAWMAN */
 

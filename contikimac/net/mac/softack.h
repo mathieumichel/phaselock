@@ -49,7 +49,6 @@
 int straw_code_competing;//probe received and vote sent
 int straw_code_winning;// result
 int straw_code_waiting;//signal sent waiting for winner
-int straw_code_success;
 
 /* Anycast-specific inits */
 void orpl_anycast_init();
