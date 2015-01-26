@@ -72,8 +72,11 @@ struct phase_queueitem {
 #define PHASE_DEFER_THRESHOLD 1
 #define PHASE_QUEUESIZE       8
 
+#if WITH_ADVANCED_PHASELOCK
+#define MAX_NOACKS            4
+#else
 #define MAX_NOACKS            16
-
+#endif /*WITH_ADVANCED_PHASELOCK */
 #define MAX_NOACKS_TIME       CLOCK_SECOND * 30
 
 MEMB(queued_packets_memb, struct phase_queueitem, PHASE_QUEUESIZE);

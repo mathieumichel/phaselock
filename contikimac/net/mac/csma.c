@@ -63,7 +63,7 @@
 #else /* DEBUG */
 #define PRINTF(...)
 #endif /* DEBUG */
-
+#define PRINTF_MIN(...) printf(__VA_ARGS__)
 #ifndef CSMA_MAX_MAC_TRANSMISSIONS
 #ifdef CSMA_CONF_MAX_MAC_TRANSMISSIONS
 #define CSMA_MAX_MAC_TRANSMISSIONS CSMA_CONF_MAX_MAC_TRANSMISSIONS
@@ -247,7 +247,7 @@ packet_sent(void *ptr, int status, int num_transmissions)
       if (status==MAC_TX_BYPASS){
         //COOJA_DEBUG_PRINTF("csma: rexmit collision %d\n", n->transmissions);
         bypass_allowed=1;
-        COOJA_DEBUG_PRINTF("csma: rexmit strawman %d\n", n->transmissions);
+        PRINTF_MIN("csma: rexmit strawman %d\n", n->transmissions);
         transmit_packet_list(n);
       }
       else if(status == MAC_TX_COLLISION ||
@@ -262,16 +262,16 @@ packet_sent(void *ptr, int status, int num_transmissions)
 
         switch(status) {
         case MAC_TX_COLLISION:
-          COOJA_DEBUG_PRINTF("csma: rexmit collision %d\n", n->transmissions);
+          PRINTF_MIN("csma: rexmit collision %d\n", n->transmissions);
           break;
         case MAC_TX_NOACK:
-          COOJA_DEBUG_PRINTF("csma: rexmit noack %d\n", n->transmissions);
+          PRINTF_MIN("csma: rexmit noack %d\n", n->transmissions);
           break;
         case MAC_TX_DEFERRED:
-          COOJA_DEBUG_PRINTF("phase deferred\n");
+          PRINTF_MIN("phase deferred\n");
           break;
         default:
-          COOJA_DEBUG_PRINTF("csma: rexmit err %d, %d\n", status, n->transmissions);
+          PRINTF_MIN("csma: rexmit err %d, %d\n", status, n->transmissions);
         }
 
         /* The retransmission time must be proportional to the channel
@@ -301,7 +301,7 @@ packet_sent(void *ptr, int status, int num_transmissions)
         } else {
           if(!rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
                                  &rimeaddr_null)) {
-          printf("csma: drop with status %d after %d transmissions, %d collisions",
+            PRINTF_MIN("csma: drop with status %d after %d transmissions, %d collisions",
                  status, n->transmissions, n->collisions);
           rpl_trace(rpl_dataptr_from_packetbuf());
           }
@@ -312,11 +312,11 @@ packet_sent(void *ptr, int status, int num_transmissions)
         if(status == MAC_TX_OK) {
           if(!rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
                                  &rimeaddr_null)) {
-          COOJA_DEBUG_PRINTF("csma: rexmit ok after %d transmissions, %d collisions", n->transmissions, n->collisions);
+          PRINTF("csma: rexmit ok after %d transmissions, %d collisions", n->transmissions, n->collisions);
           rpl_trace(rpl_dataptr_from_packetbuf());
           }
         } else {
-          COOJA_DEBUG_PRINTF("csma: rexmit failed %d: %d\n", n->transmissions, status);
+          PRINTF("csma: rexmit failed %d: %d\n", n->transmissions, status);
         }
         free_packet(n, q);
         mac_call_sent_callback(sent, cptr, status, num_tx);

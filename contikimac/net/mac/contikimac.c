@@ -256,6 +256,7 @@ static volatile unsigned char radio_is_on = 0;
 #if DEBUG
 #include <stdio.h>
 #define PRINTF(...) printf(__VA_ARGS__)
+#define PRINTF2(...) printf(__VA_ARGS__)
 #define PRINTDEBUG(...) printf(__VA_ARGS__)
 #else
 #define PRINTF(...)
@@ -599,7 +600,7 @@ extern rtimer_clock_t phaselock_target;
 static int
 send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
       struct rdc_buf_list *buf_list,
-            int is_receiver_awake, int bypass, int probes_count)
+            int is_receiver_awake, int bypass)
 {
   rtimer_clock_t t0;
   rtimer_clock_t encounter_time = 0;
@@ -876,13 +877,15 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
           NETSTACK_RADIO.on();
 
           while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + INTER_PACKET_INTERVAL)) { }
-          int a = NETSTACK_RADIO.receiving_packet();
-          int b = NETSTACK_RADIO.pending_packet();
-          int c =NETSTACK_RADIO.channel_clear();
-
-          if(a||
-              b ||
-              c == 0) {
+#if WITH_STRAWMAN
+          if(NETSTACK_RADIO.receiving_packet() ||
+                               NETSTACK_RADIO.pending_packet() ||
+                               NETSTACK_RADIO.channel_clear() == 0) {
+#else
+            if(!is_broadcast && (NETSTACK_RADIO.receiving_packet() ||
+                                 NETSTACK_RADIO.pending_packet() ||
+                                 NETSTACK_RADIO.channel_clear() == 0)) {
+#endif
             wt = RTIMER_NOW();
 
 
@@ -890,7 +893,7 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
 
             len = NETSTACK_RADIO.read(ackbuf, ACK_LEN);
 if(bypass){
-              COOJA_DEBUG_PRINTF("straw plop %u-%u-%u-%u-%u\n",a,b,c,len,ackbuf[2]);
+              COOJA_DEBUG_PRINTF("straw plop %u-%u\n",len,ackbuf[2]);
 }
 #if WITH_STRAWMAN
 else if(straw_code_competing==1){
@@ -932,33 +935,34 @@ else if(straw_code_competing==1){
 
       if(straw_code_competing==1)
       {
-        if(!is_broadcast && probes_count <=3)
-        {
-          t0=RTIMER_NOW();
-          int res;
-          while(RTIMER_CLOCK_LT(RTIMER_NOW(), t0 + MAX_PHASE_STROBE_TIME/4) && straw_code_winning==0){}
 
-          if(straw_code_winning==1){
-            return MAC_TX_BYPASS;//resend packet without any cca check
-          }
-          else{
-            straw_code_competing=0;
-            collisions++;
-          }
-        }
-        else
+        if(is_broadcast)
         {
           straw_code_competing=0;//bcast stops but don't really compete
-          collisions++;
+          //collisions++;
+        }
+        t0=RTIMER_NOW();
+        while(RTIMER_CLOCK_LT(RTIMER_NOW(), t0 + MAX_PHASE_STROBE_TIME/4) && straw_code_winning==0){}
+        int res;
+
+        if(straw_code_winning==1){
+          t0=RTIMER_NOW();
+          //while(RTIMER_CLOCK_LT(RTIMER_NOW(), t0 + (RTIMER_ARCH_SECOND/5000) * (random_rand()%8)));
+          return MAC_TX_BYPASS;//resend packet without any cca check
+        }
+        else{
+          straw_code_competing=0;
+          collisions++;//collision given destination will not be awake anymore except with good timing
         }
       }
+
 #endif /*WITH_STRAWMAN*/
       //packetbuf_hdr_remove(hdrlen);
   off();
 
   if(!is_broadcast){
 
-  COOJA_DEBUG_PRINTF("contikimac: send (strobes=%u, len=%u, %s, %s, phase=%lu, %s %u), done\n", strobes,
+  PRINTF_MIN("Cmac: send (strobes=%u, len=%u, %s, %s, phase=%lu, %s %u), done\n", strobes,
          packetbuf_totlen(),
          got_strobe_ack ? "ack" : "no ack",
          collisions ? "collision" : "no collision",
@@ -1012,15 +1016,18 @@ else if(straw_code_competing==1){
   }
 
   if(!is_broadcast) {
-    if(collisions == 0 && is_receiver_awake == 0) {
 #if WITH_ADVANCED_PHASELOCK
+    if(collisions == 0 && is_receiver_awake == 0) {
       phase_update(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
-		   encounter_time-phaselock_target, ret);
+       encounter_time-phaselock_target, ret);
+    }
 #else /* WITH_ADVANCED_PHASELOCK */
+    if(collisions == 0 && is_receiver_awake == 0) {
       phase_update(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
        encounter_time, ret);
-#endif /* WITH_ADVANCED_PHASELOCK */
     }
+#endif /* WITH_ADVANCED_PHASELOCK */
+
   }
 #endif /* WITH_PHASE_OPTIMIZATION */
 
@@ -1032,7 +1039,7 @@ extern unsigned char bypass_allowed;
 static void
 qsend_packet(mac_callback_t sent, void *ptr)
 {
-  int ret = send_packet(sent, ptr, NULL, 0,bypass_allowed,0);
+  int ret = send_packet(sent, ptr, NULL, 0,bypass_allowed);
   if(ret != MAC_TX_DEFERRED) {
     mac_call_sent_callback(sent, ptr, ret, 1);
   }
@@ -1069,7 +1076,7 @@ qsend_list(mac_callback_t sent, void *ptr, struct rdc_buf_list *buf_list)
 //    }
 
     /* Send the current packet */
-    ret = send_packet(sent, ptr, curr, is_receiver_awake,bypass_allowed,0);
+    ret = send_packet(sent, ptr, curr, is_receiver_awake,bypass_allowed);
     if(ret != MAC_TX_DEFERRED) {
       mac_call_sent_callback(sent, ptr, ret, 1);
     }
@@ -1134,7 +1141,7 @@ input_packet(void)
          broadcast address. */
       if(rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
                       &rimeaddr_node_addr)){
-        printf("Cmac: input from %d",
+        PRINTF_MIN("Cmac: input from %d",
                node_id_from_rimeaddr(packetbuf_addr(PACKETBUF_ADDR_SENDER))
         );
         rpl_trace(rpl_dataptr_from_packetbuf());

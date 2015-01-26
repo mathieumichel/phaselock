@@ -298,7 +298,10 @@ rtimer_clock_t wt;
 static void
 softack_coll_callback(uint8_t **probebufptr, uint8_t *probelen)
 {
-  if(contikimac_checking()){
+  if(contikimac_checking()||straw_code_waiting){
+    if(straw_code_waiting==1){
+      COOJA_DEBUG_PRINTF("plop2\n");
+    }
     wt=RTIMER_NOW();
     while(RTIMER_CLOCK_LT(RTIMER_NOW(),(wt  +(RTIMER_ARCH_SECOND / 5000 )))){};
    // while(RTIMER_CLOCK_LT(RTIMER_NOW(),(wt  +(RTIMER_ARCH_SECOND / (random_rand()%5000) )))){};
