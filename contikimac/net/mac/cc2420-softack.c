@@ -195,7 +195,7 @@ static int channel;
 
 /*---------------------------------------------------------------------------*/
 
-void
+static void
 flushrx(void)
 {
   uint8_t dummy;
@@ -503,7 +503,6 @@ cc2420_send(const void *payload, unsigned short payload_len)
   return cc2420_transmit(payload_len);
 }
 /*---------------------------------------------------------------------------*/
-
 int
 cc2420_off(void)
 {
@@ -655,7 +654,6 @@ LIST(rf_list);
 #define RXFIFO_ADDR(index) (RXFIFO_START + (index) % RXFIFO_SIZE)
 
 static softack_input_callback_f *softack_input_callback;
-//static softack_acked_callback_f *softack_acked_callback;
 static softack_coll_callback_f *softack_coll_callback;
 static softack_vote_callback_f *softack_vote_callback;
 
@@ -680,38 +678,35 @@ cc2420_waitVotes(void)
   uint16_t winner=113;//max len is 112
   uint16_t samples=0;
   uint16_t cca_samples=1;
-  rtimer_clock_t wait_time=RTIMER_NOW()+77;//RTIMER_ARCH_SECOND/750+ RTIMER_ARCH_SECOND / 990;
+  rtimer_clock_t wait_time=RTIMER_NOW()+55;//77//RTIMER_ARCH_SECOND/750+ RTIMER_ARCH_SECOND / 990;
   while(RTIMER_CLOCK_LT(RTIMER_NOW(),wait_time)){};
-
-  //leds_on(LEDS_BLUE);
-
+//  leds_on(LEDS_BLUE);
+//  leds_off(LEDS_BLUE);
+//  wait_time=RTIMER_NOW()+22;
+//  uint8_t go=2;
+//  while(RTIMER_CLOCK_LT(RTIMER_NOW(),wait_time)&& go>0){
+//    if(!CC2420_CCA_IS_1){
+//      cca_samples++;
+//    }
+//    else{
+//      go--;
+//    }
+//  }
+  leds_on(LEDS_BLUE);
+  leds_off(LEDS_BLUE);
   while (cca_samples<1750 && (!CC2420_CCA_IS_1||cca_samples<20)) {
     cca_samples++;
+  }
+
+  if(cca_samples==0){
+    return 199;
   }
   if(cca_samples<210){
     winner=0;
   }
   else
     winner=(cca_samples-210)/12;
-  /*printf("P -= %d\n", samples);*/
-  COOJA_DEBUG_PRINTF("straw: winner %u-%u\n",winner,cca_samples);
-  /* Busy-wait until CCA is true */
-//  while (samples<800 && CC2420_CCA_IS_1) {
-//    samples++;
-//  }
-//  if(samples<800){
-//    leds_on(LEDS_GREEN);
-//    while (cca_samples<1750 && !CC2420_CCA_IS_1) {
-//      cca_samples++;
-//    }
-//   leds_off(LEDS_GREEN);
-//   leds_off(LEDS_BLUE);
-//    winner = cca_samples/14-13;
-//   COOJA_DEBUG_PRINTF("straw: winner %u\n",cca_samples);//-26 (size of struct hdr, -1 type - 1 longueur)
-//   }
-//  else{
-//    leds_off(LEDS_BLUE);
-//  }
+  //COOJA_DEBUG_PRINTF("straw: vote %u-%u\n",winner,cca_samples);
   return winner;
 }
 
@@ -761,7 +756,6 @@ cc2420_interrupt(void)
     flushrx();
     RELEASE_LOCK();
     CC2420_CLEAR_FIFOP_INT();
-
     return 1;
   }
 
@@ -793,19 +787,10 @@ cc2420_interrupt(void)
 
   if(softack_input_callback) {
     softack_input_callback(rf->buf, len_a, &ackbuffer, &acklen, &code);
-//#if WITH_STRAWMAN
-//    if(straw_code_waiting){
-//      straw_code_waiting=0;
-//    }
-//#endif
   }
-
-  //do_ack  = acklen > 0;//acklen=13
 
   do_ack=code==SOFTACK_ACK;
   do_vote=code==SOFTACK_VOTE;
-  //code=0;
-  //if(do_ack){
   if(do_ack || do_vote) {
 
 	  uint8_t total_acklen = acklen + AUX_LEN;
@@ -840,7 +825,6 @@ cc2420_interrupt(void)
       //CC2420_CLEAR_FIFOP_INT();
     }
     if(code==SOFTACK_RESULT){
-
       list_chop(rf_list);
       memb_free(&rf_memb, rf);
       //COOJA_DEBUG_PRINTF("straw done %u-%u\n",len_a,len);
@@ -848,6 +832,7 @@ cc2420_interrupt(void)
     }
     frame_valid = 1;
   } else { /* CRC is wrong */
+    int collision = footer1 & FOOTER1_CRC_OK;
     if(do_ack || do_vote) {
       CC2420_STROBE(CC2420_SFLUSHTX); /* Flush Tx fifo */
     }
@@ -855,9 +840,8 @@ cc2420_interrupt(void)
     list_chop(rf_list);
     memb_free(&rf_memb, rf);
 #if WITH_STRAWMAN
-    if(!(footer1 & FOOTER1_CRC_OK) && (contikimac_checking() || straw_code_waiting) && !contikimac_sending()){
-      //flushrx();
-      //CC2420_CLEAR_FIFOP_INT();
+    if(!collision && (contikimac_checking() || straw_code_waiting) && !contikimac_sending()){
+
 
       softack_coll_callback(&ackbuffer,&acklen);
 #if WITH_STRAWMAN
@@ -869,11 +853,13 @@ cc2420_interrupt(void)
       if(do_probe){
         uint8_t total_acklen = acklen + AUX_LEN;
         /* Write ack in fifo */
+        while(!CC2420_CCA_IS_1){};
         CC2420_STROBE(CC2420_SFLUSHTX);
         CC2420_WRITE_FIFO_BUF(&total_acklen, 1);
         CC2420_WRITE_FIFO_BUF(ackbuffer, acklen);
+
         strobe(CC2420_STXON);
-        while(CC2420_SFD_IS_1);
+
         on();
         uint16_t signal_len=cc2420_waitVotes();//-11 size minimal of a vote - 2 (axu_len)
         if(signal_len <=112){
@@ -885,6 +871,7 @@ cc2420_interrupt(void)
           strobe(CC2420_STXON);
           straw_code_waiting=1;
           while(CC2420_SFD_IS_1);
+          //PRINTF_MIN("straw: coll detected\n");
         }
       }
     }
@@ -907,7 +894,7 @@ cc2420_interrupt(void)
 //    }
 //  }
 
-  if(rf && frame_valid && len_b>0) { /* Get rest of the data.
+  if(rf && frame_valid) { /* Get rest of the data.
    No need to read the footer; we already checked it in place
    before acking. */
     CC2420_READ_RAM(rf->buf + len_a, RXFIFO_ADDR(1 + len_a), len_b);

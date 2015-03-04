@@ -73,7 +73,7 @@ struct phase_queueitem {
 #define PHASE_QUEUESIZE       8
 
 #if WITH_ADVANCED_PHASELOCK
-#define MAX_NOACKS            4
+#define MAX_NOACKS            3
 #else
 #define MAX_NOACKS            16
 #endif /*WITH_ADVANCED_PHASELOCK */
@@ -91,6 +91,7 @@ NBR_TABLE(struct phase, nbr_phase);
 #define PRINTF(...)
 #define PRINTDEBUG(...)
 #endif
+#define PRINTF_MIN(...) printf(__VA_ARGS__)
 /*---------------------------------------------------------------------------*/
 void
 phase_update(const rimeaddr_t *neighbor, rtimer_clock_t time,
@@ -118,7 +119,7 @@ phase_update(const rimeaddr_t *neighbor, rtimer_clock_t time,
         timer_set(&e->noacks_timer, MAX_NOACKS_TIME);
       }
       if(e->noacks >= MAX_NOACKS || timer_expired(&e->noacks_timer)) {
-        PRINTF("drop %d\n", neighbor->u8[0]);
+        PRINTF_MIN("drop %d\n", neighbor->u8[0]);
         nbr_table_remove(nbr_phase, e);
         return;
       }

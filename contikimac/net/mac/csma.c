@@ -312,7 +312,7 @@ packet_sent(void *ptr, int status, int num_transmissions)
         if(status == MAC_TX_OK) {
           if(!rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
                                  &rimeaddr_null)) {
-          PRINTF("csma: rexmit ok after %d transmissions, %d collisions", n->transmissions, n->collisions);
+          PRINTF_MIN("csma: rexmit ok after %d transmissions, %d collisions", n->transmissions, n->collisions);
           rpl_trace(rpl_dataptr_from_packetbuf());
           }
         } else {

@@ -59,6 +59,7 @@
 volatile unsigned char we_are_broadcasting = 0;
 #if WITH_STRAWMAN
 volatile unsigned char we_are_checking = 0;
+extern int coll_count,probe_count,probe_count_b;
 #endif /* WITH_STRAWMAN */
 
 /* TX/RX cycles are synchronized with neighbor wake periods */
@@ -196,7 +197,7 @@ static int we_are_receiving_burst = 0;
 /* GUARD_TIME is the time before the expected phase of a neighbor that
    a transmitted should begin transmitting packets. */
 #if WITH_ADVANCED_PHASELOCK
-#define GUARD_TIME                         (1 * (CHECK_TIME + CHECK_TIME_TX)) * 4  / 5  //not too small so thre receiver can be waked up with a fragment of strobe
+#define GUARD_TIME                         10 * CHECK_TIME + CHECK_TIME_TX //(10 * (CHECK_TIME + CHECK_TIME_TX)) * 4  / 5  //not too small so thre receiver can be waked up with a fragment of strobe
 //#define GUARD_TIME                  ((CHECK_TIME + CHECK_TIME_TX) * 3)/5 + (random_rand() %(((CHECK_TIME + CHECK_TIME_TX) * 2)/5))
 #else /* WITH_ADVANCED_PHASELOCK */
 #define GUARD_TIME                         10 * CHECK_TIME + CHECK_TIME_TX  //MF prev (10 * CHECK_TIME + CHECK_TIME_TX)
@@ -221,7 +222,7 @@ static int we_are_receiving_burst = 0;
 /* MAX_PHASE_STROBE_TIME is the time that we transmit repeated packets
    to a neighbor for which we have a phase lock. */
 #if WITH_ADVANCED_PHASELOCK
-#define MAX_PHASE_STROBE_TIME              RTIMER_ARCH_SECOND / 20 // MF-prev=60
+#define MAX_PHASE_STROBE_TIME              RTIMER_ARCH_SECOND / 60//20 // MF-prev=60
 #else
 #define MAX_PHASE_STROBE_TIME              RTIMER_ARCH_SECOND / 20 //due to the change in cca_sleep_time for softack
 #endif
@@ -433,7 +434,7 @@ powercycle(struct rtimer *t, void *ptr)
   sync_cycle_start = RTIMER_NOW();
 #else
   cycle_start = RTIMER_NOW();
-#if WITH_ADVANCED_PHASELOCK
+#if 1//WITH_ADVANCED_PHASELOCK
   current_cycle_start_time = RTIMER_NOW();
 #endif /* WITH_ADVANCED_PHASELOCK */
 #endif
@@ -461,8 +462,16 @@ powercycle(struct rtimer *t, void *ptr)
     cycle_start += CYCLE_TIME;
 #endif
 
-#if WITH_ADVANCED_PHASELOCK
+#if 1//WITH_ADVANCED_PHASELOCK
     current_cycle_start_time += CYCLE_TIME;
+#if WITH_STRAWMAN
+    if(coll_count!=0 || probe_count !=0 || probe_count_b !=0){
+      PRINTF_MIN("stats %s - %s - %s\n",coll_count!=0 ? "coll" : "x", probe_count!=0 ? "probe" : "x", probe_count_b!=0 ? "probeB" : "x" );
+    }
+      coll_count=0;
+      probe_count=0;
+      probe_count_b=0;
+#endif
 #endif /* WITH_ADVANCED_PHASELOCK */
 
     packet_seen = 0;
@@ -518,7 +527,7 @@ powercycle(struct rtimer *t, void *ptr)
         if(NETSTACK_RADIO.receiving_packet()) {
           silence_periods = 0;
         }
-        if(silence_periods > MAX_SILENCE_PERIODS ) {
+        if(silence_periods > MAX_SILENCE_PERIODS) {
           powercycle_turn_radio_off();
           break;
         }
@@ -541,11 +550,11 @@ powercycle(struct rtimer *t, void *ptr)
              NETSTACK_RADIO.pending_packet()) ||
              !RTIMER_CLOCK_LT(RTIMER_NOW(),
                  (start + LISTEN_TIME_AFTER_PACKET_DETECTED))) {
-
           powercycle_turn_radio_off();
         }
       }
     }
+    
     if(RTIMER_CLOCK_LT(RTIMER_NOW() - cycle_start, CYCLE_TIME - CHECK_TIME * 4)) {
       /* Schedule the next powercycle interrupt, or sleep the mcu
 	 until then.  Sleeping will not exit from this interrupt, so
@@ -616,6 +625,7 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
   int ret;
   uint8_t contikimac_was_on;
   uint8_t seqno;
+  uint8_t was_competing=0;
 
 
 #if WITH_CONTIKIMAC_HEADER
@@ -632,6 +642,7 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
     PRINTF("contikimac: send_packet data len 0\n");
     return MAC_TX_ERR_FATAL;
   }
+
 #if !NETSTACK_CONF_BRIDGE_MODE
   /* If NETSTACK_CONF_BRIDGE_MODE is set, assume PACKETBUF_ADDR_SENDER is already set. */
   packetbuf_set_addr(PACKETBUF_ADDR_SENDER, &rimeaddr_node_addr);
@@ -827,6 +838,7 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
 #endif
 
      uint8_t ackbuf[ACK_LEN];
+     rimeaddr_t dest;
      watchdog_periodic();
      t0 = RTIMER_NOW();
      seqno = packetbuf_attr(PACKETBUF_ATTR_MAC_SEQNO);
@@ -881,35 +893,47 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
           if(NETSTACK_RADIO.receiving_packet() ||
                                NETSTACK_RADIO.pending_packet() ||
                                NETSTACK_RADIO.channel_clear() == 0) {
-#else
+#else /* WITH_STRAWMAN */
             if(!is_broadcast && (NETSTACK_RADIO.receiving_packet() ||
-                                 NETSTACK_RADIO.pending_packet() ||
-                                 NETSTACK_RADIO.channel_clear() == 0)) {
-#endif
-            wt = RTIMER_NOW();
+                NETSTACK_RADIO.pending_packet() ||
+                NETSTACK_RADIO.channel_clear() == 0)) {
+#endif /* WITH_STRAWMAN */
+              wt = RTIMER_NOW();
 
 
-            while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + AFTER_ACK_DETECTECT_WAIT_TIME)) { }
+              while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + AFTER_ACK_DETECTECT_WAIT_TIME)) { }
 
-            len = NETSTACK_RADIO.read(ackbuf, ACK_LEN);
-if(bypass){
-              COOJA_DEBUG_PRINTF("straw plop %u-%u\n",len,ackbuf[2]);
-}
 #if WITH_STRAWMAN
-else if(straw_code_competing==1){
-            break;
-          }
+                if(straw_code_competing==1){// || is_broadcast){
+                  break;//if bcast we don't care about ack
+                }
 #endif
-          if(len == ACK_LEN && seqno == ackbuf[2]) {
-              got_strobe_ack = 1;
-              encounter_time = txtime;
-              break;
+
+                len = NETSTACK_RADIO.read(ackbuf, ACK_LEN);
+                //if(bypass){
+                //COOJA_DEBUG_PRINTF("straw plop %u-%u\n",len,ackbuf[2]);
+                //}
+
+                if(len == ACK_LEN && seqno == ackbuf[2]) {
+                  got_strobe_ack = 1;
+                  memcpy(&dest, ackbuf+3, 8);
+                  encounter_time = txtime;
+                  break;
+                }
+#if !WITH_STRAWMAN //could prevent to detect the probe
+                else {
+                  //COOJA_DEBUG_PRINTF("contikimac: collisions while sending\n");
+                  collisions++;
+                }
+#else
+                else if(len>ACK_LEN){//we wait to be able to detect a probe
+                  //PRINTF_MIN("straw: wait\n");
+                  wt = RTIMER_NOW();
+                  while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + RTIMER_ARCH_SECOND/5000) && straw_code_competing==0) {};
+                  collisions++;
+                }
+#endif
             }
-            else {
-              //COOJA_DEBUG_PRINTF("contikimac: collisions while sending\n");
-              collisions++;
-            }
-          }
 #if WITH_STRAWMAN
           else if(straw_code_competing==1){
             break;
@@ -933,14 +957,12 @@ else if(straw_code_competing==1){
         }
       }
 
+      if(is_broadcast){
+        straw_code_competing=0;//bcast stops but don't really compete
+      }
       if(straw_code_competing==1)
       {
-
-        if(is_broadcast)
-        {
-          straw_code_competing=0;//bcast stops but don't really compete
-          //collisions++;
-        }
+        was_competing=1;
         t0=RTIMER_NOW();
         while(RTIMER_CLOCK_LT(RTIMER_NOW(), t0 + MAX_PHASE_STROBE_TIME/4) && straw_code_winning==0){}
         int res;
@@ -962,16 +984,18 @@ else if(straw_code_competing==1){
 
   if(!is_broadcast){
 
-  PRINTF_MIN("Cmac: send (strobes=%u, len=%u, %s, %s, phase=%lu, %s %u), done\n", strobes,
-         packetbuf_totlen(),
-         got_strobe_ack ? "ack" : "no ack",
-         collisions ? "collision" : "no collision",
-         (unsigned long)((unsigned long)phaselock_target* 1000/RTIMER_ARCH_SECOND),
-         bypass? "bypass" : "no bypass",
-             seqno);
+    PRINTF_MIN("contikimac: send (strobes=%u, len=%u, %s, %s, phase=%lu, %s, %s, %u), done\n",strobes,
+               packetbuf_totlen(),
+               got_strobe_ack ? "ack" : "no ack",
+                   collisions ? "collision" : "no collision",
+                       (unsigned long)((unsigned long)phaselock_target* 1000/RTIMER_ARCH_SECOND),
+                       was_competing? "straw" : "-",
+                       bypass? "bypass" : "-",
+                       seqno);
+
   }
   else{
-    COOJA_DEBUG_PRINTF("contikimac: send broadcast\n");
+   // COOJA_DEBUG_PRINTF("contikimac: send broadcast\n");
 #if 1//  WITH_STRAWMAN
     we_are_broadcasting=0;
 #endif /* WITH_STRAWMAN */
