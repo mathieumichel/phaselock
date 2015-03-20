@@ -68,7 +68,7 @@ void
 create_rpl_dag(uip_ipaddr_t *ipaddr)
 {
   struct uip_ds6_addr *root_if;
-
+  printf("create dag\n");
   root_if = uip_ds6_addr_lookup(ipaddr);
   if(root_if != NULL) {
     rpl_dag_t *dag;

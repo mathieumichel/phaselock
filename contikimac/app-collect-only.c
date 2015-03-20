@@ -20,7 +20,7 @@
 #include <string.h>
 
 
-#define SEND_INTERVAL   (1 * 30 * CLOCK_SECOND)
+#define SEND_INTERVAL   (1 * 5 * CLOCK_SECOND)
 #define UDP_PORT 1234
 
 static char buf[APP_PAYLOAD_LEN];
@@ -72,7 +72,6 @@ PROCESS_THREAD(unicast_sender_process, ev, data)
   static struct etimer send_timer;
 
   PROCESS_BEGIN();
-
   random_rand();
   simple_energest_start();
 
@@ -82,19 +81,21 @@ PROCESS_THREAD(unicast_sender_process, ev, data)
     printf("Node id unset, my mac is 0x%04x\n", mymac);
     PROCESS_EXIT();
   }
-
   //  etimer_set(&periodic_timer, 90 * CLOCK_SECOND);
   //  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
+  cc2420_set_txpower(RF_POWER);
+  cc2420_set_cca_threshold(RSSI_THR);
   printf("App: %u starting\n", node_id);
 
   rpl_setup(node_id == ROOT_ID, node_id);
   simple_udp_register(&unicast_connection, UDP_PORT,
                       NULL, UDP_PORT, receiver);
-
+  //NETSTACK_RDC.off(1);
   if(node_id == ROOT_ID) {
     NETSTACK_RDC.off(1);
+    printf("App: I'm root\n");
   } else {
-    etimer_set(&periodic_timer,2 * 60 * CLOCK_SECOND);
+    etimer_set(&periodic_timer,1 * 30 * CLOCK_SECOND);
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
     etimer_set(&periodic_timer, SEND_INTERVAL);
     while(1) {

@@ -79,8 +79,8 @@ extern volatile rtimer_clock_t current_cycle_start_time;
 /* A buffer where extended 802.15.4 are prepared */
 static unsigned char ackbuf[3 + 10] = {0x02, 0x00};
 static unsigned char votebuf[3 + 8] = {0x00, 0x00};
-static unsigned char probebuf[3 + 8] = {0x07, 0x00};
-static unsigned char signalbuf[3 + 10]= {0x03, 0x00};
+//static unsigned char probebuf[3 + 8] = {0x07, 0x00};
+//static unsigned char signalbuf[3 + 10]= {0x03, 0x00};
 
 //static unsigned char probebuf[2 + 8] = {0x07, 0x00};
 /* Seqno of the last acked frame */
@@ -203,6 +203,8 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
           last_vote_len=get_random_length();
           *ackbufptr = votebuf;
           *acklen = sizeof(votebuf)+last_vote_len;
+          votebuf[0]=0x00;
+          votebuf[1]=0x00;
           votebuf[2]=seqno;
           rimeaddr_copy((rimeaddr_t*)(votebuf+3), &rimeaddr_node_addr);
           //COOJA_DEBUG_PRINTF("straw: vote %u\n");//last_vote_len
@@ -272,6 +274,8 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
       uint16_t phase = 0;
       *ackbufptr = ackbuf;
       *acklen = sizeof(ackbuf);
+      ackbuf[0]=0x02;
+      ackbuf[1]=0x00;
       ackbuf[2] = seqno;
       /* Append our address to the standard 802.15.4 ack */
       rimeaddr_copy((rimeaddr_t*)(ackbuf+3), &rimeaddr_node_addr);
@@ -308,10 +312,15 @@ softack_coll_callback(uint8_t **probebufptr, uint8_t *probelen)
     //wt=RTIMER_NOW();
     //while(RTIMER_CLOCK_LT(RTIMER_NOW(),(wt  +(RTIMER_ARCH_SECOND / 2500 )))){};
    // while(RTIMER_CLOCK_LT(RTIMER_NOW(),(wt  +(RTIMER_ARCH_SECOND / (random_rand()%5000) )))){};
-    *probebufptr = probebuf;
-    *probelen = sizeof(probebuf);
-    probebuf[2]=42;
-    rimeaddr_copy((rimeaddr_t*)(probebuf+3), &rimeaddr_node_addr);
+//    *probebufptr = probebuf;
+//    *probelen = sizeof(probebuf);
+    *probebufptr = votebuf;
+    *probelen = 11;//sizeof(votebuf);
+    votebuf[0]=0x07;
+    votebuf[1]=0x00;
+    votebuf[2]=42;
+    //probebuf[2]=42;
+    rimeaddr_copy((rimeaddr_t*)(votebuf+3), &rimeaddr_node_addr);
     coll_count++;
     while(RTIMER_CLOCK_LT(RTIMER_NOW(),(wt  +(RTIMER_ARCH_SECOND / 2500 )))){};
     //PRINTF_MIN("straw: coll detected\n");
@@ -324,12 +333,17 @@ softack_coll_callback(uint8_t **probebufptr, uint8_t *probelen)
 static void
 softack_vote_callback(uint8_t **signalbufptr, uint8_t *signallen, uint16_t len)
 {
-    *signalbufptr = signalbuf;
-    *signallen = sizeof(signalbuf);
-    signalbuf[2]=42;
-    rimeaddr_copy((rimeaddr_t*)(signalbuf+3), &rimeaddr_node_addr);
-    signalbuf[3+8] = len & 0xff;
-    signalbuf[3+8+1] = (len >> 8)& 0xff;
+//    *signalbufptr = signalbuf;
+//    *signallen = sizeof(signalbuf);
+//    signalbuf[2]=42;
+  *signalbufptr = ackbuf;
+  *signallen = 13;//sizeof(signalbuf);
+  ackbuf[0]=0x03;
+  ackbuf[1]=0x00;
+  ackbuf[2]=42;
+    rimeaddr_copy((rimeaddr_t*)(ackbuf+3), &rimeaddr_node_addr);
+    ackbuf[3+8] = len & 0xff;
+    ackbuf[3+8+1] = (len >> 8)& 0xff;
     //signalbuf[11]=len;
     //PRINTF_MIN("straw: signal %u\n",len);
 }

@@ -262,16 +262,16 @@ packet_sent(void *ptr, int status, int num_transmissions)
 
         switch(status) {
         case MAC_TX_COLLISION:
-          PRINTF_MIN("csma: rexmit collision %d\n", n->transmissions);
+          PRINTF("csma: rexmit collision %d\n", n->transmissions);
           break;
         case MAC_TX_NOACK:
-          PRINTF_MIN("csma: rexmit noack %d\n", n->transmissions);
+          PRINTF("csma: rexmit noack %d\n", n->transmissions);
           break;
         case MAC_TX_DEFERRED:
-          PRINTF_MIN("phase deferred\n");
+          PRINTF("phase deferred\n");
           break;
         default:
-          PRINTF_MIN("csma: rexmit err %d, %d\n", status, n->transmissions);
+          PRINTF("csma: rexmit err %d, %d\n", status, n->transmissions);
         }
 
         /* The retransmission time must be proportional to the channel

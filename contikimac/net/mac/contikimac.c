@@ -600,8 +600,9 @@ broadcast_rate_drop(void)
 #endif /* CONTIKIMAC_CONF_BROADCAST_RATE_LIMIT */
 }
 
-
+#if WITH_ADVANCED_PHASELOCK
 extern rtimer_clock_t phaselock_target;
+#endif
 //static int
 //send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
 //	    struct rdc_buf_list *buf_list,
@@ -613,7 +614,9 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
 {
   rtimer_clock_t t0;
   rtimer_clock_t encounter_time = 0;
+#if WITH_ADVANCED_PHASELOCK
   phaselock_target=0;
+#endif
   int strobes;
   uint8_t got_strobe_ack = 0;
   int hdrlen,len=0;
@@ -984,6 +987,7 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
 
   if(!is_broadcast){
 
+#if WITH_ADVANCED_PHASELOCK
     PRINTF_MIN("contikimac: send (strobes=%u, len=%u, %s, %s, phase=%lu, %s, %s, %u), done\n",strobes,
                packetbuf_totlen(),
                got_strobe_ack ? "ack" : "no ack",
@@ -994,6 +998,17 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
                        seqno);
 
   }
+#else
+  PRINTF_MIN("contikimac: send (strobes=%u, len=%u, %s, %s, %s, %s, %u), done\n",strobes,
+             packetbuf_totlen(),
+             got_strobe_ack ? "ack" : "no ack",
+                 collisions ? "collision" : "no collision",
+                     was_competing? "straw" : "-",
+                     bypass? "bypass" : "-",
+                     seqno);
+
+}
+#endif
   else{
    // COOJA_DEBUG_PRINTF("contikimac: send broadcast\n");
 #if 1//  WITH_STRAWMAN
@@ -1165,7 +1180,7 @@ input_packet(void)
          broadcast address. */
       if(rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
                       &rimeaddr_node_addr)){
-        PRINTF_MIN("Cmac: input from %d",
+        PRINTF("Cmac: input from %d",
                node_id_from_rimeaddr(packetbuf_addr(PACKETBUF_ADDR_SENDER))
         );
         rpl_trace(rpl_dataptr_from_packetbuf());
@@ -1218,14 +1233,14 @@ input_packet(void)
       compower_clear(&current_packet);
 #endif /* CONTIKIMAC_CONF_COMPOWER */
 
-      PRINTDEBUG("contikimac: data (%u)\n", packetbuf_datalen());
+      printf("contikimac: data (%u)\n", packetbuf_datalen());
       NETSTACK_MAC.input();
       return;
     } else {
-      PRINTDEBUG("contikimac: data not for us\n");
+      printf("contikimac: data not for us\n");
     }
   } else {
-    PRINTF("contikimac: failed to parse (%u)\n", packetbuf_totlen());
+    //printf("contikimac: failed to parse (%u)\n", packetbuf_totlen());
   }
 }
 /*---------------------------------------------------------------------------*/
@@ -1243,7 +1258,9 @@ init(void)
 #if WITH_PHASE_OPTIMIZATION
   phase_init();
 #endif /* WITH_PHASE_OPTIMIZATION */
+#if WITH_ADVANCED_PHASELOCK
   softack_init();//MF
+#endif
 
 }
 /*---------------------------------------------------------------------------*/

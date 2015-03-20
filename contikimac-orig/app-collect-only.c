@@ -82,6 +82,10 @@ PROCESS_THREAD(unicast_sender_process, ev, data)
     printf("Node id unset, my mac is 0x%04x\n", mymac);
     PROCESS_EXIT();
   }
+  else{
+    uint16_t mymac = rimeaddr_node_addr.u8[7] << 8 | rimeaddr_node_addr.u8[6];
+    printf("Node id set, my mac is 0x%04x\n", mymac);
+  }
 
   //  etimer_set(&periodic_timer, 90 * CLOCK_SECOND);
   //  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));

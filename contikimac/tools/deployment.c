@@ -56,6 +56,14 @@ struct id_mac {
 /* List of ID<->MAC mapping used for different deployments */
 static const struct id_mac id_mac_list[] = {
 #if IN_INDRIYA
+#if IN_UMONS
+    {  1, {{0xc1,0x0c,0x00,0x00,0x00,0x00,0x00,0x01}}},
+    {  2, {{0xc1,0x0c,0x00,0x00,0x00,0x00,0x00,0x02}}},
+    {  3, {{0xc1,0x0c,0x00,0x00,0x00,0x00,0x00,0x03}}},
+    {  4, {{0xc1,0x0c,0x00,0x00,0x00,0x00,0x00,0x04}}},
+    {  5, {{0xc1,0x0c,0x00,0x00,0x00,0x00,0x00,0x05}}},
+    {  6, {{0xc1,0x0c,0x00,0x00,0x00,0x00,0x00,0x06}}},
+#else /*IN_UMONS*/
     {  1, {{0x00,0x12,0x74,0x00,0x14,0x6e,0xb3,0xae}}},
     {  2, {{0x00,0x12,0x74,0x00,0x12,0xe6,0x40,0x7e}}},
     {  3, {{0x00,0x12,0x74,0x00,0x14,0x6e,0xed,0x11}}},
@@ -157,22 +165,31 @@ static const struct id_mac id_mac_list[] = {
     {137, {{0x00,0x12,0x74,0x00,0x14,0x6e,0xf5,0xc9}}},
     {138, {{0x00,0x12,0x74,0x00,0x12,0xe6,0x8d,0x14}}},
 #endif
+#endif
     { 0, {{0}}}
 };
 
 /* The total number of nodes in the deployment */
 #if IN_COOJA
 #define N_NODES 15
+#elif IN_UMONS
+#define N_NODES 6
 #else
 #define N_NODES ((sizeof(id_mac_list)/sizeof(struct id_mac))-1)
 #endif
 
+#if IN_UMONS
+extern unsigned char node_mac[8];
+#endif
 /* Returns the node's node-id */
 uint16_t
 get_node_id()
 {
-  //return node_id_from_rimeaddr((const rimeaddr_t *)&ds2411_id);
-  return node_id_from_rimeaddr((const rimeaddr_t *)&rimeaddr_node_addr);
+#if IN_UMONS
+  return node_id_from_rimeaddr((const rimeaddr_t *)&node_mac);
+#else
+  return node_id_from_rimeaddr((const rimeaddr_t *)&ds2411_id);
+#endif
 }
 
 /* Returns the total number of nodes in the deployment */
@@ -252,7 +269,7 @@ set_ipaddr_from_id(uip_ipaddr_t *ipaddr, uint16_t id)
 void
 set_rimeaddr_from_id(rimeaddr_t *lladdr, uint16_t id)
 {
-#if IN_COOJA
+#if !IN_INDRIYA
   lladdr->u8[0] = 0x00;
   lladdr->u8[1] = 0x12;
   lladdr->u8[2] = 0x74;

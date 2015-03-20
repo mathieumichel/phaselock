@@ -43,12 +43,7 @@
 #undef RPL_CONF_OF
 #define RPL_CONF_OF rpl_mrhof
 
-/* ORPL does not have such notion of min hop rank increase */
-#undef RPL_CONF_MIN_HOPRANKINC
-#define RPL_CONF_MIN_HOPRANKINC 0
 
-/* ORPL does not use the DIO redundancy mechanism */
-#define RPL_CONF_DIO_REDUNDANCY   200  /* default 10 */
 
 /* The current ORPL implementation assumes a single instance */
 #define RPL_CONF_MAX_INSTANCES    1 /* default 1 */
@@ -58,7 +53,7 @@
 
 /* ORPL runs without IPv6 NA/ND */
 #undef UIP_CONF_ND6_SEND_NA
-#define UIP_CONF_ND6_SEND_NA 0
+#define UIP_CONF_ND6_SEND_NA 1
 
 /* ORPL does not use RPL's normal downwards routing */
 #undef RPL_CONF_MOP
@@ -66,7 +61,7 @@
 
 /* ORPL does not use traditional routing entries */
 #undef UIP_CONF_MAX_ROUTES
-#define UIP_CONF_MAX_ROUTES  0
+#define UIP_CONF_MAX_ROUTES  8
 
 /* ORPL is not compatible with ContikiMAC phase-lock */
 #undef CONTIKIMAC_CONF_WITH_PHASE_OPTIMIZATION
@@ -112,5 +107,6 @@
 /* Enable ContikiMAC header for MAC padding */
 #undef CONTIKIMAC_CONF_WITH_CONTIKIMAC_HEADER
 #define CONTIKIMAC_CONF_WITH_CONTIKIMAC_HEADER 1
+
 
 #endif /* __ORPL_CONTIKI_CONF_H__ */

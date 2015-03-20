@@ -281,7 +281,6 @@ static void
 set_txpower(uint8_t power)
 {
   uint16_t reg;
-
   reg = getreg(CC2420_TXCTRL);
   reg = (reg & 0xffe0) | (power & 0x1f);
   setreg(CC2420_TXCTRL, reg);
@@ -720,6 +719,7 @@ cc2420_interrupt(void)
   //extern volatile unsigned char we_are_sending;
 
 
+
   int do_ack;
   int do_probe;
   int do_vote;
@@ -734,7 +734,6 @@ cc2420_interrupt(void)
   if(locked || need_flush) {
     need_flush = 1;
     CC2420_CLEAR_FIFOP_INT();
-
     return 1;
   }
 
@@ -744,7 +743,6 @@ cc2420_interrupt(void)
     flushrx();
     RELEASE_LOCK();
     CC2420_CLEAR_FIFOP_INT();
-
     return 1;
   }
 
@@ -766,11 +764,9 @@ cc2420_interrupt(void)
     flushrx();
     RELEASE_LOCK();
     CC2420_CLEAR_FIFOP_INT();
-
     return 1;
   }
   last_packet_timestamp = cc2420_sfd_start_time;
-
   list_add(rf_list, rf);
 
   len -= AUX_LEN;
@@ -808,7 +804,9 @@ cc2420_interrupt(void)
   int overflow = CC2420_FIFOP_IS_1 && !CC2420_FIFO_IS_1;
   CC2420_READ_RAM_BYTE(footer1, RXFIFO_ADDR(len + AUX_LEN));
 
-  if(!overflow && (footer1 & FOOTER1_CRC_OK)) { /* CRC is correct */
+  int no_coll=footer1 & FOOTER1_CRC_OK;
+  if(!overflow && no_coll){
+  //if(!overflow && (footer1 & FOOTER1_CRC_OK)) { /* CRC is correct */
 #if WITH_STRAWMAN
     if(straw_code_waiting){
       straw_code_waiting=0;
@@ -832,32 +830,27 @@ cc2420_interrupt(void)
     }
     frame_valid = 1;
   } else { /* CRC is wrong */
-    int collision = footer1 & FOOTER1_CRC_OK;
-    if(do_ack || do_vote) {
+    if(!no_coll && (do_ack || do_vote)) {
       CC2420_STROBE(CC2420_SFLUSHTX); /* Flush Tx fifo */
     }
 
     list_chop(rf_list);
     memb_free(&rf_memb, rf);
 #if WITH_STRAWMAN
-    if(!collision && (contikimac_checking() || straw_code_waiting) && !contikimac_sending()){
-
+    if(!no_coll && (contikimac_checking() || straw_code_waiting) && !contikimac_sending()){
 
       softack_coll_callback(&ackbuffer,&acklen);
-#if WITH_STRAWMAN
-    if(straw_code_waiting){
-      straw_code_waiting=0;
-    }
-#endif
+      if(straw_code_waiting){
+        straw_code_waiting=0;
+      }
       do_probe=acklen > 0;
       if(do_probe){
         uint8_t total_acklen = acklen + AUX_LEN;
-        /* Write ack in fifo */
-        while(!CC2420_CCA_IS_1){};
+        /* Write probe in fifo */
         CC2420_STROBE(CC2420_SFLUSHTX);
         CC2420_WRITE_FIFO_BUF(&total_acklen, 1);
         CC2420_WRITE_FIFO_BUF(ackbuffer, acklen);
-
+        while(!CC2420_CCA_IS_1){};
         strobe(CC2420_STXON);
 
         on();
@@ -929,7 +922,7 @@ PROCESS_THREAD(cc2420_process, ev, data)
     TIMETABLE_TIMESTAMP(cc2420_timetable, "poll");
 #endif /* CC2420_TIMETABLE_PROFILING */
     
-    PRINTF("cc2420_process: calling receiver callback\n");
+    //PRINTF("cc2420_process: calling receiver callback\n");
 
 
     if(need_flush) {

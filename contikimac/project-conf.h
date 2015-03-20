@@ -60,7 +60,7 @@ typedef uint32_t rtimer_clock_t;
 
 /* The neighbor table size */
 #undef NBR_TABLE_CONF_MAX_NEIGHBORS
-#define NBR_TABLE_CONF_MAX_NEIGHBORS 48
+#define NBR_TABLE_CONF_MAX_NEIGHBORS 4
 
 /* Space saving */
 #undef UIP_CONF_TCP
@@ -79,6 +79,10 @@ typedef uint32_t rtimer_clock_t;
 /* Disable UDP checksum, needed as we have mutable fields (hop count and fpcount) in the data packet */
 #undef UIP_CONF_UDP_CHECKSUMS
 #define UIP_CONF_UDP_CHECKSUMS   0
+
+
+#undef RPL_DIS_SEND_CONF
+#define RPL_DIS_SEND_CONF 0
 
 #include "rpl-contiki-conf.h"
 
