@@ -95,7 +95,7 @@ PROCESS_THREAD(unicast_sender_process, ev, data)
     NETSTACK_RDC.off(1);
     printf("App: I'm root\n");
   } else {
-    etimer_set(&periodic_timer,1 * 30 * CLOCK_SECOND);
+    etimer_set(&periodic_timer,1 * 60 * CLOCK_SECOND);
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
     etimer_set(&periodic_timer, SEND_INTERVAL);
     while(1) {

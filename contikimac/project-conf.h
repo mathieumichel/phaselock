@@ -36,13 +36,13 @@
 
 
 
-#define WITH_ADVANCED_PHASELOCK 1
+#define WITH_ADVANCED_PHASELOCK 0
 #define WITH_STRAWMAN 1
 #define LOG_NODEID_FROM_RIMEADDR(addr) ((addr)->u8[RIMEADDR_SIZE-1])
 
 /* The IEEE 802.15.4 channel in use */
 #undef RF_CHANNEL
-#define RF_CHANNEL              15
+#define RF_CHANNEL              26
 
 /* The cc2420 transmission power (min:0, max: 31) */
 #define RF_POWER                31
@@ -51,12 +51,13 @@
 #define RSSI_THR				(-32-14)
 
 /* 32-bit rtimer */
+
 #define RTIMER_CONF_SECOND (4096UL*8)
 typedef uint32_t rtimer_clock_t;
 #define RTIMER_CLOCK_LT(a,b)     ((int32_t)(((rtimer_clock_t)a)-((rtimer_clock_t)b)) < 0)
 
 /* The ContikiMAC wakeup interval */
-#define CONTIKIMAC_CONF_CYCLE_TIME (RTIMER_ARCH_SECOND / 2)
+#define CONTIKIMAC_CONF_CYCLE_TIME (RTIMER_ARCH_SECOND /2)
 
 /* The neighbor table size */
 #undef NBR_TABLE_CONF_MAX_NEIGHBORS

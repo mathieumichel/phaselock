@@ -305,7 +305,7 @@ rtimer_clock_t wt;
 static void
 softack_coll_callback(uint8_t **probebufptr, uint8_t *probelen)
 {
-  if(contikimac_checking()||straw_code_waiting){
+  if(node_id == ROOT_ID || contikimac_checking() || straw_code_waiting){
     if(straw_code_waiting==1){
       COOJA_DEBUG_PRINTF("plop2\n");
     }
@@ -323,7 +323,7 @@ softack_coll_callback(uint8_t **probebufptr, uint8_t *probelen)
     rimeaddr_copy((rimeaddr_t*)(votebuf+3), &rimeaddr_node_addr);
     coll_count++;
     while(RTIMER_CLOCK_LT(RTIMER_NOW(),(wt  +(RTIMER_ARCH_SECOND / 2500 )))){};
-    //PRINTF_MIN("straw: coll detected\n");
+   // PRINTF_MIN("straw: coll\n");
   }
   else{
     *probelen=0;

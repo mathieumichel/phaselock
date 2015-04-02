@@ -1,4 +1,5 @@
-obj_sky/clock.o: tools/clock.c /home/macfly/contiki-2.7/core/./contiki.h \
+obj_sky/clock.o: /home/macfly/contiki-2.7/cpu/msp430/f1xxx/clock.c \
+ /home/macfly/contiki-2.7/core/./contiki.h \
  /home/macfly/contiki-2.7/core/./contiki-version.h \
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h \
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h \
@@ -29,7 +30,8 @@ obj_sky/clock.o: tools/clock.c /home/macfly/contiki-2.7/core/./contiki.h \
  /home/macfly/contiki-2.7/core/./sys/energest.h \
  /home/macfly/contiki-2.7/core/./dev/watchdog.h \
  /home/macfly/contiki-2.7/cpu/msp430/./isr_compat.h
-tools/clock.c /home/macfly/contiki-2.7/core/./contiki.h :
+/home/macfly/contiki-2.7/cpu/msp430/f1xxx/clock.c :
+ /home/macfly/contiki-2.7/core/./contiki.h :
  /home/macfly/contiki-2.7/core/./contiki-version.h :
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h :
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h :

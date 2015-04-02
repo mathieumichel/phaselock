@@ -999,7 +999,7 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
 
   }
 #else
-  PRINTF_MIN("contikimac: send (strobes=%u, len=%u, %s, %s, %s, %s, %u), done\n",strobes,
+  PRINTF("contikimac: send (strobes=%u, len=%u, %s, %s, %s, %s, %u), done\n",strobes,
              packetbuf_totlen(),
              got_strobe_ack ? "ack" : "no ack",
                  collisions ? "collision" : "no collision",
@@ -1055,7 +1055,7 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
   }
 
   if(!is_broadcast) {
-#if WITH_ADVANCED_PHASELOCK
+#if 0//WITH_ADVANCED_PHASELOCK
     if(collisions == 0 && is_receiver_awake == 0) {
       phase_update(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
        encounter_time-phaselock_target, ret);
@@ -1183,7 +1183,9 @@ input_packet(void)
         PRINTF("Cmac: input from %d",
                node_id_from_rimeaddr(packetbuf_addr(PACKETBUF_ADDR_SENDER))
         );
+#if DEBUG
         rpl_trace(rpl_dataptr_from_packetbuf());
+#endif
       }
       /* If FRAME_PENDING is set, we are receiving a packets in a burst */
       we_are_receiving_burst = packetbuf_attr(PACKETBUF_ATTR_PENDING);

@@ -1,4 +1,4 @@
-obj_sky/sicslowpan.o: net/mac/sicslowpan.c \
+obj_sky/sicslowpan.o: net/sicslowpan.c \
  /home/macfly/contiki-2.7/core/./contiki.h \
  /home/macfly/contiki-2.7/core/./contiki-version.h \
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h \
@@ -77,7 +77,7 @@ obj_sky/sicslowpan.o: net/mac/sicslowpan.c \
  /home/macfly/contiki-2.7/core/./net/rime/trickle.h \
  /home/macfly/contiki-2.7/core/./net/sicslowpan.h \
  /home/macfly/contiki-2.7/core/./net/uip-debug.h
-net/mac/sicslowpan.c :
+net/sicslowpan.c :
  /home/macfly/contiki-2.7/core/./contiki.h :
  /home/macfly/contiki-2.7/core/./contiki-version.h :
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h :

@@ -72,7 +72,6 @@ create_rpl_dag(uip_ipaddr_t *ipaddr)
   root_if = uip_ds6_addr_lookup(ipaddr);
   if(root_if != NULL) {
     rpl_dag_t *dag;
-
     rpl_set_root(RPL_DEFAULT_INSTANCE, ipaddr);
     dag = rpl_get_any_dag();
     rpl_set_prefix(dag, &prefix, 64);

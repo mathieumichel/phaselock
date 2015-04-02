@@ -61,7 +61,7 @@
 #include "node-id.h"
 #include "lib/memb.h"
 #include "rtimer-arch.h"
-
+#include "deployment.h"
 #include "sys/timetable.h"
 
 #include "softack.h"
@@ -837,7 +837,7 @@ cc2420_interrupt(void)
     list_chop(rf_list);
     memb_free(&rf_memb, rf);
 #if WITH_STRAWMAN
-    if(!no_coll && (contikimac_checking() || straw_code_waiting) && !contikimac_sending()){
+    if(!no_coll && (node_id==ROOT_ID ||contikimac_checking() || straw_code_waiting) && !contikimac_sending()){
 
       softack_coll_callback(&ackbuffer,&acklen);
       if(straw_code_waiting){
