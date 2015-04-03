@@ -391,7 +391,10 @@ powercycle_turn_radio_off(void)
 #if WITH_STRAWMAN
   we_are_checking=0;
 #endif
-  if(we_are_sending == 0 && we_are_receiving_burst == 0 && straw_code_waiting==0 && straw_code_competing==0) {
+  if(we_are_sending==1){
+    PRINTF_MIN("busy sending\n");
+  }
+  else if(we_are_sending == 0 && we_are_receiving_burst == 0 && straw_code_waiting==0 && straw_code_competing==0) {
     off();
 #if CONTIKIMAC_CONF_COMPOWER
     if(was_on && !radio_is_on) {
@@ -893,7 +896,7 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
 
           while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + INTER_PACKET_INTERVAL)) { }
 #if WITH_STRAWMAN
-          if(NETSTACK_RADIO.receiving_packet() ||
+          if(!is_broadcast && NETSTACK_RADIO.receiving_packet() ||
                                NETSTACK_RADIO.pending_packet() ||
                                NETSTACK_RADIO.channel_clear() == 0) {
 #else /* WITH_STRAWMAN */
@@ -1180,7 +1183,7 @@ input_packet(void)
          broadcast address. */
       if(rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
                       &rimeaddr_node_addr)){
-        PRINTF("Cmac: input from %d",
+        printf("Cmac: input from %d\n",
                node_id_from_rimeaddr(packetbuf_addr(PACKETBUF_ADDR_SENDER))
         );
 #if DEBUG
@@ -1235,11 +1238,11 @@ input_packet(void)
       compower_clear(&current_packet);
 #endif /* CONTIKIMAC_CONF_COMPOWER */
 
-      printf("contikimac: data (%u)\n", packetbuf_datalen());
+      //printf("contikimac: data (%u)\n", packetbuf_datalen());
       NETSTACK_MAC.input();
       return;
     } else {
-      printf("contikimac: data not for us\n");
+      //printf("contikimac: data not for us\n");
     }
   } else {
     //printf("contikimac: failed to parse (%u)\n", packetbuf_totlen());

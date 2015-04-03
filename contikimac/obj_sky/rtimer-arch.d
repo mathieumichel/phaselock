@@ -1,5 +1,4 @@
-obj_sky/rtimer-arch.o: \
- /home/macfly/contiki-2.7/cpu/msp430/f1xxx/rtimer-arch.c \
+obj_sky/rtimer-arch.o: tools/rtimer-arch.c \
  /home/macfly/contiki-2.7/core/./contiki.h \
  /home/macfly/contiki-2.7/core/./contiki-version.h \
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h \
@@ -31,7 +30,7 @@ obj_sky/rtimer-arch.o: \
  /home/macfly/contiki-2.7/core/./sys/energest.h \
  /home/macfly/contiki-2.7/core/./dev/watchdog.h \
  /home/macfly/contiki-2.7/cpu/msp430/./isr_compat.h
- /home/macfly/contiki-2.7/cpu/msp430/f1xxx/rtimer-arch.c :
+tools/rtimer-arch.c :
  /home/macfly/contiki-2.7/core/./contiki.h :
  /home/macfly/contiki-2.7/core/./contiki-version.h :
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h :

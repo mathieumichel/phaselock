@@ -216,6 +216,7 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
         }
       }
       else{//DO WE NEED THIS? !!!!!!
+        straw_code_competing=1;//we have received a probe not for us but it means collision
         probe_count_b++;
         //COOJA_DEBUG_PRINTF("probe not pktbuf dest\n");
       }

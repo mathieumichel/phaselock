@@ -36,7 +36,7 @@
 
 
 
-#define WITH_ADVANCED_PHASELOCK 0
+#define WITH_ADVANCED_PHASELOCK 1
 #define WITH_STRAWMAN 1
 #define LOG_NODEID_FROM_RIMEADDR(addr) ((addr)->u8[RIMEADDR_SIZE-1])
 
@@ -61,7 +61,7 @@ typedef uint32_t rtimer_clock_t;
 
 /* The neighbor table size */
 #undef NBR_TABLE_CONF_MAX_NEIGHBORS
-#define NBR_TABLE_CONF_MAX_NEIGHBORS 4
+#define NBR_TABLE_CONF_MAX_NEIGHBORS 8
 
 /* Space saving */
 #undef UIP_CONF_TCP

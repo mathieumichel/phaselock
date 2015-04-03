@@ -60,8 +60,8 @@
 #define RPL_CONF_MOP RPL_MOP_NO_DOWNWARD_ROUTES
 
 /* ORPL does not use traditional routing entries */
-#undef UIP_CONF_MAX_ROUTES
-#define UIP_CONF_MAX_ROUTES  8
+//#undef UIP_CONF_MAX_ROUTES
+//#define UIP_CONF_MAX_ROUTES  8
 
 /* ORPL is not compatible with ContikiMAC phase-lock */
 #undef CONTIKIMAC_CONF_WITH_PHASE_OPTIMIZATION
