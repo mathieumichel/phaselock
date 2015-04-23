@@ -40,7 +40,7 @@
 
 unsigned short node_id = 0;
 
-#if 1//IN_UMONS
+#if IN_UMONS
 unsigned char node_mac[8];
 #endif
 

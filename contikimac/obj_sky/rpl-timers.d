@@ -2,7 +2,7 @@ obj_sky/rpl-timers.o: /home/macfly/contiki-2.7/core/net/rpl/rpl-timers.c \
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h \
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h \
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h \
- rpl-contiki-conf.h /home/macfly/contiki-2.7/core/./net/rpl/rpl-private.h \
+ /home/macfly/contiki-2.7/core/./net/rpl/rpl-private.h \
  /home/macfly/contiki-2.7/core/./net/rpl/rpl.h \
  /home/macfly/contiki-2.7/core/./net/rpl/rpl-conf.h \
  /home/macfly/contiki-2.7/core/./lib/list.h \
@@ -52,7 +52,7 @@ obj_sky/rpl-timers.o: /home/macfly/contiki-2.7/core/net/rpl/rpl-timers.c \
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h :
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h :
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h :
- rpl-contiki-conf.h /home/macfly/contiki-2.7/core/./net/rpl/rpl-private.h :
+ /home/macfly/contiki-2.7/core/./net/rpl/rpl-private.h :
  /home/macfly/contiki-2.7/core/./net/rpl/rpl.h :
  /home/macfly/contiki-2.7/core/./net/rpl/rpl-conf.h :
  /home/macfly/contiki-2.7/core/./lib/list.h :

@@ -6,7 +6,7 @@ obj_sky/print-stats.o: /home/macfly/contiki-2.7/core/lib/print-stats.c \
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h \
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h \
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h \
- rpl-contiki-conf.h /home/macfly/contiki-2.7/core/./net/rime/collect.h \
+ /home/macfly/contiki-2.7/core/./net/rime/collect.h \
  /home/macfly/contiki-2.7/core/./net/rime/runicast.h \
  /home/macfly/contiki-2.7/core/./net/rime/stunicast.h \
  /home/macfly/contiki-2.7/core/./sys/ctimer.h \
@@ -57,7 +57,7 @@ obj_sky/print-stats.o: /home/macfly/contiki-2.7/core/lib/print-stats.c \
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h :
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h :
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h :
- rpl-contiki-conf.h /home/macfly/contiki-2.7/core/./net/rime/collect.h :
+ /home/macfly/contiki-2.7/core/./net/rime/collect.h :
  /home/macfly/contiki-2.7/core/./net/rime/runicast.h :
  /home/macfly/contiki-2.7/core/./net/rime/stunicast.h :
  /home/macfly/contiki-2.7/core/./sys/ctimer.h :

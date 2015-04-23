@@ -2,8 +2,7 @@ obj_sky/node-id.o: tools/node-id.c \
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h \
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h \
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h \
- rpl-contiki-conf.h tools/deployment.h \
- /home/macfly/contiki-2.7/core/./sys/node-id.h \
+ tools/deployment.h /home/macfly/contiki-2.7/core/./sys/node-id.h \
  /home/macfly/contiki-2.7/core/./net/uip.h \
  /home/macfly/contiki-2.7/core/./net/uipopt.h \
  /home/macfly/contiki-2.7/core/./net/tcpip.h \
@@ -36,8 +35,7 @@ tools/node-id.c :
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h :
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h :
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h :
- rpl-contiki-conf.h tools/deployment.h :
- /home/macfly/contiki-2.7/core/./sys/node-id.h :
+ tools/deployment.h /home/macfly/contiki-2.7/core/./sys/node-id.h :
  /home/macfly/contiki-2.7/core/./net/uip.h :
  /home/macfly/contiki-2.7/core/./net/uipopt.h :
  /home/macfly/contiki-2.7/core/./net/tcpip.h :

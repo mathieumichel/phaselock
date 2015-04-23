@@ -2,7 +2,7 @@ obj_sky/contikimac.o: net/mac/contikimac.c \
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h \
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h \
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h \
- rpl-contiki-conf.h /home/macfly/contiki-2.7/core/./dev/leds.h \
+ /home/macfly/contiki-2.7/core/./dev/leds.h \
  /home/macfly/contiki-2.7/core/./dev/radio.h \
  /home/macfly/contiki-2.7/core/./dev/watchdog.h \
  /home/macfly/contiki-2.7/core/./lib/random.h net/mac/contikimac.h \
@@ -72,12 +72,13 @@ obj_sky/contikimac.o: net/mac/contikimac.c \
  /home/macfly/contiki-2.7/core/./sys/loader.h \
  /home/macfly/contiki-2.7/core/./sys/clock.h \
  /home/macfly/contiki-2.7/core/./sys/energest.h \
- /home/macfly/contiki-2.7/core/./net/uip.h net/mac/phase.h
+ /home/macfly/contiki-2.7/core/./net/uip.h tools/rpl-log.h \
+ net/mac/phase.h
 net/mac/contikimac.c :
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h :
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h :
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h :
- rpl-contiki-conf.h /home/macfly/contiki-2.7/core/./dev/leds.h :
+ /home/macfly/contiki-2.7/core/./dev/leds.h :
  /home/macfly/contiki-2.7/core/./dev/radio.h :
  /home/macfly/contiki-2.7/core/./dev/watchdog.h :
  /home/macfly/contiki-2.7/core/./lib/random.h net/mac/contikimac.h :
@@ -147,4 +148,5 @@ net/mac/contikimac.c :
  /home/macfly/contiki-2.7/core/./sys/loader.h :
  /home/macfly/contiki-2.7/core/./sys/clock.h :
  /home/macfly/contiki-2.7/core/./sys/energest.h :
- /home/macfly/contiki-2.7/core/./net/uip.h net/mac/phase.h :
+ /home/macfly/contiki-2.7/core/./net/uip.h tools/rpl-log.h :
+ net/mac/phase.h :

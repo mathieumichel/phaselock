@@ -4,7 +4,6 @@ obj_sky/cc2420-softack.o: net/mac/cc2420-softack.c \
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h \
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h \
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h \
- rpl-contiki-conf.h \
  /home/macfly/contiki-2.7/core/./contiki-default-conf.h \
  /home/macfly/contiki-2.7/core/./sys/process.h \
  /home/macfly/contiki-2.7/core/./sys/pt.h \
@@ -54,7 +53,7 @@ obj_sky/cc2420-softack.o: net/mac/cc2420-softack.c \
  /home/macfly/contiki-2.7/core/./net/rime/rimestats.h \
  /home/macfly/contiki-2.7/core/./net/mac/frame802154.h \
  /home/macfly/contiki-2.7/core/sys/node-id.h \
- /home/macfly/contiki-2.7/core/./lib/memb.h deployment.h \
+ /home/macfly/contiki-2.7/core/./lib/memb.h tools/deployment.h \
  /home/macfly/contiki-2.7/core/./sys/node-id.h \
  /home/macfly/contiki-2.7/core/./sys/timetable.h \
  /home/macfly/contiki-2.7/core/./sys/timetable-aggregate.h \
@@ -65,7 +64,6 @@ net/mac/cc2420-softack.c :
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h :
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h :
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h :
- rpl-contiki-conf.h :
  /home/macfly/contiki-2.7/core/./contiki-default-conf.h :
  /home/macfly/contiki-2.7/core/./sys/process.h :
  /home/macfly/contiki-2.7/core/./sys/pt.h :
@@ -115,7 +113,7 @@ net/mac/cc2420-softack.c :
  /home/macfly/contiki-2.7/core/./net/rime/rimestats.h :
  /home/macfly/contiki-2.7/core/./net/mac/frame802154.h :
  /home/macfly/contiki-2.7/core/sys/node-id.h :
- /home/macfly/contiki-2.7/core/./lib/memb.h deployment.h :
+ /home/macfly/contiki-2.7/core/./lib/memb.h tools/deployment.h :
  /home/macfly/contiki-2.7/core/./sys/node-id.h :
  /home/macfly/contiki-2.7/core/./sys/timetable.h :
  /home/macfly/contiki-2.7/core/./sys/timetable-aggregate.h :

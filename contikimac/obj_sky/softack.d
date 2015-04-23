@@ -4,7 +4,7 @@ obj_sky/softack.o: net/mac/softack.c net/mac/softack.h \
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h \
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h \
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h \
- rpl-contiki-conf.h /home/macfly/contiki-2.7/core/./net/tcpip.h \
+ /home/macfly/contiki-2.7/core/./net/tcpip.h \
  /home/macfly/contiki-2.7/core/./contiki.h \
  /home/macfly/contiki-2.7/core/./contiki-version.h \
  /home/macfly/contiki-2.7/core/./contiki-default-conf.h \
@@ -51,7 +51,7 @@ obj_sky/softack.o: net/mac/softack.c net/mac/softack.h \
  /home/macfly/contiki-2.7/core/./net/mac/framer.h \
  /home/macfly/contiki-2.7/core/./sys/ctimer.h \
  /home/macfly/contiki-2.7/core/./net/mac/frame802154.h \
- /home/macfly/contiki-2.7/core/./dev/leds.h deployment.h \
+ /home/macfly/contiki-2.7/core/./dev/leds.h tools/deployment.h \
  /home/macfly/contiki-2.7/core/./sys/node-id.h tools/cooja-debug.h
 net/mac/softack.c net/mac/softack.h :
  /home/macfly/contiki-2.7/core/net/uip.h :
@@ -59,7 +59,7 @@ net/mac/softack.c net/mac/softack.h :
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h :
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h :
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h :
- rpl-contiki-conf.h /home/macfly/contiki-2.7/core/./net/tcpip.h :
+ /home/macfly/contiki-2.7/core/./net/tcpip.h :
  /home/macfly/contiki-2.7/core/./contiki.h :
  /home/macfly/contiki-2.7/core/./contiki-version.h :
  /home/macfly/contiki-2.7/core/./contiki-default-conf.h :
@@ -106,5 +106,5 @@ net/mac/softack.c net/mac/softack.h :
  /home/macfly/contiki-2.7/core/./net/mac/framer.h :
  /home/macfly/contiki-2.7/core/./sys/ctimer.h :
  /home/macfly/contiki-2.7/core/./net/mac/frame802154.h :
- /home/macfly/contiki-2.7/core/./dev/leds.h deployment.h :
+ /home/macfly/contiki-2.7/core/./dev/leds.h tools/deployment.h :
  /home/macfly/contiki-2.7/core/./sys/node-id.h tools/cooja-debug.h :

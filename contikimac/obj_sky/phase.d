@@ -3,7 +3,7 @@ obj_sky/phase.o: net/mac/phase.c net/mac/phase.h \
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h \
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h \
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h \
- rpl-contiki-conf.h /home/macfly/contiki-2.7/core/./sys/timer.h \
+ /home/macfly/contiki-2.7/core/./sys/timer.h \
  /home/macfly/contiki-2.7/core/./sys/clock.h \
  /home/macfly/contiki-2.7/core/./sys/rtimer.h \
  /home/macfly/contiki-2.7/cpu/msp430/./rtimer-arch.h \
@@ -43,7 +43,7 @@ net/mac/phase.c net/mac/phase.h :
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h :
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h :
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h :
- rpl-contiki-conf.h /home/macfly/contiki-2.7/core/./sys/timer.h :
+ /home/macfly/contiki-2.7/core/./sys/timer.h :
  /home/macfly/contiki-2.7/core/./sys/clock.h :
  /home/macfly/contiki-2.7/core/./sys/rtimer.h :
  /home/macfly/contiki-2.7/cpu/msp430/./rtimer-arch.h :

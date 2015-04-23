@@ -4,7 +4,6 @@ obj_sky/sht11-sensor.o: /home/macfly/contiki-2.7/core/dev/sht11-sensor.c \
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h \
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h \
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h \
- rpl-contiki-conf.h \
  /home/macfly/contiki-2.7/core/./contiki-default-conf.h \
  /home/macfly/contiki-2.7/core/./sys/process.h \
  /home/macfly/contiki-2.7/core/./sys/pt.h \
@@ -36,7 +35,6 @@ obj_sky/sht11-sensor.o: /home/macfly/contiki-2.7/core/dev/sht11-sensor.c \
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h :
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h :
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h :
- rpl-contiki-conf.h :
  /home/macfly/contiki-2.7/core/./contiki-default-conf.h :
  /home/macfly/contiki-2.7/core/./sys/process.h :
  /home/macfly/contiki-2.7/core/./sys/pt.h :

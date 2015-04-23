@@ -51,7 +51,7 @@
 #include "lib/list.h"
 #include "lib/memb.h"
 #include "cooja-debug.h"
-
+#include "tools/rpl-log.h"
 #include <string.h>
 
 #include <stdio.h>
@@ -158,13 +158,13 @@ transmit_packet_list(void *ptr)
     NETSTACK_RDC.send(packet_sent,n);
   }
   else{
-#endif WITH_STRAWMAN
+#endif /* WITH_STRAWMAN */
       /* Send packets in the neighbor's list */
       NETSTACK_RDC.send_list(packet_sent, n, q);
 
 #if WITH_STRAWMAN
   }
-#endif WITH_STRAWMAN
+#endif /* WITH_STRAWMAN */
     }
   }
 }
@@ -255,7 +255,7 @@ packet_sent(void *ptr, int status, int num_transmissions)
 #else
       if(status == MAC_TX_COLLISION ||
            status == MAC_TX_NOACK) {
-#endif WITH_STRAWMAN
+#endif /* WITH_STRAWMAN */
 
         /* If the transmission was not performed because of a
            collision or noack, we must retransmit the packet. */
@@ -301,9 +301,8 @@ packet_sent(void *ptr, int status, int num_transmissions)
         } else {
           if(!rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
                                  &rimeaddr_null)) {
-            PRINTF_MIN("csma: drop with status %d after %d transmissions, %d collisions",
-                 status, n->transmissions, n->collisions);
-          rpl_trace(rpl_dataptr_from_packetbuf());
+            LOG_FROM_PACKETBUF("csma: drop with status %d after %d transmissions, %d collisions",
+                               status, n->transmissions, n->collisions);
           }
           free_packet(n, q);
           mac_call_sent_callback(sent, cptr, status, num_tx);
@@ -312,11 +311,10 @@ packet_sent(void *ptr, int status, int num_transmissions)
         if(status == MAC_TX_OK) {
           if(!rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
                                  &rimeaddr_null)) {
-          PRINTF_MIN("csma: rexmit ok after %d transmissions, %d collisions", n->transmissions, n->collisions);
-          rpl_trace(rpl_dataptr_from_packetbuf());
+          LOG_FROM_PACKETBUF("csma: rexmit ok after %d transmissions, %d collisions", n->transmissions, n->collisions);
           }
         } else {
-          PRINTF("csma: rexmit failed %d: %d\n", n->transmissions, status);
+          LOG_FROM_PACKETBUF("csma: rexmit failed %d: %d\n", n->transmissions, status);
         }
         free_packet(n, q);
         mac_call_sent_callback(sent, cptr, status, num_tx);

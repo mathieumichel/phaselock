@@ -53,6 +53,7 @@
 #include "cooja-debug.h"
 #include "frame802154.h"
 #include "softack.h"
+#include "tools/rpl-log.h"
 #include <string.h>
 
 
@@ -1181,15 +1182,15 @@ input_packet(void)
                          &rimeaddr_null))) {
       /* This is a regular packet that is destined to us or to the
          broadcast address. */
-      if(rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
-                      &rimeaddr_node_addr)){
-        printf("Cmac: input from %d\n",
-               node_id_from_rimeaddr(packetbuf_addr(PACKETBUF_ADDR_SENDER))
-        );
-#if DEBUG
-        rpl_trace(rpl_dataptr_from_packetbuf());
-#endif
-      }
+//      if(rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
+//                      &rimeaddr_node_addr)){
+//       printf("Cmac: input from %d\n",
+//               node_id_from_rimeaddr(packetbuf_addr(PACKETBUF_ADDR_SENDER))
+//        );
+//#if DEBUG
+//        rpl_trace(rpl_dataptr_from_packetbuf());
+//#endif
+//      }
       /* If FRAME_PENDING is set, we are receiving a packets in a burst */
       we_are_receiving_burst = packetbuf_attr(PACKETBUF_ATTR_PENDING);
       if(we_are_receiving_burst) {
@@ -1211,7 +1212,7 @@ input_packet(void)
               rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_SENDER),
                            &received_seqnos[i].sender)) {
             /* Drop the packet. */
-            PRINTF("Drop duplicate ContikiMAC layer packet\n");
+            //printf("Drop duplicate ContikiMAC layer packet\n");
             return;
           }
         }
@@ -1238,7 +1239,12 @@ input_packet(void)
       compower_clear(&current_packet);
 #endif /* CONTIKIMAC_CONF_COMPOWER */
 
-      //printf("contikimac: data (%u)\n", packetbuf_datalen());
+
+     if(appdataptr_from_packetbuf() != NULL) {
+        LOG_INC_HOPCOUNT_FROM_PACKETBUF();
+      printf("cmac: data from %u\n",
+             LOG_NODEID_FROM_RIMEADDR(packetbuf_addr(PACKETBUF_ADDR_SENDER)));
+      }
       NETSTACK_MAC.input();
       return;
     } else {

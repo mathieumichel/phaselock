@@ -31,7 +31,7 @@ void rpl_trace(struct app_data *dataptr) {
   struct app_data data;
 
   if(dataptr) {
-    app_data_init(&data, dataptr);
+      appdata_copy(&data, dataptr);
 
     printf(" [%lx %u_%u %u->%u]",
         data.seqno,

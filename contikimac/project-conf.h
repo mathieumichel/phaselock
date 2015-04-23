@@ -35,10 +35,8 @@
 #define __PROJECT_CONF_H__
 
 
-
 #define WITH_ADVANCED_PHASELOCK 1
-#define WITH_STRAWMAN 1
-#define LOG_NODEID_FROM_RIMEADDR(addr) ((addr)->u8[RIMEADDR_SIZE-1])
+#define WITH_STRAWMAN 0
 
 /* The IEEE 802.15.4 channel in use */
 #undef RF_CHANNEL
@@ -61,7 +59,7 @@ typedef uint32_t rtimer_clock_t;
 
 /* The neighbor table size */
 #undef NBR_TABLE_CONF_MAX_NEIGHBORS
-#define NBR_TABLE_CONF_MAX_NEIGHBORS 8
+#define NBR_TABLE_CONF_MAX_NEIGHBORS 6
 
 /* Space saving */
 #undef UIP_CONF_TCP
@@ -81,10 +79,73 @@ typedef uint32_t rtimer_clock_t;
 #undef UIP_CONF_UDP_CHECKSUMS
 #define UIP_CONF_UDP_CHECKSUMS   0
 
+//#include "rpl-contiki-conf.h"
+//#include "tools/rpl-tools.h"
 
+/* Makes RPL more reactive */
+#define RPL_CONF_INIT_LINK_METRIC 2
+/* To equal RPL_DAG_MC_ETX_DIVISOR */
+#define RPL_CONF_MIN_HOPRANKINC 128
+/* Use Contikimac phase lock */
+#undef CONTIKIMAC_CONF_WITH_PHASE_OPTIMIZATION
+#define CONTIKIMAC_CONF_WITH_PHASE_OPTIMIZATION 1
+/* RPL without downward routes. Modify if you need more than upward-only. */
+#undef RPL_CONF_MOP
+#define RPL_CONF_MOP RPL_MOP_NO_DOWNWARD_ROUTES  //collect-only
+//#define RPL_CONF_MOP RPL_MOP_STORING_NO_MULTICAST  //any-to-any
+/* Run without IPv6 NA/ND */
+#undef UIP_CONF_ND6_SEND_NA
+#define UIP_CONF_ND6_SEND_NA 0
+/* Disable DIS sending */
 #undef RPL_DIS_SEND_CONF
-#define RPL_DIS_SEND_CONF 0
+#define RPL_DIS_SEND_CONF 
 
-#include "rpl-contiki-conf.h"
+
+
+#define RPL_CONF_MAX_INSTANCES    1 /* default 1 */
+
+/* The current ORPL implementation assumes a single DAG */
+#define RPL_CONF_MAX_DAG_PER_INSTANCE 1 /* default 2 */
+
+#undef CONTIKIMAC_CONF_CCA_COUNT_MAX_TX
+#define CONTIKIMAC_CONF_CCA_COUNT_MAX_TX 2 /* default 6 */
+
+/* Our softack implementation for cc2420 requires to disable DCO synch */
+#undef DCOSYNCH_CONF_ENABLED
+#define DCOSYNCH_CONF_ENABLED 0
+
+/* Our softack implementation for cc2420 requires SFD timestamps */
+#undef CC2420_CONF_SFD_TIMESTAMPS
+#define CC2420_CONF_SFD_TIMESTAMPS 1
+
+/* Contiki netstack: MAC */
+#undef NETSTACK_CONF_MAC
+#define NETSTACK_CONF_MAC     csma_driver
+
+/* Contiki netstack: RDC */
+#undef NETSTACK_CONF_RDC
+#define NETSTACK_CONF_RDC     contikimac_driver
+
+/* Contiki netstack: RADIO */
+#undef NETSTACK_CONF_RADIO
+#define NETSTACK_CONF_RADIO   cc2420_softack_driver
+
+/* ORPL Callbacks for cc2420 softacks */
+#define SOFTACK_ACKED_CALLBACK orpl_softack_acked_callback
+#define SOFTACK_INPUT_CALLBACK orpl_softack_input_callback
+
+/* Contiki netstack: FRAMER */
+#undef NETSTACK_CONF_FRAMER
+#define NETSTACK_CONF_FRAMER  framer_802154
+
+/* Disable compression threshold for consistent and predictable compression */
+#undef SICSLOWPAN_CONF_COMPRESSION_THRESHOLD
+#define SICSLOWPAN_CONF_COMPRESSION_THRESHOLD 0
+
+/* Enable ContikiMAC header for MAC padding */
+#undef CONTIKIMAC_CONF_WITH_CONTIKIMAC_HEADER
+#define CONTIKIMAC_CONF_WITH_CONTIKIMAC_HEADER 1
+
+
 
 #endif /* __PROJECT_CONF_H__ */

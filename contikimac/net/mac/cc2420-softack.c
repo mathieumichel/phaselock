@@ -804,8 +804,8 @@ cc2420_interrupt(void)
   int overflow = CC2420_FIFOP_IS_1 && !CC2420_FIFO_IS_1;
   CC2420_READ_RAM_BYTE(footer1, RXFIFO_ADDR(len + AUX_LEN));
 
-  int no_coll=footer1 & FOOTER1_CRC_OK;
-  if(!overflow && no_coll){
+  int noColl=footer1 & FOOTER1_CRC_OK;
+  if(!overflow && noColl){
   //if(!overflow && (footer1 & FOOTER1_CRC_OK)) { /* CRC is correct */
 #if WITH_STRAWMAN
     if(straw_code_waiting){
@@ -830,14 +830,14 @@ cc2420_interrupt(void)
     }
     frame_valid = 1;
   } else { /* CRC is wrong */
-    if(!no_coll && (do_ack || do_vote)) {
+    if(do_ack || do_vote) {
       CC2420_STROBE(CC2420_SFLUSHTX); /* Flush Tx fifo */
     }
 
     list_chop(rf_list);
     memb_free(&rf_memb, rf);
 #if WITH_STRAWMAN
-    if(!no_coll && (node_id==ROOT_ID ||contikimac_checking() || straw_code_waiting) && !contikimac_sending()){
+    if(!noColl && (node_id==ROOT_ID ||contikimac_checking() || straw_code_waiting) && !contikimac_sending()){
 
       softack_coll_callback(&ackbuffer,&acklen);
       if(straw_code_waiting){

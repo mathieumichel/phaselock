@@ -306,11 +306,12 @@ rtimer_clock_t wt;
 static void
 softack_coll_callback(uint8_t **probebufptr, uint8_t *probelen)
 {
+  //printf("straw: coll1\n");
   if(node_id == ROOT_ID || contikimac_checking() || straw_code_waiting){
     if(straw_code_waiting==1){
       COOJA_DEBUG_PRINTF("plop2\n");
     }
-    //wt=RTIMER_NOW();
+    wt=RTIMER_NOW();
     //while(RTIMER_CLOCK_LT(RTIMER_NOW(),(wt  +(RTIMER_ARCH_SECOND / 2500 )))){};
    // while(RTIMER_CLOCK_LT(RTIMER_NOW(),(wt  +(RTIMER_ARCH_SECOND / (random_rand()%5000) )))){};
 //    *probebufptr = probebuf;
@@ -323,8 +324,9 @@ softack_coll_callback(uint8_t **probebufptr, uint8_t *probelen)
     //probebuf[2]=42;
     rimeaddr_copy((rimeaddr_t*)(votebuf+3), &rimeaddr_node_addr);
     coll_count++;
+    wt=RTIMER_NOW();
     while(RTIMER_CLOCK_LT(RTIMER_NOW(),(wt  +(RTIMER_ARCH_SECOND / 2500 )))){};
-   // PRINTF_MIN("straw: coll\n");
+   //printf("straw: coll2\n");
   }
   else{
     *probelen=0;

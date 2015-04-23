@@ -3,7 +3,7 @@ obj_sky/csma.o: net/mac/csma.c net/mac/csma.h \
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h \
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h \
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h \
- rpl-contiki-conf.h /home/macfly/contiki-2.7/core/./dev/radio.h \
+ /home/macfly/contiki-2.7/core/./dev/radio.h \
  /home/macfly/contiki-2.7/core/./net/packetbuf.h \
  /home/macfly/contiki-2.7/core/./net/rime/rimeaddr.h \
  /home/macfly/contiki-2.7/core/./net/queuebuf.h \
@@ -21,13 +21,14 @@ obj_sky/csma.o: net/mac/csma.c net/mac/csma.h \
  /home/macfly/contiki-2.7/core/./net/mac/rdc.h \
  /home/macfly/contiki-2.7/core/./net/mac/framer.h \
  /home/macfly/contiki-2.7/core/./lib/list.h \
- /home/macfly/contiki-2.7/core/./lib/memb.h tools/cooja-debug.h
+ /home/macfly/contiki-2.7/core/./lib/memb.h tools/cooja-debug.h \
+ tools/rpl-log.h
 net/mac/csma.c net/mac/csma.h :
  /home/macfly/contiki-2.7/core/./net/mac/mac.h :
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h :
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h :
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h :
- rpl-contiki-conf.h /home/macfly/contiki-2.7/core/./dev/radio.h :
+ /home/macfly/contiki-2.7/core/./dev/radio.h :
  /home/macfly/contiki-2.7/core/./net/packetbuf.h :
  /home/macfly/contiki-2.7/core/./net/rime/rimeaddr.h :
  /home/macfly/contiki-2.7/core/./net/queuebuf.h :
@@ -46,3 +47,4 @@ net/mac/csma.c net/mac/csma.h :
  /home/macfly/contiki-2.7/core/./net/mac/framer.h :
  /home/macfly/contiki-2.7/core/./lib/list.h :
  /home/macfly/contiki-2.7/core/./lib/memb.h tools/cooja-debug.h :
+ tools/rpl-log.h :
