@@ -15,13 +15,18 @@
 #include "simple-udp.h"
 #include "tools/rpl-log.h"
 
+#if IN_UMONS
+#include "dev/button-sensor.h"
+#include "dev/light-sensor.h"
+#endif
+
 #include <stdio.h>
 #include <string.h>
 
 #if IN_UMONS
-#define SEND_INTERVAL   (1 * 2 * CLOCK_SECOND)
+#define SEND_INTERVAL   (1 * 5 * CLOCK_SECOND)
 #else
-#define SEND_INTERVAL   (1 * 60 * CLOCK_SECOND)
+#define SEND_INTERVAL   (1 * 10 * CLOCK_SECOND)
 #endif
 #define UDP_PORT 1234
 
@@ -72,18 +77,23 @@ PROCESS_THREAD(unicast_sender_process, ev, data)
   static struct etimer periodic_timer;
   static struct etimer send_timer;
   uip_ipaddr_t global_ipaddr;
+
   PROCESS_BEGIN();
+
+#if IN_UMONS
+  SENSORS_ACTIVATE(button_sensor);
+  SENSORS_ACTIVATE(light_sensor);
+#endif
+
   random_rand();
   rpl_log_start();
-
   if(node_id ==0) {
     NETSTACK_RDC.off(0);
     uint16_t mymac = rimeaddr_node_addr.u8[7] << 8 | rimeaddr_node_addr.u8[6];
     printf("Node id unset, my mac is 0x%04x\n", mymac);
     PROCESS_EXIT();
   }
-  //  etimer_set(&periodic_timer, 90 * CLOCK_SECOND);
-  //  PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
+
   cc2420_set_txpower(RF_POWER);
   cc2420_set_cca_threshold(RSSI_THR);
   printf("App: %u starting\n", node_id);
@@ -91,22 +101,33 @@ PROCESS_THREAD(unicast_sender_process, ev, data)
   //rpl_setup(node_id == ROOT_ID, node_id);
   simple_udp_register(&unicast_connection, UDP_PORT,
                       NULL, UDP_PORT, receiver);
-  //NETSTACK_RDC.off(1);
-  if(node_id == ROOT_ID) {
 
+  if(node_id == ROOT_ID) {
     uip_ipaddr_t my_ipaddr;
     set_ipaddr_from_id(&my_ipaddr, node_id);
+#if !IN_UMONS
     NETSTACK_RDC.off(1);
-  } else {
-#if IN_UMONS
-    etimer_set(&periodic_timer,1 * 60 * CLOCK_SECOND);
-#else
-    etimer_set(&periodic_timer,8 * 60 * CLOCK_SECOND);
 #endif
+  }
+  else {
+#if IN_UMONS
+    etimer_set(&periodic_timer,1 * 10 * CLOCK_SECOND);
+#else
+    etimer_set(&periodic_timer,2 * 60 * CLOCK_SECOND);
+#endif
+
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
     etimer_set(&periodic_timer, SEND_INTERVAL);
+
+#if IN_UMONS
+    printf("go\n");
+#endif
+
     while(1) {
+
+#if !IN_UMONS
       etimer_set(&send_timer, random_rand() % (SEND_INTERVAL));
+
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&send_timer));
 
       if(rpl_get_any_dag()!=NULL){
@@ -117,6 +138,15 @@ PROCESS_THREAD(unicast_sender_process, ev, data)
 
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
       etimer_reset(&periodic_timer);
+#else
+
+      PROCESS_WAIT_EVENT_UNTIL(ev == sensors_event && data == &button_sensor);
+      if(rpl_get_any_dag()!=NULL){
+      app_send_to(ROOT_ID);
+      }
+      else
+        printf("App: not in DODAG\n");
+#endif
     }
   }
 

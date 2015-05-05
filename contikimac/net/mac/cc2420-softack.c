@@ -65,6 +65,7 @@
 #include "sys/timetable.h"
 
 #include "softack.h"
+#include "deployment.h"
 
 #if WITH_STRAWMAN
 static struct ctimer wait0;
@@ -506,9 +507,15 @@ int
 cc2420_off(void)
 {
 #if WITH_STRAWMAN
-  if(straw_code_waiting){//a node is waiting for a packet after answering vote session
-    return 1;
+  if(straw_code_waiting){//a node is waiting for a packet after answering vote session will be powered off at rdc layer
+    if(node_id==ROOT_ID){
+      printf("pioupiou\n");
+    }
+    else{
+      return 1;
+    }
   }
+
 #endif /* WITH_STRAWMAN */
   /* Don't do anything if we are already turned off. */
   if(receive_on == 0) {
@@ -677,13 +684,12 @@ cc2420_waitVotes(void)
   uint16_t winner=113;//max len is 112
   uint16_t samples=0;
   uint16_t cca_samples=1;
-  rtimer_clock_t wait_time=RTIMER_NOW()+55;//77//RTIMER_ARCH_SECOND/750+ RTIMER_ARCH_SECOND / 990;
-  while(RTIMER_CLOCK_LT(RTIMER_NOW(),wait_time)){};
-//  leds_on(LEDS_BLUE);
-//  leds_off(LEDS_BLUE);
-//  wait_time=RTIMER_NOW()+22;
+  rtimer_clock_t t0=RTIMER_NOW();//+50;//+55
+  while(RTIMER_CLOCK_LT(RTIMER_NOW(),t0+RTIMER_ARCH_SECOND/600)){};
+
+//  t0=RTIMER_NOW()+22;
 //  uint8_t go=2;
-//  while(RTIMER_CLOCK_LT(RTIMER_NOW(),wait_time)&& go>0){
+//  while(RTIMER_CLOCK_LT(RTIMER_NOW(),t0)&& go>0){
 //    if(!CC2420_CCA_IS_1){
 //      cca_samples++;
 //    }
@@ -691,21 +697,36 @@ cc2420_waitVotes(void)
 //      go--;
 //    }
 //  }
+ // leds_on(LEDS_BLUE);
+ // leds_off(LEDS_BLUE);
+  uint8_t go=100;
+  //while (cca_samples<1750 && (!CC2420_CCA_IS_1||cca_samples<20)) {
+  while (cca_samples < 1750 && (!CC2420_CCA_IS_1||cca_samples<20) && go >0){
+    if(!CC2420_CCA_IS_1){
+       cca_samples++;
+       }
+    else{
+      go--;
+    }
+  }
   leds_on(LEDS_BLUE);
   leds_off(LEDS_BLUE);
-  while (cca_samples<1750 && (!CC2420_CCA_IS_1||cca_samples<20)) {
-    cca_samples++;
-  }
-
-  if(cca_samples==0){
-    return 199;
-  }
-  if(cca_samples<210){
-    winner=0;
-  }
-  else
-    winner=(cca_samples-210)/12;
+//  if(cca_samples==0){
+//    return 199;
+//  }
+//  if(cca_samples<210){
+//    winner=0;
+//  }
+//  else
+//    winner=(cca_samples-210)/12;
   //COOJA_DEBUG_PRINTF("straw: vote %u-%u\n",winner,cca_samples);
+  if(cca_samples==0){
+    return 142;//max len votes=112 (+ 3 bytes error)
+  }
+  //7 bytes = +/- 38 samples
+  cca_samples=cca_samples-108; //empiric observation : 108 samples = 13 bytes
+  winner=((cca_samples*10)/57);//rapport between samples and bytes is 5.7
+ // winner=winner-13;//len of the basic vote packet
   return winner;
 }
 
@@ -716,7 +737,6 @@ cc2420_interrupt(void)
   uint8_t len_a, len_b;
   uint8_t *ackbuffer, acklen=0;
   uint8_t code = 0;//can be used for other stuff
-  //extern volatile unsigned char we_are_sending;
 
 
 
@@ -819,14 +839,10 @@ cc2420_interrupt(void)
     }
     else if(do_vote){
       strobe(CC2420_STXON);//send vote
-      // flushrx();
-      //CC2420_CLEAR_FIFOP_INT();
     }
     if(code==SOFTACK_RESULT){
       list_chop(rf_list);
       memb_free(&rf_memb, rf);
-      //COOJA_DEBUG_PRINTF("straw done %u-%u\n",len_a,len);
-      //off();
     }
     frame_valid = 1;
   } else { /* CRC is wrong */
@@ -840,10 +856,10 @@ cc2420_interrupt(void)
     if(!noColl && (node_id==ROOT_ID ||contikimac_checking() || straw_code_waiting) && !contikimac_sending()){
 
       softack_coll_callback(&ackbuffer,&acklen);
-      if(straw_code_waiting){
-        straw_code_waiting=0;
-      }
       do_probe=acklen > 0;
+
+      straw_code_waiting=0;
+
       if(do_probe){
         uint8_t total_acklen = acklen + AUX_LEN;
         /* Write probe in fifo */
@@ -855,7 +871,7 @@ cc2420_interrupt(void)
 
         on();
         uint16_t signal_len=cc2420_waitVotes();//-11 size minimal of a vote - 2 (axu_len)
-        if(signal_len <=112){
+        if(signal_len <=115){//112 vote max +/- 3 (error)
           softack_vote_callback(&ackbuffer,&acklen,signal_len);
           total_acklen=acklen + AUX_LEN;
           CC2420_STROBE(CC2420_SFLUSHTX);
@@ -901,9 +917,6 @@ cc2420_interrupt(void)
 
 
   RELEASE_LOCK();
-//  if(straw_code_waiting==1){
-//    on();
-//  }
 
   return 1;
 }

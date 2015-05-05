@@ -49,7 +49,7 @@
 
 #define IN_UMONS 0
 
-#define DEPLOYMENT DEPLOYMENT_INDRIYA
+#define DEPLOYMENT DEPLOYMENT_COOJA
 #define IN_COOJA (DEPLOYMENT == DEPLOYMENT_COOJA)
 #define IN_MOTES (DEPLOYMENT == DEPLOYMENT_MOTES)
 #define IN_TWIST (DEPLOYMENT == DEPLOYMENT_TWIST)
@@ -81,5 +81,7 @@ void set_ipaddr_from_id(uip_ipaddr_t *ipaddr, uint16_t id);
 void set_rimeaddr_from_id(rimeaddr_t *lladdr, uint16_t id);
 /* Initializes global IPv6 and creates DODAG */
 void deployment_init(uip_ipaddr_t *ipaddr);
+/* returns the number of nodes in the deployment */
+uint16_t get_number_nodes();
 
 #endif /* DEPLOYMENT_H */

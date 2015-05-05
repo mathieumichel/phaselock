@@ -48,12 +48,13 @@
 #include "deployment.h"
 #include "cooja-debug.h"
 #include "rtimer-arch.h"
-
+#include "node-id.h"
 
 #if WITH_STRAWMAN
 int coll_count=0;
 int probe_count_b=0;
 int probe_count=0;
+int random_seed=0;
 #define AUX_LEN (0 + 2) //(CHECKSUM_LEN + FOOTER_LEN)
 #define PRINTF_MIN(...) printf(__VA_ARGS__)
 static uint16_t last_vote_len = 0;
@@ -99,48 +100,51 @@ static uint16_t get_random_length(void) {
   len *= VOTE_INTERVAL;
   len %= VOTE_MAX_LENGTH;
 #else /* UNIFORM */
-  /* GEOMETRIC DISTRIBUTION (p=0.798):
-   * This appears to be the optimal values for 2 contenders! */
-  r = (random_rand()/3)%1024;
-  if (r <= 209) {
-    len = 0;
-  } else if (r <= 377) {
-    len = 7;
-  } else if (r <= 511) {
-    len = 14;
-  } else if (r <= 618) {
-    len = 21;
-  } else if (r <= 704) {
-    len = 28;
-  } else if (r <= 772) {
-    len = 35;
-  } else if (r <= 827) {
-    len = 42;
-  } else if (r <= 871) {
-    len = 49;
-  } else if (r <= 906) {
-    len = 56;
-  } else if (r <= 935) {
-    len = 63;
-  } else if (r <= 957) {
-    len = 70;
-  } else if (r <= 975) {
-    len = 77;
-  } else if (r <= 989) {
-    len = 84;
-  } else if (r <= 1001) {
-    len = 91;
-  } else if (r <= 1010) {
-    len = 98;
-  } else if (r <= 1018) {
-    len = 105;
-  } else if (r <= 1024 /*duh!*/) {
-    len = 112;
-  } else {
-    len = -1;
-  }
-#endif /* UNIFORM */
+//  /* GEOMETRIC DISTRIBUTION (p=0.798):
+//   * This appears to be the optimal values for 2 contenders! */
+//  r = (random_rand()/3)%1024;
+//  if (r <= 209) {
+//    len = 0;
+//  } else if (r <= 377) {
+//    len = 7;
+//  } else if (r <= 511) {
+//    len = 14;
+//  } else if (r <= 618) {
+//    len = 21;
+//  } else if (r <= 704) {
+//    len = 28;
+//  } else if (r <= 772) {
+//    len = 35;
+//  } else if (r <= 827) {
+//    len = 42;
+//  } else if (r <= 871) {
+//    len = 49;
+//  } else if (r <= 906) {
+//    len = 56;
+//  } else if (r <= 935) {
+//    len = 63;
+//  } else if (r <= 957) {
+//    len = 70;
+//  } else if (r <= 975) {
+//    len = 77;
+//  } else if (r <= 989) {
+//    len = 84;
+//  } else if (r <= 1001) {
+//    len = 91;
+//  } else if (r <= 1010) {
+//    len = 98;
+//  } else if (r <= 1018) {
+//    len = 105;
+//  } else if (r <= 1024 /*duh!*/) {
+//    len = 112;
+//  } else {
+//    len = -1;
+//  }
 
+
+  len=(random_seed)*7;
+  random_seed=(random_seed +get_number_nodes()%node_id)%16;
+#endif /* UNIFORM */
   return len;
 }
 
@@ -207,7 +211,7 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
           votebuf[1]=0x00;
           votebuf[2]=seqno;
           rimeaddr_copy((rimeaddr_t*)(votebuf+3), &rimeaddr_node_addr);
-          //COOJA_DEBUG_PRINTF("straw: vote %u\n");//last_vote_len
+          //COOJA_DEBUG_PRINTF("straw: vote %u\n",last_vote_len);
           //PRINTF_MIN("straw: probe from %u (vote %u) \n",node_id_from_rimeaddr(&dest),last_vote_len);
           *code=SOFTACK_VOTE;
 
@@ -216,11 +220,11 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
         }
       }
       else{//DO WE NEED THIS? !!!!!!
-        straw_code_competing=1;//we have received a probe not for us but it means collision
-        probe_count_b++;
+        //straw_code_competing=1;//we have received a probe not for us but it means collision
+       probe_count_b++;
         //COOJA_DEBUG_PRINTF("probe not pktbuf dest\n");
       }
-    }
+  }
     else{
       //COOJA_DEBUG_PRINTF("straw: coll bcast\n");
     }
@@ -231,7 +235,7 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
       uint16_t signal_len;
       //len=frame[11];
       memcpy(&signal_len,frame+11,2);
-      //PRINTF_MIN("straw: result %u\n",signal_len);
+      //COOJA_DEBUG_PRINTF("straw: vote %u- result %u\n",last_vote_len,signal_len);
       if((last_vote_len >= signal_len && last_vote_len-signal_len <=3) || (signal_len >= last_vote_len && signal_len -last_vote_len<=3)){
         straw_code_winning=1;
       }
@@ -311,22 +315,14 @@ softack_coll_callback(uint8_t **probebufptr, uint8_t *probelen)
     if(straw_code_waiting==1){
       COOJA_DEBUG_PRINTF("plop2\n");
     }
-    wt=RTIMER_NOW();
-    //while(RTIMER_CLOCK_LT(RTIMER_NOW(),(wt  +(RTIMER_ARCH_SECOND / 2500 )))){};
-   // while(RTIMER_CLOCK_LT(RTIMER_NOW(),(wt  +(RTIMER_ARCH_SECOND / (random_rand()%5000) )))){};
-//    *probebufptr = probebuf;
-//    *probelen = sizeof(probebuf);
+
     *probebufptr = votebuf;
     *probelen = 11;//sizeof(votebuf);
     votebuf[0]=0x07;
     votebuf[1]=0x00;
     votebuf[2]=42;
-    //probebuf[2]=42;
     rimeaddr_copy((rimeaddr_t*)(votebuf+3), &rimeaddr_node_addr);
     coll_count++;
-    wt=RTIMER_NOW();
-    while(RTIMER_CLOCK_LT(RTIMER_NOW(),(wt  +(RTIMER_ARCH_SECOND / 2500 )))){};
-   //printf("straw: coll2\n");
   }
   else{
     *probelen=0;
@@ -336,19 +332,14 @@ softack_coll_callback(uint8_t **probebufptr, uint8_t *probelen)
 static void
 softack_vote_callback(uint8_t **signalbufptr, uint8_t *signallen, uint16_t len)
 {
-//    *signalbufptr = signalbuf;
-//    *signallen = sizeof(signalbuf);
-//    signalbuf[2]=42;
   *signalbufptr = ackbuf;
   *signallen = 13;//sizeof(signalbuf);
   ackbuf[0]=0x03;
   ackbuf[1]=0x00;
   ackbuf[2]=42;
-    rimeaddr_copy((rimeaddr_t*)(ackbuf+3), &rimeaddr_node_addr);
-    ackbuf[3+8] = len & 0xff;
-    ackbuf[3+8+1] = (len >> 8)& 0xff;
-    //signalbuf[11]=len;
-    //PRINTF_MIN("straw: signal %u\n",len);
+  rimeaddr_copy((rimeaddr_t*)(ackbuf+3), &rimeaddr_node_addr);
+  ackbuf[3+8] = len & 0xff;
+  ackbuf[3+8+1] = (len >> 8)& 0xff;
 }
 #endif /* WITH_STRAWMAN */
 
@@ -361,7 +352,7 @@ softack_init()
   /* Subscribe to 802.15.4 softack driver */
 #if WITH_STRAWMAN
   cc2420_softack_subscribe_strawman(softack_input_callback,softack_coll_callback,softack_vote_callback);
- // preload_voteprobe();
+  random_seed=node_id;
 #else
   cc2420_softack_subscribe(softack_input_callback);
 #endif /* WITH_STRAWMAN */

@@ -198,8 +198,8 @@ static int we_are_receiving_burst = 0;
 /* GUARD_TIME is the time before the expected phase of a neighbor that
    a transmitted should begin transmitting packets. */
 #if WITH_ADVANCED_PHASELOCK
-#define GUARD_TIME                         10 * CHECK_TIME + CHECK_TIME_TX //(10 * (CHECK_TIME + CHECK_TIME_TX)) * 4  / 5  //not too small so thre receiver can be waked up with a fragment of strobe
-//#define GUARD_TIME                  ((CHECK_TIME + CHECK_TIME_TX) * 3)/5 + (random_rand() %(((CHECK_TIME + CHECK_TIME_TX) * 2)/5))
+//#define GUARD_TIME                         10 * CHECK_TIME + CHECK_TIME_TX //(10 * (CHECK_TIME + CHECK_TIME_TX)) * 4  / 5  //not too small so thre receiver can be waked up with a fragment of strobe
+#define GUARD_TIME                  ((CHECK_TIME + CHECK_TIME_TX) * 3)/5 + (random_rand() %(((CHECK_TIME + CHECK_TIME_TX) * 2)/5))
 #else /* WITH_ADVANCED_PHASELOCK */
 #define GUARD_TIME                         10 * CHECK_TIME + CHECK_TIME_TX  //MF prev (10 * CHECK_TIME + CHECK_TIME_TX)
 #endif /* WITH_ADVANCED_PHASELOCK */
@@ -870,7 +870,6 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
           rtimer_clock_t wt;
           rtimer_clock_t txtime;
           int ret;
-
           txtime = RTIMER_NOW();
           ret = NETSTACK_RADIO.transmit(transmit_len);
 
@@ -896,15 +895,10 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
           NETSTACK_RADIO.on();
 
           while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + INTER_PACKET_INTERVAL)) { }
-#if WITH_STRAWMAN
-          if(!is_broadcast && NETSTACK_RADIO.receiving_packet() ||
+          if(NETSTACK_RADIO.receiving_packet() ||
                                NETSTACK_RADIO.pending_packet() ||
                                NETSTACK_RADIO.channel_clear() == 0) {
-#else /* WITH_STRAWMAN */
-            if(!is_broadcast && (NETSTACK_RADIO.receiving_packet() ||
-                NETSTACK_RADIO.pending_packet() ||
-                NETSTACK_RADIO.channel_clear() == 0)) {
-#endif /* WITH_STRAWMAN */
+
               wt = RTIMER_NOW();
 
 
@@ -914,13 +908,9 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
                 if(straw_code_competing==1){// || is_broadcast){
                   break;//if bcast we don't care about ack
                 }
-#endif
+#endif /* WITH_STRAWMAN*/
 
                 len = NETSTACK_RADIO.read(ackbuf, ACK_LEN);
-                //if(bypass){
-                //COOJA_DEBUG_PRINTF("straw plop %u-%u\n",len,ackbuf[2]);
-                //}
-
                 if(len == ACK_LEN && seqno == ackbuf[2]) {
                   got_strobe_ack = 1;
                   memcpy(&dest, ackbuf+3, 8);
@@ -928,24 +918,25 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
                   break;
                 }
 #if !WITH_STRAWMAN //could prevent to detect the probe
-                else {
-                  //COOJA_DEBUG_PRINTF("contikimac: collisions while sending\n");
+                else
+                {
                   collisions++;
                 }
-#else
-                else if(len>ACK_LEN){//we wait to be able to detect a probe
-                  //PRINTF_MIN("straw: wait\n");
+#else /* !WITH_STRAWMAN*/
+                //else if(len>ACK_LEN){//we wait to be able to detect a probe
+                else{//wait to try detect a probe (time to send data at worst)
                   wt = RTIMER_NOW();
-                  while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + RTIMER_ARCH_SECOND/5000) && straw_code_competing==0) {};
+                  //while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + RTIMER_ARCH_SECOND/5000) && straw_code_competing==0) {};
+                  while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + RTIMER_ARCH_SECOND/250) && straw_code_competing==0) {};
                   collisions++;
                 }
-#endif
+#endif /* !WITH_STRAWMAN*/
             }
 #if WITH_STRAWMAN
           else if(straw_code_competing==1){
             break;
           }
-#endif
+#endif /* WITH_STRAWMAN*/
 #endif /* RDC_CONF_HARDWARE_ACK */
         }
       }
@@ -972,10 +963,10 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
         was_competing=1;
         t0=RTIMER_NOW();
         while(RTIMER_CLOCK_LT(RTIMER_NOW(), t0 + MAX_PHASE_STROBE_TIME/4) && straw_code_winning==0){}
-        int res;
 
         if(straw_code_winning==1){
-          t0=RTIMER_NOW();
+          //ret = NETSTACK_RADIO.transmit(transmit_len);
+          //t0=RTIMER_NOW();
           //while(RTIMER_CLOCK_LT(RTIMER_NOW(), t0 + (RTIMER_ARCH_SECOND/5000) * (random_rand()%8)));
           return MAC_TX_BYPASS;//resend packet without any cca check
         }
@@ -1059,7 +1050,7 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
   }
 
   if(!is_broadcast) {
-#if 0//WITH_ADVANCED_PHASELOCK
+#if WITH_ADVANCED_PHASELOCK
     if(collisions == 0 && is_receiver_awake == 0) {
       phase_update(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
        encounter_time-phaselock_target, ret);

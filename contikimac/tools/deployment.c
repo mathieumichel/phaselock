@@ -256,6 +256,12 @@ get_node_id_from_index(uint16_t index)
 #endif
 }
 
+uint16_t
+get_number_nodes()
+{
+  return N_NODES;
+}
+
 /* Sets an IPv6 from a node-id */
 void
 set_ipaddr_from_id(uip_ipaddr_t *ipaddr, uint16_t id)
