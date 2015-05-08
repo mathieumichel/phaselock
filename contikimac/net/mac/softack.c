@@ -90,7 +90,7 @@ static uint8_t last_acked_seqno = -1;
 
 
 /*---------------------------------------------------------------------------*/
-#if 1// WITH_STRAWMAN
+#if WITH_STRAWMAN
 static uint16_t get_random_length(void) {
   uint16_t len;
   int r;

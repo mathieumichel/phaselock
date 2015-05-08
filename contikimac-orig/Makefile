@@ -8,7 +8,7 @@ WITH_UIP6=1
 UIP_CONF_IPV6=1
 CFLAGS+= -DUIP_CONF_IPV6_RPL
 PROJECTDIRS += tools
-PROJECT_SOURCEFILES += deployment.c simple-energest.c rpl-tools.c
+PROJECT_SOURCEFILES += deployment.c simple-energest.c rpl-log.c
 
 all: $(CONTIKI_PROJECT)
 

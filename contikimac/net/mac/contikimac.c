@@ -1173,11 +1173,11 @@ input_packet(void)
                          &rimeaddr_null))) {
       /* This is a regular packet that is destined to us or to the
          broadcast address. */
-//      if(rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
-//                      &rimeaddr_node_addr)){
-//       printf("Cmac: input from %d\n",
-//               node_id_from_rimeaddr(packetbuf_addr(PACKETBUF_ADDR_SENDER))
-//        );
+      if(rimeaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
+                      &rimeaddr_node_addr)){
+       printf("Cmac: input from %d\n",
+               node_id_from_rimeaddr(packetbuf_addr(PACKETBUF_ADDR_SENDER))
+        );
 //#if DEBUG
 //        rpl_trace(rpl_dataptr_from_packetbuf());
 //#endif

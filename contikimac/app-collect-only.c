@@ -24,9 +24,9 @@
 #include <string.h>
 
 #if IN_UMONS
-#define SEND_INTERVAL   (1 * 5 * CLOCK_SECOND)
-#else
 #define SEND_INTERVAL   (1 * 10 * CLOCK_SECOND)
+#else
+#define SEND_INTERVAL   (2 * 60 * CLOCK_SECOND)
 #endif
 #define UDP_PORT 1234
 
@@ -80,24 +80,20 @@ PROCESS_THREAD(unicast_sender_process, ev, data)
 
   PROCESS_BEGIN();
 
-#if IN_UMONS
-  SENSORS_ACTIVATE(button_sensor);
-  SENSORS_ACTIVATE(light_sensor);
-#endif
-
   random_rand();
   rpl_log_start();
+
+
+  cc2420_set_txpower(RF_POWER);
+  cc2420_set_cca_threshold(RSSI_THR);
+  printf("App: %u starting\n", node_id);
+  deployment_init(&global_ipaddr);
   if(node_id ==0) {
     NETSTACK_RDC.off(0);
     uint16_t mymac = rimeaddr_node_addr.u8[7] << 8 | rimeaddr_node_addr.u8[6];
     printf("Node id unset, my mac is 0x%04x\n", mymac);
     PROCESS_EXIT();
   }
-
-  cc2420_set_txpower(RF_POWER);
-  cc2420_set_cca_threshold(RSSI_THR);
-  printf("App: %u starting\n", node_id);
-  deployment_init(&global_ipaddr);
   //rpl_setup(node_id == ROOT_ID, node_id);
   simple_udp_register(&unicast_connection, UDP_PORT,
                       NULL, UDP_PORT, receiver);
@@ -113,7 +109,7 @@ PROCESS_THREAD(unicast_sender_process, ev, data)
 #if IN_UMONS
     etimer_set(&periodic_timer,1 * 10 * CLOCK_SECOND);
 #else
-    etimer_set(&periodic_timer,2 * 60 * CLOCK_SECOND);
+    etimer_set(&periodic_timer,8 * 60 * CLOCK_SECOND);
 #endif
 
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));

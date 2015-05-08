@@ -3,7 +3,7 @@ obj_sky/lpp.o: /home/macfly/contiki-2.7/core/net/mac/lpp.c \
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h \
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h \
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h \
- rpl-contiki-conf.h /home/macfly/contiki-2.7/core/./lib/list.h \
+ /home/macfly/contiki-2.7/core/./lib/list.h \
  /home/macfly/contiki-2.7/core/./lib/memb.h \
  /home/macfly/contiki-2.7/core/./sys/cc.h \
  /home/macfly/contiki-2.7/core/./lib/random.h \
@@ -59,7 +59,7 @@ obj_sky/lpp.o: /home/macfly/contiki-2.7/core/net/mac/lpp.c \
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h :
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h :
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h :
- rpl-contiki-conf.h /home/macfly/contiki-2.7/core/./lib/list.h :
+ /home/macfly/contiki-2.7/core/./lib/list.h :
  /home/macfly/contiki-2.7/core/./lib/memb.h :
  /home/macfly/contiki-2.7/core/./sys/cc.h :
  /home/macfly/contiki-2.7/core/./lib/random.h :

@@ -314,7 +314,7 @@ packet_sent(void *ptr, int status, int num_transmissions)
           LOG_FROM_PACKETBUF("csma: rexmit ok after %d transmissions, %d collisions", n->transmissions, n->collisions);
           }
         } else {
-          LOG_FROM_PACKETBUF("csma: rexmit failed %d: %d\n", n->transmissions, status);
+          //LOG_FROM_PACKETBUF("csma: rexmit failed %d: %d\n", n->transmissions, status);
         }
         free_packet(n, q);
         mac_call_sent_callback(sent, cptr, status, num_tx);

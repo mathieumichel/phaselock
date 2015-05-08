@@ -2,7 +2,7 @@ obj_sky/contikimac.o: /home/macfly/contiki-2.7/core/net/mac/contikimac.c \
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h \
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h \
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h \
- rpl-contiki-conf.h /home/macfly/contiki-2.7/core/./dev/leds.h \
+ /home/macfly/contiki-2.7/core/./dev/leds.h \
  /home/macfly/contiki-2.7/core/./dev/radio.h \
  /home/macfly/contiki-2.7/core/./dev/watchdog.h \
  /home/macfly/contiki-2.7/core/./lib/random.h \
@@ -60,7 +60,7 @@ obj_sky/contikimac.o: /home/macfly/contiki-2.7/core/net/mac/contikimac.c \
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h :
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h :
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h :
- rpl-contiki-conf.h /home/macfly/contiki-2.7/core/./dev/leds.h :
+ /home/macfly/contiki-2.7/core/./dev/leds.h :
  /home/macfly/contiki-2.7/core/./dev/radio.h :
  /home/macfly/contiki-2.7/core/./dev/watchdog.h :
  /home/macfly/contiki-2.7/core/./lib/random.h :

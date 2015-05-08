@@ -3,7 +3,7 @@ obj_sky/trickle-timer.o: \
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h \
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h \
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h \
- rpl-contiki-conf.h /home/macfly/contiki-2.7/core/./lib/trickle-timer.h \
+ /home/macfly/contiki-2.7/core/./lib/trickle-timer.h \
  /home/macfly/contiki-2.7/core/./sys/ctimer.h \
  /home/macfly/contiki-2.7/core/./sys/etimer.h \
  /home/macfly/contiki-2.7/core/./sys/timer.h \
@@ -18,7 +18,7 @@ obj_sky/trickle-timer.o: \
  /home/macfly/contiki-2.7/platform/sky/./contiki-conf.h :
  /home/macfly/contiki-2.7/platform/sky/./platform-conf.h :
  /home/macfly/contiki-2.7/cpu/msp430/./msp430def.h project-conf.h :
- rpl-contiki-conf.h /home/macfly/contiki-2.7/core/./lib/trickle-timer.h :
+ /home/macfly/contiki-2.7/core/./lib/trickle-timer.h :
  /home/macfly/contiki-2.7/core/./sys/ctimer.h :
  /home/macfly/contiki-2.7/core/./sys/etimer.h :
  /home/macfly/contiki-2.7/core/./sys/timer.h :
