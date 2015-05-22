@@ -901,7 +901,6 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
 
               wt = RTIMER_NOW();
 
-
               while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + AFTER_ACK_DETECTECT_WAIT_TIME)) { }
 
 #if WITH_STRAWMAN
