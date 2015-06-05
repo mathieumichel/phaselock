@@ -39,7 +39,7 @@
 
 /* The IEEE 802.15.4 channel in use */
 #undef RF_CHANNEL
-#define RF_CHANNEL            15
+#define RF_CHANNEL            26
 
 /* The cc2420 transmission power (min:0, max: 31) */
 #define RF_POWER                31

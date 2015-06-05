@@ -107,7 +107,7 @@ PROCESS_THREAD(unicast_sender_process, ev, data)
   }
   else {
 #if IN_UMONS
-    etimer_set(&periodic_timer,1 * 10 * CLOCK_SECOND);
+    etimer_set(&periodic_timer,1 * 60 * CLOCK_SECOND);
 #else
     etimer_set(&periodic_timer,8 * 60 * CLOCK_SECOND);
 #endif
@@ -121,7 +121,7 @@ PROCESS_THREAD(unicast_sender_process, ev, data)
 
     while(1) {
 
-#if !IN_UMONS
+
       etimer_set(&send_timer, random_rand() % (SEND_INTERVAL));
 
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&send_timer));
@@ -134,15 +134,7 @@ PROCESS_THREAD(unicast_sender_process, ev, data)
 
       PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
       etimer_reset(&periodic_timer);
-#else
 
-      PROCESS_WAIT_EVENT_UNTIL(ev == sensors_event && data == &button_sensor);
-      if(rpl_get_any_dag()!=NULL){
-      app_send_to(ROOT_ID);
-      }
-      else
-        printf("App: not in DODAG\n");
-#endif
     }
   }
 

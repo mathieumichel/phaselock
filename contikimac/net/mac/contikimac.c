@@ -1180,7 +1180,7 @@ input_packet(void)
 //#if DEBUG
 //        rpl_trace(rpl_dataptr_from_packetbuf());
 //#endif
-//      }
+      }
       /* If FRAME_PENDING is set, we are receiving a packets in a burst */
       we_are_receiving_burst = packetbuf_attr(PACKETBUF_ATTR_PENDING);
       if(we_are_receiving_burst) {
