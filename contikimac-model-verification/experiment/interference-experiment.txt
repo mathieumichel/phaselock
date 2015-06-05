@@ -1,0 +1,9 @@
+Run two experiments.
+
+Experiment 1: Sample the RSSI on one Tmote Sky node while running the Garetto
+interferer on anotbher node. After a while, start using net-test.c on two
+other nodes, and measure the energy consumption and the PRR. Use channel 26.
+
+Experiment 2: Sample the RSSI on one Tmote Sky node. After a while, start
+using net-test.c on two other nodes, and measure the energy consumption and
+the PRR. Use channel 22 or 23 to get some real WiFi interference.

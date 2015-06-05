@@ -1,0 +1,23 @@
+43 bytes packet length (lbytes):
+
+1525771
+9051
+slots 40
+considered samples 1534775
+good 1374943
+goodack 1351693
+bad 159831
+prr 0.895859653695
+dep 0.983090208103
+
+5 bytes packet length (lbytes):
+
+1525771
+9051
+slots 5
+considered samples 1534810
+good 1507570
+goodack 1477905
+bad 27239
+prr 0.982251874825
+dep 0.980322638418

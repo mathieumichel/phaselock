@@ -1,0 +1,2030 @@
+Archive member included because of file (symbol)
+
+contiki-sky.a(rimeaddr.o)     obj_sky/contiki-sky-main.o (rimeaddr_copy)
+contiki-sky.a(rime.o)         obj_sky/contiki-sky-main.o (rime_driver)
+contiki-sky.a(announcement.o)
+                              contiki-sky.a(rime.o) (announcement_init)
+contiki-sky.a(broadcast-annou)
+                              contiki-sky.a(rime.o) (broadcast_announcement_init)
+contiki-sky.a(broadcast.o)    contiki-sky.a(broadcast-annou) (broadcast_open)
+contiki-sky.a(abc.o)          contiki-sky.a(broadcast.o) (abc_open)
+contiki-sky.a(chameleon.o)    contiki-sky.a(rime.o) (chameleon_init)
+contiki-sky.a(channel.o)      contiki-sky.a(chameleon.o) (channel_init)
+contiki-sky.a(chameleon-bitop)
+                              contiki-sky.a(chameleon.o) (chameleon_bitopt)
+contiki-sky.a(nullmac.o)      obj_sky/contiki-sky-main.o (nullmac_driver)
+contiki-sky.a(nullrdc.o)      obj_sky/contiki-sky-main.o (nullrdc_driver)
+contiki-sky.a(mac.o)          contiki-sky.a(nullrdc.o) (mac_call_sent_callback)
+contiki-sky.a(framer-802154.o)
+                              contiki-sky.a(nullrdc.o) (framer_802154)
+contiki-sky.a(process.o)      obj_sky/contiki-sky-main.o (process_init)
+contiki-sky.a(autostart.o)    obj_sky/contiki-sky-main.o (autostart_start)
+contiki-sky.a(serial-line.o)  obj_sky/contiki-sky-main.o (serial_line_input_byte)
+contiki-sky.a(timer.o)        obj_sky/contiki-sky-main.o (timer_set)
+contiki-sky.a(list.o)         contiki-sky.a(announcement.o) (list_init)
+contiki-sky.a(etimer.o)       obj_sky/contiki-sky-main.o (etimer_process)
+contiki-sky.a(ctimer.o)       obj_sky/contiki-sky-main.o (ctimer_init)
+contiki-sky.a(energest.o)     obj_sky/contiki-sky-main.o (energest_init)
+contiki-sky.a(rtimer.o)       obj_sky/contiki-sky-main.o (rtimer_init)
+contiki-sky.a(random.o)       garetto-fast.co (random_init)
+contiki-sky.a(ringbuf.o)      contiki-sky.a(serial-line.o) (ringbuf_init)
+contiki-sky.a(packetbuf.o)    contiki-sky.a(chameleon-bitop) (packetbuf_hdrreduce)
+contiki-sky.a(queuebuf.o)     contiki-sky.a(rime.o) (queuebuf_init)
+contiki-sky.a(ds2411.o)       obj_sky/contiki-sky-main.o (ds2411_init)
+contiki-sky.a(node-id.o)      obj_sky/contiki-sky-main.o (node_id_restore)
+contiki-sky.a(cc2420.o)       garetto-fast.co (cc2420_set_channel)
+contiki-sky.a(cc2420-arch.o)  contiki-sky.a(cc2420.o) (cc2420_arch_init)
+contiki-sky.a(uart1.o)        obj_sky/contiki-sky-main.o (uart1_active)
+contiki-sky.a(uart1-putchar.o)
+                              obj_sky/contiki-sky-main.o (putchar)
+contiki-sky.a(msp430.o)       contiki-sky.a(uart1.o) (msp430_add_lpm_req)
+contiki-sky.a(clock.o)        contiki-sky.a(timer.o) (clock_time)
+contiki-sky.a(leds.o)         obj_sky/contiki-sky-main.o (leds_init)
+contiki-sky.a(leds-arch.o)    contiki-sky.a(leds.o) (leds_arch_init)
+contiki-sky.a(watchdog.o)     obj_sky/contiki-sky-main.o (watchdog_start)
+contiki-sky.a(rtimer-arch.o)  contiki-sky.a(rtimer.o) (rtimer_arch_init)
+contiki-sky.a(frame802154.o)  contiki-sky.a(framer-802154.o) (frame802154_hdrlen)
+contiki-sky.a(memb.o)         contiki-sky.a(queuebuf.o) (memb_init)
+contiki-sky.a(spi.o)          contiki-sky.a(cc2420-arch.o) (spi_init)
+contiki-sky.a(xmem.o)         contiki-sky.a(node-id.o) (xmem_pread)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod32.o)
+                              obj_sky/contiki-sky-main.o (__udivsi3)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_addsub_sf.o)
+                              garetto-fast.co (__addsf3)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_mul_sf.o)
+                              garetto-fast.co (__mulsf3)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_div_sf.o)
+                              garetto-fast.co (__divsf3)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_gt_sf.o)
+                              garetto-fast.co (__gtsf2)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_ge_sf.o)
+                              garetto-fast.co (__gesf2)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_lt_sf.o)
+                              garetto-fast.co (__ltsf2)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_si_to_sf.o)
+                              garetto-fast.co (__floatsisf)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_thenan_sf.o)
+                              /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_addsub_sf.o) (__thenan_sf)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clzsi2.o)
+                              /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_si_to_sf.o) (__clzsi2)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_pack_sf.o)
+                              /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_addsub_sf.o) (__pack_f)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_unpack_sf.o)
+                              /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_addsub_sf.o) (__unpack_f)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_fpcmp_parts_sf.o)
+                              /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_gt_sf.o) (__fpcmp_parts_f)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clz.o)
+                              /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clzsi2.o) (__clz_tab)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(printf.o)
+                              garetto-fast.co (printf)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o)
+                              /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(printf.o) (vuprintf)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(puts.o)
+                              garetto-fast.co (puts)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(rand.o)
+                              contiki-sky.a(random.o) (rand)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcmp.o)
+                              contiki-sky.a(rimeaddr.o) (memcmp)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcpy.o)
+                              contiki-sky.a(broadcast-annou) (memcpy)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memset.o)
+                              obj_sky/contiki-sky-main.o (memset)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_mulsi3.o)
+                              /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(rand.o) (__mulsi3)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod16.o)
+                              /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o) (__udivhi3)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod64.o)
+                              /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o) (__udivdi3)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_reset_vector__.o)
+                              (_reset_vector__)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__watchdog_support.o)
+                              /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_reset_vector__.o) (__watchdog_support)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__init_stack.o)
+                              /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_reset_vector__.o) (__init_stack)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__low_level_init.o)
+                              /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_reset_vector__.o) (__low_level_init)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_copy_data.o)
+                              /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_reset_vector__.o) (__do_copy_data)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_clear_bss.o)
+                              /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_reset_vector__.o) (__do_clear_bss)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__stop_progExec__.o)
+                              /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_reset_vector__.o) (__stop_progExec__)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_endless_loop__.o)
+                              /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_reset_vector__.o) (_endless_loop__)
+/usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_unexpected_.o)
+                              /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/crt0ivtbl16.o (_unexpected_)
+
+Allocating common symbols
+Common symbol       size              file
+
+energest_total_time
+                    0x30              contiki-sky.a(energest.o)
+cc2420_last_rssi    0x1               contiki-sky.a(cc2420.o)
+cc2420_packets_read
+                    0x2               contiki-sky.a(cc2420.o)
+cc2420_packets_seen
+                    0x2               contiki-sky.a(cc2420.o)
+energest_total_count
+                    0x2               contiki-sky.a(energest.o)
+cc2420_sfd_start_time
+                    0x2               contiki-sky.a(cc2420.o)
+cc2420_time_of_departure
+                    0x2               contiki-sky.a(cc2420.o)
+cc2420_time_of_arrival
+                    0x2               contiki-sky.a(cc2420.o)
+energest_current_mode
+                    0xc               contiki-sky.a(energest.o)
+packetbuf_addrs     0x8               contiki-sky.a(packetbuf.o)
+rimeaddr_node_addr  0x2               contiki-sky.a(rimeaddr.o)
+process_maxevents   0x1               contiki-sky.a(process.o)
+cc2420_last_correlation
+                    0x1               contiki-sky.a(cc2420.o)
+cc2420_authority_level_of_sender
+                    0x2               contiki-sky.a(cc2420.o)
+packetbuf_attrs     0x30              contiki-sky.a(packetbuf.o)
+msp430_dco_required
+                    0x2               contiki-sky.a(msp430.o)
+cc2420_sfd_counter  0x1               contiki-sky.a(cc2420.o)
+energest_current_time
+                    0x18              contiki-sky.a(energest.o)
+serial_line_event_message
+                    0x1               contiki-sky.a(serial-line.o)
+cc2420_sfd_end_time
+                    0x2               contiki-sky.a(cc2420.o)
+ds2411_id           0x8               contiki-sky.a(ds2411.o)
+
+Discarded input sections
+
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/crt0ivtbl16.o
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/crt0ivtbl16.o
+ .text.crt0     0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/crt0ivtbl16.o
+ .text          0x0000000000000000        0x0 garetto-fast.co
+ .text          0x0000000000000000        0x0 obj_sky/contiki-sky-main.o
+ .data          0x0000000000000000        0x0 obj_sky/contiki-sky-main.o
+ .text.uip_log  0x0000000000000000        0x6 obj_sky/contiki-sky-main.o
+ .text          0x0000000000000000        0x0 contiki-sky.a(rimeaddr.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(rimeaddr.o)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(rimeaddr.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(rime.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(rime.o)
+ .text.rime_sniffer_add
+                0x0000000000000000        0xc contiki-sky.a(rime.o)
+ .text.rime_sniffer_remove
+                0x0000000000000000        0xc contiki-sky.a(rime.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(announcement.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(announcement.o)
+ .text.announcement_register
+                0x0000000000000000       0x3e contiki-sky.a(announcement.o)
+ .text.announcement_remove
+                0x0000000000000000        0xc contiki-sky.a(announcement.o)
+ .text.announcement_remove_value
+                0x0000000000000000       0x22 contiki-sky.a(announcement.o)
+ .text.announcement_set_value
+                0x0000000000000000       0x28 contiki-sky.a(announcement.o)
+ .text.announcement_bump
+                0x0000000000000000       0x22 contiki-sky.a(announcement.o)
+ .text.announcement_listen
+                0x0000000000000000        0xc contiki-sky.a(announcement.o)
+ .text.announcement_register_listen_callback
+                0x0000000000000000        0x6 contiki-sky.a(announcement.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(broadcast-annou)
+ .data          0x0000000000000000        0x0 contiki-sky.a(broadcast-annou)
+ .text.broadcast_announcement_stop
+                0x0000000000000000       0x22 contiki-sky.a(broadcast-annou)
+ .text.broadcast_announcement_beacon_interval
+                0x0000000000000000        0xa contiki-sky.a(broadcast-annou)
+ .text          0x0000000000000000        0x0 contiki-sky.a(broadcast.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(broadcast.o)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(broadcast.o)
+ .text.broadcast_close
+                0x0000000000000000        0x6 contiki-sky.a(broadcast.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(abc.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(abc.o)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(abc.o)
+ .text.abc_close
+                0x0000000000000000        0x6 contiki-sky.a(abc.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(chameleon.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(chameleon.o)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(chameleon.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(channel.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(channel.o)
+ .text.channel_close
+                0x0000000000000000        0xc contiki-sky.a(channel.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(chameleon-bitop)
+ .data          0x0000000000000000        0x0 contiki-sky.a(chameleon-bitop)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(chameleon-bitop)
+ .text          0x0000000000000000        0x0 contiki-sky.a(nullmac.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(nullmac.o)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(nullmac.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(nullrdc.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(nullrdc.o)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(nullrdc.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(mac.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(mac.o)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(mac.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(framer-802154.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(framer-802154.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(process.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(process.o)
+ .text.process_exit
+                0x0000000000000000        0xa contiki-sky.a(process.o)
+ .text.process_is_running
+                0x0000000000000000        0xe contiki-sky.a(process.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(autostart.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(autostart.o)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(autostart.o)
+ .text.autostart_exit
+                0x0000000000000000       0x14 contiki-sky.a(autostart.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(serial-line.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(timer.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(timer.o)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(timer.o)
+ .text.timer_restart
+                0x0000000000000000       0x14 contiki-sky.a(timer.o)
+ .text.timer_remaining
+                0x0000000000000000       0x28 contiki-sky.a(timer.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(list.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(list.o)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(list.o)
+ .text.list_copy
+                0x0000000000000000        0x6 contiki-sky.a(list.o)
+ .text.list_chop
+                0x0000000000000000       0x1a contiki-sky.a(list.o)
+ .text.list_pop
+                0x0000000000000000        0xe contiki-sky.a(list.o)
+ .text.list_push
+                0x0000000000000000       0x1a contiki-sky.a(list.o)
+ .text.list_length
+                0x0000000000000000       0x10 contiki-sky.a(list.o)
+ .text.list_insert
+                0x0000000000000000       0x16 contiki-sky.a(list.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(etimer.o)
+ .text.etimer_restart
+                0x0000000000000000       0x12 contiki-sky.a(etimer.o)
+ .text.etimer_adjust
+                0x0000000000000000       0x1a contiki-sky.a(etimer.o)
+ .text.etimer_expired
+                0x0000000000000000        0xe contiki-sky.a(etimer.o)
+ .text.etimer_expiration_time
+                0x0000000000000000       0x14 contiki-sky.a(etimer.o)
+ .text.etimer_start_time
+                0x0000000000000000        0x8 contiki-sky.a(etimer.o)
+ .text.etimer_stop
+                0x0000000000000000       0x3e contiki-sky.a(etimer.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(ctimer.o)
+ .text.ctimer_restart
+                0x0000000000000000       0x3a contiki-sky.a(ctimer.o)
+ .text.ctimer_stop
+                0x0000000000000000       0x28 contiki-sky.a(ctimer.o)
+ .text.ctimer_expired
+                0x0000000000000000       0x30 contiki-sky.a(ctimer.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(energest.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(energest.o)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(energest.o)
+ .text.energest_leveldevice_leveltime
+                0x0000000000000000        0x6 contiki-sky.a(energest.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(rtimer.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(rtimer.o)
+ .text.rtimer_set
+                0x0000000000000000       0x24 contiki-sky.a(rtimer.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(random.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(random.o)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(random.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(ringbuf.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(ringbuf.o)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(ringbuf.o)
+ .text.ringbuf_size
+                0x0000000000000000        0x8 contiki-sky.a(ringbuf.o)
+ .text.ringbuf_elements
+                0x0000000000000000       0x12 contiki-sky.a(ringbuf.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(packetbuf.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(packetbuf.o)
+ .text.packetbuf_clear_hdr
+                0x0000000000000000        0x8 contiki-sky.a(packetbuf.o)
+ .text.packetbuf_copyto_hdr
+                0x0000000000000000       0x1c contiki-sky.a(packetbuf.o)
+ .text.packetbuf_copyto
+                0x0000000000000000       0x52 contiki-sky.a(packetbuf.o)
+ .text.packetbuf_hdr_remove
+                0x0000000000000000        0x6 contiki-sky.a(packetbuf.o)
+ .text.packetbuf_reference_ptr
+                0x0000000000000000        0x6 contiki-sky.a(packetbuf.o)
+ .text.packetbuf_hdrlen
+                0x0000000000000000        0xa contiki-sky.a(packetbuf.o)
+ .text.packetbuf_reference
+                0x0000000000000000       0x1a contiki-sky.a(packetbuf.o)
+ .text.packetbuf_attr_copyto
+                0x0000000000000000       0x20 contiki-sky.a(packetbuf.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(queuebuf.o)
+ .text.queuebuf_new_from_packetbuf
+                0x0000000000000000       0x7e contiki-sky.a(queuebuf.o)
+ .text.queuebuf_update_attr_from_packetbuf
+                0x0000000000000000       0x12 contiki-sky.a(queuebuf.o)
+ .text.queuebuf_free
+                0x0000000000000000       0x40 contiki-sky.a(queuebuf.o)
+ .text.queuebuf_dataptr
+                0x0000000000000000       0x32 contiki-sky.a(queuebuf.o)
+ .text.queuebuf_datalen
+                0x0000000000000000        0x6 contiki-sky.a(queuebuf.o)
+ .text.queuebuf_addr
+                0x0000000000000000        0xe contiki-sky.a(queuebuf.o)
+ .text.queuebuf_attr
+                0x0000000000000000        0xe contiki-sky.a(queuebuf.o)
+ .text.queuebuf_debug_print
+                0x0000000000000000        0x2 contiki-sky.a(queuebuf.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(ds2411.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(ds2411.o)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(ds2411.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(node-id.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(node-id.o)
+ .text.node_id_burn
+                0x0000000000000000       0x36 contiki-sky.a(node-id.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(cc2420.o)
+ .text.cc2420_get_channel
+                0x0000000000000000        0x6 contiki-sky.a(cc2420.o)
+ .text.cc2420_rssi
+                0x0000000000000000       0x62 contiki-sky.a(cc2420.o)
+ .text.cc2420_cca_valid
+                0x0000000000000000       0x26 contiki-sky.a(cc2420.o)
+ .text.cc2420_set_cca_threshold
+                0x0000000000000000       0x16 contiki-sky.a(cc2420.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(cc2420-arch.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(cc2420-arch.o)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(cc2420-arch.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(uart1.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(uart1.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(uart1-putchar.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(uart1-putchar.o)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(uart1-putchar.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(msp430.o)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(msp430.o)
+ .text.msp430_remove_lpm_req
+                0x0000000000000000        0xc contiki-sky.a(msp430.o)
+ .text.sbrk     0x0000000000000000       0x1e contiki-sky.a(msp430.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(clock.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(clock.o)
+ .text.clock_set
+                0x0000000000000000       0x16 contiki-sky.a(clock.o)
+ .text.clock_fine_max
+                0x0000000000000000        0x6 contiki-sky.a(clock.o)
+ .text.clock_fine
+                0x0000000000000000        0xc contiki-sky.a(clock.o)
+ .text.clock_wait
+                0x0000000000000000       0x30 contiki-sky.a(clock.o)
+ .text.clock_set_seconds
+                0x0000000000000000       0x1c contiki-sky.a(clock.o)
+ .text.clock_seconds
+                0x0000000000000000       0x1a contiki-sky.a(clock.o)
+ .text.clock_counter
+                0x0000000000000000        0xe contiki-sky.a(clock.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(leds.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(leds.o)
+ .text.leds_get
+                0x0000000000000000        0x6 contiki-sky.a(leds.o)
+ .text.leds_invert
+                0x0000000000000000        0xa contiki-sky.a(leds.o)
+ .text.leds_toggle
+                0x0000000000000000        0x6 contiki-sky.a(leds.o)
+ .text.leds_blink
+                0x0000000000000000       0x24 contiki-sky.a(leds.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(leds-arch.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(leds-arch.o)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(leds-arch.o)
+ .text.leds_arch_get
+                0x0000000000000000       0x3e contiki-sky.a(leds-arch.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(watchdog.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(watchdog.o)
+ .text.watchdog_reboot
+                0x0000000000000000        0x6 contiki-sky.a(watchdog.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(rtimer-arch.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(rtimer-arch.o)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(rtimer-arch.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(frame802154.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(frame802154.o)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(frame802154.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(memb.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(memb.o)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(memb.o)
+ .text.memb_alloc
+                0x0000000000000000       0x3e contiki-sky.a(memb.o)
+ .text.memb_free
+                0x0000000000000000       0x3a contiki-sky.a(memb.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(spi.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(spi.o)
+ .bss           0x0000000000000000        0x1 contiki-sky.a(spi.o)
+ .text          0x0000000000000000        0x0 contiki-sky.a(xmem.o)
+ .data          0x0000000000000000        0x0 contiki-sky.a(xmem.o)
+ .bss           0x0000000000000000        0x0 contiki-sky.a(xmem.o)
+ .text.write_enable
+                0x0000000000000000       0x28 contiki-sky.a(xmem.o)
+ .text.xmem_init
+                0x0000000000000000       0x3c contiki-sky.a(xmem.o)
+ .text.xmem_pwrite
+                0x0000000000000000      0x13a contiki-sky.a(xmem.o)
+ .text.xmem_erase
+                0x0000000000000000       0xba contiki-sky.a(xmem.o)
+ .text          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod32.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod32.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod32.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_addsub_sf.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_addsub_sf.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_mul_sf.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_mul_sf.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_div_sf.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_div_sf.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_gt_sf.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_gt_sf.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_ge_sf.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_ge_sf.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_lt_sf.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_lt_sf.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_si_to_sf.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_si_to_sf.o)
+ .text          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_thenan_sf.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_thenan_sf.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_thenan_sf.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clzsi2.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clzsi2.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_pack_sf.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_pack_sf.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_unpack_sf.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_unpack_sf.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_fpcmp_parts_sf.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_fpcmp_parts_sf.o)
+ .text          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clz.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clz.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clz.o)
+ .text          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(printf.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(printf.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(printf.o)
+ .text.vprintf  0x0000000000000000        0xe /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(printf.o)
+ .text          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o)
+ .text          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(puts.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(puts.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(puts.o)
+ .text          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(rand.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(rand.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(rand.o)
+ .text.rand_r   0x0000000000000000       0x24 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(rand.o)
+ .text          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcmp.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcmp.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcmp.o)
+ .text          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcpy.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcpy.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcpy.o)
+ .text          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memset.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memset.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memset.o)
+ .text          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_mulsi3.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_mulsi3.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_mulsi3.o)
+ .text          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod16.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod16.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod16.o)
+ .text          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod64.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod64.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod64.o)
+ .text          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_reset_vector__.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_reset_vector__.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_reset_vector__.o)
+ .text          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__watchdog_support.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__watchdog_support.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__watchdog_support.o)
+ .text          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__init_stack.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__init_stack.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__init_stack.o)
+ .text          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__low_level_init.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__low_level_init.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__low_level_init.o)
+ .text          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_copy_data.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_copy_data.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_copy_data.o)
+ .text          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_clear_bss.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_clear_bss.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_clear_bss.o)
+ .text          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__stop_progExec__.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__stop_progExec__.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__stop_progExec__.o)
+ .text          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_endless_loop__.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_endless_loop__.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_endless_loop__.o)
+ .text          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_unexpected_.o)
+ .data          0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_unexpected_.o)
+ .bss           0x0000000000000000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_unexpected_.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+sfr              0x0000000000000000 0x0000000000000010
+peripheral_8bit  0x0000000000000010 0x00000000000000f0
+peripheral_16bit 0x0000000000000100 0x0000000000000100
+ram_mirror       0x0000000000000200 0x0000000000000800 xw
+infomem          0x0000000000001000 0x0000000000000100
+infob            0x0000000000001000 0x0000000000000080
+infoa            0x0000000000001080 0x0000000000000080
+ram              0x0000000000001100 0x0000000000002800 xw
+rom              0x0000000000004000 0x000000000000bfe0 xr
+vectors          0x000000000000ffe0 0x0000000000000020
+bsl              0x0000000000000000 0x0000000000000000
+infoc            0x0000000000000000 0x0000000000000000
+infod            0x0000000000000000 0x0000000000000000
+ram2             0x0000000000000000 0x0000000000000000 xw
+signature        0x0000000000000000 0x0000000000000000
+usbram           0x0000000000000000 0x0000000000000000 xw
+far_rom          0x0000000000000000 0x0000000000000000
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/crt0ivtbl16.o
+LOAD garetto-fast.co
+LOAD obj_sky/contiki-sky-main.o
+LOAD contiki-sky.a
+LOAD /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a
+LOAD /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a
+LOAD /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a
+LOAD /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a
+                0x0000000000000080                PROVIDE (__info_segment_size, 0x80)
+                0x0000000000001000                PROVIDE (__infob, 0x1000)
+                0x0000000000001080                PROVIDE (__infoa, 0x1080)
+                0x0000000000000000                __IE1 = 0x0
+                0x0000000000000002                __IFG1 = 0x2
+                0x0000000000000004                __ME1 = 0x4
+                0x0000000000000001                __IE2 = 0x1
+                0x0000000000000003                __IFG2 = 0x3
+                0x0000000000000005                __ME2 = 0x5
+                0x0000000000000120                __WDTCTL = 0x120
+                0x0000000000000130                __MPY = 0x130
+                0x0000000000000132                __MPYS = 0x132
+                0x0000000000000134                __MAC = 0x134
+                0x0000000000000136                __MACS = 0x136
+                0x0000000000000138                __OP2 = 0x138
+                0x000000000000013a                __RESLO = 0x13a
+                0x000000000000013c                __RESHI = 0x13c
+                0x000000000000013e                __SUMEXT = 0x13e
+                0x0000000000000020                __P1IN = 0x20
+                0x0000000000000021                __P1OUT = 0x21
+                0x0000000000000022                __P1DIR = 0x22
+                0x0000000000000023                __P1IFG = 0x23
+                0x0000000000000024                __P1IES = 0x24
+                0x0000000000000025                __P1IE = 0x25
+                0x0000000000000026                __P1SEL = 0x26
+                0x0000000000000028                __P2IN = 0x28
+                0x0000000000000029                __P2OUT = 0x29
+                0x000000000000002a                __P2DIR = 0x2a
+                0x000000000000002b                __P2IFG = 0x2b
+                0x000000000000002c                __P2IES = 0x2c
+                0x000000000000002d                __P2IE = 0x2d
+                0x000000000000002e                __P2SEL = 0x2e
+                0x0000000000000018                __P3IN = 0x18
+                0x0000000000000019                __P3OUT = 0x19
+                0x000000000000001a                __P3DIR = 0x1a
+                0x000000000000001b                __P3SEL = 0x1b
+                0x000000000000001c                __P4IN = 0x1c
+                0x000000000000001d                __P4OUT = 0x1d
+                0x000000000000001e                __P4DIR = 0x1e
+                0x000000000000001f                __P4SEL = 0x1f
+                0x0000000000000030                __P5IN = 0x30
+                0x0000000000000031                __P5OUT = 0x31
+                0x0000000000000032                __P5DIR = 0x32
+                0x0000000000000033                __P5SEL = 0x33
+                0x0000000000000034                __P6IN = 0x34
+                0x0000000000000035                __P6OUT = 0x35
+                0x0000000000000036                __P6DIR = 0x36
+                0x0000000000000037                __P6SEL = 0x37
+                0x0000000000000070                __U0CTL = 0x70
+                0x0000000000000071                __U0TCTL = 0x71
+                0x0000000000000072                __U0RCTL = 0x72
+                0x0000000000000073                __U0MCTL = 0x73
+                0x0000000000000074                __U0BR0 = 0x74
+                0x0000000000000075                __U0BR1 = 0x75
+                0x0000000000000076                __U0RXBUF = 0x76
+                0x0000000000000077                __U0TXBUF = 0x77
+                0x0000000000000078                __U1CTL = 0x78
+                0x0000000000000079                __U1TCTL = 0x79
+                0x000000000000007a                __U1RCTL = 0x7a
+                0x000000000000007b                __U1MCTL = 0x7b
+                0x000000000000007c                __U1BR0 = 0x7c
+                0x000000000000007d                __U1BR1 = 0x7d
+                0x000000000000007e                __U1RXBUF = 0x7e
+                0x000000000000007f                __U1TXBUF = 0x7f
+                0x0000000000000050                __I2CIE = 0x50
+                0x0000000000000051                __I2CIFG = 0x51
+                0x0000000000000052                __I2CNDAT = 0x52
+                0x0000000000000071                __I2CTCTL = 0x71
+                0x0000000000000072                __I2CDCTL = 0x72
+                0x0000000000000073                __I2CPSC = 0x73
+                0x0000000000000074                __I2CSCLH = 0x74
+                0x0000000000000075                __I2CSCLL = 0x75
+                0x0000000000000076                __I2CDRB = 0x76
+                0x0000000000000076                __I2CDRW = 0x76
+                0x0000000000000118                __I2COA = 0x118
+                0x000000000000011a                __I2CSA = 0x11a
+                0x000000000000011c                __I2CIV = 0x11c
+                0x000000000000012e                __TAIV = 0x12e
+                0x0000000000000160                __TACTL = 0x160
+                0x0000000000000162                __TACCTL0 = 0x162
+                0x0000000000000164                __TACCTL1 = 0x164
+                0x0000000000000166                __TACCTL2 = 0x166
+                0x0000000000000170                __TAR = 0x170
+                0x0000000000000172                __TACCR0 = 0x172
+                0x0000000000000174                __TACCR1 = 0x174
+                0x0000000000000176                __TACCR2 = 0x176
+                0x000000000000011e                __TBIV = 0x11e
+                0x0000000000000180                __TBCTL = 0x180
+                0x0000000000000182                __TBCCTL0 = 0x182
+                0x0000000000000184                __TBCCTL1 = 0x184
+                0x0000000000000186                __TBCCTL2 = 0x186
+                0x0000000000000188                __TBCCTL3 = 0x188
+                0x000000000000018a                __TBCCTL4 = 0x18a
+                0x000000000000018c                __TBCCTL5 = 0x18c
+                0x000000000000018e                __TBCCTL6 = 0x18e
+                0x0000000000000190                __TBR = 0x190
+                0x0000000000000192                __TBCCR0 = 0x192
+                0x0000000000000194                __TBCCR1 = 0x194
+                0x0000000000000196                __TBCCR2 = 0x196
+                0x0000000000000198                __TBCCR3 = 0x198
+                0x000000000000019a                __TBCCR4 = 0x19a
+                0x000000000000019c                __TBCCR5 = 0x19c
+                0x000000000000019e                __TBCCR6 = 0x19e
+                0x0000000000000056                __DCOCTL = 0x56
+                0x0000000000000057                __BCSCTL1 = 0x57
+                0x0000000000000058                __BCSCTL2 = 0x58
+                0x0000000000000055                __SVSCTL = 0x55
+                0x0000000000000128                __FCTL1 = 0x128
+                0x000000000000012a                __FCTL2 = 0x12a
+                0x000000000000012c                __FCTL3 = 0x12c
+                0x0000000000000059                __CACTL1 = 0x59
+                0x000000000000005a                __CACTL2 = 0x5a
+                0x000000000000005b                __CAPD = 0x5b
+                0x00000000000001a0                __ADC12CTL0 = 0x1a0
+                0x00000000000001a2                __ADC12CTL1 = 0x1a2
+                0x00000000000001a4                __ADC12IFG = 0x1a4
+                0x00000000000001a6                __ADC12IE = 0x1a6
+                0x00000000000001a8                __ADC12IV = 0x1a8
+                0x0000000000000140                __ADC12MEM0 = 0x140
+                0x0000000000000142                __ADC12MEM1 = 0x142
+                0x0000000000000144                __ADC12MEM2 = 0x144
+                0x0000000000000146                __ADC12MEM3 = 0x146
+                0x0000000000000148                __ADC12MEM4 = 0x148
+                0x000000000000014a                __ADC12MEM5 = 0x14a
+                0x000000000000014c                __ADC12MEM6 = 0x14c
+                0x000000000000014e                __ADC12MEM7 = 0x14e
+                0x0000000000000150                __ADC12MEM8 = 0x150
+                0x0000000000000152                __ADC12MEM9 = 0x152
+                0x0000000000000154                __ADC12MEM10 = 0x154
+                0x0000000000000156                __ADC12MEM11 = 0x156
+                0x0000000000000158                __ADC12MEM12 = 0x158
+                0x000000000000015a                __ADC12MEM13 = 0x15a
+                0x000000000000015c                __ADC12MEM14 = 0x15c
+                0x000000000000015e                __ADC12MEM15 = 0x15e
+                0x0000000000000080                __ADC12MCTL0 = 0x80
+                0x0000000000000081                __ADC12MCTL1 = 0x81
+                0x0000000000000082                __ADC12MCTL2 = 0x82
+                0x0000000000000083                __ADC12MCTL3 = 0x83
+                0x0000000000000084                __ADC12MCTL4 = 0x84
+                0x0000000000000085                __ADC12MCTL5 = 0x85
+                0x0000000000000086                __ADC12MCTL6 = 0x86
+                0x0000000000000087                __ADC12MCTL7 = 0x87
+                0x0000000000000088                __ADC12MCTL8 = 0x88
+                0x0000000000000089                __ADC12MCTL9 = 0x89
+                0x000000000000008a                __ADC12MCTL10 = 0x8a
+                0x000000000000008b                __ADC12MCTL11 = 0x8b
+                0x000000000000008c                __ADC12MCTL12 = 0x8c
+                0x000000000000008d                __ADC12MCTL13 = 0x8d
+                0x000000000000008e                __ADC12MCTL14 = 0x8e
+                0x000000000000008f                __ADC12MCTL15 = 0x8f
+                0x00000000000001c0                __DAC12_0CTL = 0x1c0
+                0x00000000000001c2                __DAC12_1CTL = 0x1c2
+                0x00000000000001c8                __DAC12_0DAT = 0x1c8
+                0x00000000000001ca                __DAC12_1DAT = 0x1ca
+                0x0000000000000122                __DMACTL0 = 0x122
+                0x0000000000000124                __DMACTL1 = 0x124
+                0x00000000000001e0                __DMA0CTL = 0x1e0
+                0x00000000000001e8                __DMA1CTL = 0x1e8
+                0x00000000000001f0                __DMA2CTL = 0x1f0
+                0x00000000000001e2                __DMA0SA = 0x1e2
+                0x00000000000001e4                __DMA0DA = 0x1e4
+                0x00000000000001e6                __DMA0SZ = 0x1e6
+                0x00000000000001ea                __DMA1SA = 0x1ea
+                0x00000000000001ec                __DMA1DA = 0x1ec
+                0x00000000000001ee                __DMA1SZ = 0x1ee
+                0x00000000000001f2                __DMA2SA = 0x1f2
+                0x00000000000001f4                __DMA2DA = 0x1f4
+                0x00000000000001f6                __DMA2SZ = 0x1f6
+
+.hash
+ *(.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.text
+ *(.rel.text .rel.text.* .rel.gnu.linkonce.t.*)
+
+.rela.text
+ *(.rela.text .rela.text.* .rela.gnu.linkonce.t.*)
+
+.rel.rodata
+ *(.rel.rodata .rel.rodata.* .rel.gnu.linkonce.r.*)
+
+.rela.rodata
+ *(.rela.rodata .rela.rodata.* .rela.gnu.linkonce.r.*)
+
+.rel.data
+ *(.rel.data .rel.data.* .rel.gnu.linkonce.d.*)
+
+.rela.data
+ *(.rela.data .rela.data.* .rela.gnu.linkonce.d.*)
+
+.rel.bss
+ *(.rel.bss .rel.bss.* .rel.gnu.linkonce.b.*)
+
+.rela.bss
+ *(.rela.bss .rela.bss.* .rela.gnu.linkonce.b.*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.plt
+ *(.rel.plt)
+
+.rela.plt
+ *(.rela.plt)
+
+.text           0x0000000000004000     0x4fda
+                0x0000000000004000                . = ALIGN (0x2)
+ *(.init .init.*)
+ *(.init0)
+ .init0         0x0000000000004000        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_reset_vector__.o)
+                0x0000000000004000                _reset_vector__
+ *(.init1)
+ .init1         0x0000000000004000        0xc /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__watchdog_support.o)
+                0x0000000000004000                __watchdog_support
+ *(.init2)
+ .init2         0x000000000000400c        0x4 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__init_stack.o)
+                0x000000000000400c                __init_stack
+ *(.init3)
+ .init3         0x0000000000004010        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__low_level_init.o)
+                0x0000000000004010                __low_level_init
+ *(.init4)
+ .init4         0x0000000000004010       0x18 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_copy_data.o)
+                0x0000000000004010                __do_copy_data
+ .init4         0x0000000000004028       0x16 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_clear_bss.o)
+                0x0000000000004028                __do_clear_bss
+ *(.init5)
+ *(.init6)
+ *(.init7)
+ *(.init8)
+ *(.init9)
+ .init9         0x000000000000403e      0x244 obj_sky/contiki-sky-main.o
+                0x000000000000403e                main
+ *(.fini9)
+ .fini9         0x0000000000004282        0x0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__stop_progExec__.o)
+                0x0000000000004282                __stop_progExec__
+ *(.fini8)
+ *(.fini7)
+ *(.fini6)
+ *(.fini5)
+ *(.fini4)
+ *(.fini3)
+ *(.fini2)
+ *(.fini1)
+ *(.fini0)
+ .fini0         0x0000000000004282        0x6 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_endless_loop__.o)
+                0x0000000000004282                _endless_loop__
+ *(.fini .fini.*)
+                0x0000000000004288                . = ALIGN (0x2)
+                0x0000000000004288                __ctors_start = .
+ *(.ctors)
+                0x0000000000004288                __ctors_end = .
+                0x0000000000004288                __dtors_start = .
+ *(.dtors)
+                0x0000000000004288                __dtors_end = .
+                0x0000000000004288                . = ALIGN (0x2)
+ *(.text .text.* .gnu.linkonce.t.*)
+ .text          0x0000000000004288        0x4 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/crt0ivtbl16.o
+                0x0000000000004288                __isr_14
+                0x0000000000004288                __isr_11
+                0x0000000000004288                __isr_2
+                0x0000000000004288                __isr_7
+                0x0000000000004288                __isr_0
+                0x0000000000004288                __isr_8
+                0x0000000000004288                __isr_3
+                0x0000000000004288                __isr_12
+                0x0000000000004288                __isr_13
+                0x0000000000004288                __isr_9
+                0x0000000000004288                __isr_1
+ .text.jammer_control
+                0x000000000000428c      0x284 garetto-fast.co
+                0x000000000000428c                jammer_control
+ .text.compute_state
+                0x0000000000004510      0x23e garetto-fast.co
+                0x0000000000004510                compute_state
+ .text.update_state
+                0x000000000000474e      0x148 garetto-fast.co
+                0x000000000000474e                update_state
+ .text.process_thread_markov_process
+                0x0000000000004896      0x228 garetto-fast.co
+ .text.rimeaddr_copy
+                0x0000000000004abe        0xc contiki-sky.a(rimeaddr.o)
+                0x0000000000004abe                rimeaddr_copy
+ .text.rimeaddr_cmp
+                0x0000000000004aca       0x12 contiki-sky.a(rimeaddr.o)
+                0x0000000000004aca                rimeaddr_cmp
+ .text.rimeaddr_set_node_addr
+                0x0000000000004adc        0xc contiki-sky.a(rimeaddr.o)
+                0x0000000000004adc                rimeaddr_set_node_addr
+ .text.input    0x0000000000004ae8       0x3a contiki-sky.a(rime.o)
+ .text.init     0x0000000000004b22       0x2e contiki-sky.a(rime.o)
+ .text.packet_sent
+                0x0000000000004b50       0x44 contiki-sky.a(rime.o)
+ .text.rime_output
+                0x0000000000004b94       0x24 contiki-sky.a(rime.o)
+                0x0000000000004b94                rime_output
+ .text.announcement_init
+                0x0000000000004bb8        0xa contiki-sky.a(announcement.o)
+                0x0000000000004bb8                announcement_init
+ .text.announcement_register_observer_callback
+                0x0000000000004bc2        0x6 contiki-sky.a(announcement.o)
+                0x0000000000004bc2                announcement_register_observer_callback
+ .text.announcement_list
+                0x0000000000004bc8        0xa contiki-sky.a(announcement.o)
+                0x0000000000004bc8                announcement_list
+ .text.announcement_heard
+                0x0000000000004bd2       0x42 contiki-sky.a(announcement.o)
+                0x0000000000004bd2                announcement_heard
+ .text.adv_packet_sent
+                0x0000000000004c14        0x2 contiki-sky.a(broadcast-annou)
+ .text.adv_packet_received
+                0x0000000000004c16       0x64 contiki-sky.a(broadcast-annou)
+ .text.set_timers
+                0x0000000000004c7a       0x4a contiki-sky.a(broadcast-annou)
+ .text.send_timer
+                0x0000000000004cc4       0x32 contiki-sky.a(broadcast-annou)
+ .text.send_adv
+                0x0000000000004cf6       0x66 contiki-sky.a(broadcast-annou)
+ .text.new_announcement
+                0x0000000000004d5c       0x18 contiki-sky.a(broadcast-annou)
+ .text.broadcast_announcement_init
+                0x0000000000004d74       0x48 contiki-sky.a(broadcast-annou)
+                0x0000000000004d74                broadcast_announcement_init
+ .text.sent_by_abc
+                0x0000000000004dbc       0x10 contiki-sky.a(broadcast.o)
+ .text.recv_from_abc
+                0x0000000000004dcc       0x26 contiki-sky.a(broadcast.o)
+ .text.broadcast_open
+                0x0000000000004df2       0x2a contiki-sky.a(broadcast.o)
+                0x0000000000004df2                broadcast_open
+ .text.broadcast_send
+                0x0000000000004e1c       0x1a contiki-sky.a(broadcast.o)
+                0x0000000000004e1c                broadcast_send
+ .text.abc_open
+                0x0000000000004e36       0x26 contiki-sky.a(abc.o)
+                0x0000000000004e36                abc_open
+ .text.abc_send
+                0x0000000000004e5c        0x6 contiki-sky.a(abc.o)
+                0x0000000000004e5c                abc_send
+ .text.abc_input
+                0x0000000000004e62        0xe contiki-sky.a(abc.o)
+                0x0000000000004e62                abc_input
+ .text.abc_sent
+                0x0000000000004e70       0x10 contiki-sky.a(abc.o)
+                0x0000000000004e70                abc_sent
+ .text.chameleon_init
+                0x0000000000004e80        0x6 contiki-sky.a(chameleon.o)
+                0x0000000000004e80                chameleon_init
+ .text.chameleon_parse
+                0x0000000000004e86       0x10 contiki-sky.a(chameleon.o)
+                0x0000000000004e86                chameleon_parse
+ .text.chameleon_create
+                0x0000000000004e96       0x1c contiki-sky.a(chameleon.o)
+                0x0000000000004e96                chameleon_create
+ .text.chameleon_hdrsize
+                0x0000000000004eb2        0x6 contiki-sky.a(chameleon.o)
+                0x0000000000004eb2                chameleon_hdrsize
+ .text.channel_init
+                0x0000000000004eb8        0xa contiki-sky.a(channel.o)
+                0x0000000000004eb8                channel_init
+ .text.channel_open
+                0x0000000000004ec2       0x10 contiki-sky.a(channel.o)
+                0x0000000000004ec2                channel_open
+ .text.channel_lookup
+                0x0000000000004ed2       0x20 contiki-sky.a(channel.o)
+                0x0000000000004ed2                channel_lookup
+ .text.channel_set_attributes
+                0x0000000000004ef2       0x24 contiki-sky.a(channel.o)
+                0x0000000000004ef2                channel_set_attributes
+ .text.header_size
+                0x0000000000004f16       0x16 contiki-sky.a(chameleon-bitop)
+ .text.get_bits_in_byte
+                0x0000000000004f2c       0x3a contiki-sky.a(chameleon-bitop)
+                0x0000000000004f2c                get_bits_in_byte
+ .text.get_bits
+                0x0000000000004f66       0xa2 contiki-sky.a(chameleon-bitop)
+                0x0000000000004f66                get_bits
+ .text.unpack_header
+                0x0000000000005008       0xd2 contiki-sky.a(chameleon-bitop)
+ .text.set_bits_in_byte
+                0x00000000000050da       0x2c contiki-sky.a(chameleon-bitop)
+                0x00000000000050da                set_bits_in_byte
+ .text.set_bits
+                0x0000000000005106       0xc8 contiki-sky.a(chameleon-bitop)
+                0x0000000000005106                set_bits
+ .text.pack_header
+                0x00000000000051ce       0xbe contiki-sky.a(chameleon-bitop)
+ .text.send_packet
+                0x000000000000528c        0x6 contiki-sky.a(nullmac.o)
+ .text.packet_input
+                0x0000000000005292        0x6 contiki-sky.a(nullmac.o)
+ .text.on       0x0000000000005298        0x6 contiki-sky.a(nullmac.o)
+ .text.off      0x000000000000529e        0x6 contiki-sky.a(nullmac.o)
+ .text.channel_check_interval
+                0x00000000000052a4        0x4 contiki-sky.a(nullmac.o)
+ .text.init     0x00000000000052a8        0x2 contiki-sky.a(nullmac.o)
+ .text.on       0x00000000000052aa        0x6 contiki-sky.a(nullrdc.o)
+ .text.channel_check_interval
+                0x00000000000052b0        0x4 contiki-sky.a(nullrdc.o)
+ .text.init     0x00000000000052b4        0x6 contiki-sky.a(nullrdc.o)
+ .text.off      0x00000000000052ba       0x10 contiki-sky.a(nullrdc.o)
+ .text.packet_input
+                0x00000000000052ca       0x38 contiki-sky.a(nullrdc.o)
+ .text.send_one_packet
+                0x0000000000005302       0x6a contiki-sky.a(nullrdc.o)
+ .text.send_list
+                0x000000000000536c       0x30 contiki-sky.a(nullrdc.o)
+ .text.send_packet
+                0x000000000000539c        0x6 contiki-sky.a(nullrdc.o)
+ .text.mac_call_sent_callback
+                0x00000000000053a2       0x14 contiki-sky.a(mac.o)
+                0x00000000000053a2                mac_call_sent_callback
+ .text.create   0x00000000000053b6      0x106 contiki-sky.a(framer-802154.o)
+ .text.parse    0x00000000000054bc       0xac contiki-sky.a(framer-802154.o)
+ .text.call_process
+                0x0000000000005568       0x46 contiki-sky.a(process.o)
+ .text.exit_process
+                0x00000000000055ae       0x96 contiki-sky.a(process.o)
+ .text.do_poll  0x0000000000005644       0x30 contiki-sky.a(process.o)
+ .text.process_alloc_event
+                0x0000000000005674        0xe contiki-sky.a(process.o)
+                0x0000000000005674                process_alloc_event
+ .text.process_init
+                0x0000000000005682       0x1c contiki-sky.a(process.o)
+                0x0000000000005682                process_init
+ .text.process_run
+                0x000000000000569e       0xa2 contiki-sky.a(process.o)
+                0x000000000000569e                process_run
+ .text.process_nevents
+                0x0000000000005740        0xe contiki-sky.a(process.o)
+                0x0000000000005740                process_nevents
+ .text.process_post
+                0x000000000000574e       0x54 contiki-sky.a(process.o)
+                0x000000000000574e                process_post
+ .text.process_post_synch
+                0x00000000000057a2       0x12 contiki-sky.a(process.o)
+                0x00000000000057a2                process_post_synch
+ .text.process_start
+                0x00000000000057b4       0x36 contiki-sky.a(process.o)
+                0x00000000000057b4                process_start
+ .text.process_poll
+                0x00000000000057ea       0x18 contiki-sky.a(process.o)
+                0x00000000000057ea                process_poll
+ .text.autostart_start
+                0x0000000000005802       0x16 contiki-sky.a(autostart.o)
+                0x0000000000005802                autostart_start
+ .text.process_thread_serial_line_process
+                0x0000000000005818       0x9e contiki-sky.a(serial-line.o)
+ .text.serial_line_input_byte
+                0x00000000000058b6       0x4a contiki-sky.a(serial-line.o)
+                0x00000000000058b6                serial_line_input_byte
+ .text.serial_line_init
+                0x0000000000005900       0x1c contiki-sky.a(serial-line.o)
+                0x0000000000005900                serial_line_init
+ .text.timer_set
+                0x000000000000591c       0x1c contiki-sky.a(timer.o)
+                0x000000000000591c                timer_set
+ .text.timer_reset
+                0x0000000000005938        0xe contiki-sky.a(timer.o)
+                0x0000000000005938                timer_reset
+ .text.timer_expired
+                0x0000000000005946       0x2a contiki-sky.a(timer.o)
+                0x0000000000005946                timer_expired
+ .text.list_init
+                0x0000000000005970        0x6 contiki-sky.a(list.o)
+                0x0000000000005970                list_init
+ .text.list_head
+                0x0000000000005976        0x4 contiki-sky.a(list.o)
+                0x0000000000005976                list_head
+ .text.list_tail
+                0x000000000000597a       0x12 contiki-sky.a(list.o)
+                0x000000000000597a                list_tail
+ .text.list_remove
+                0x000000000000598c       0x34 contiki-sky.a(list.o)
+                0x000000000000598c                list_remove
+ .text.list_add
+                0x00000000000059c0       0x2a contiki-sky.a(list.o)
+                0x00000000000059c0                list_add
+ .text.list_item_next
+                0x00000000000059ea        0xc contiki-sky.a(list.o)
+                0x00000000000059ea                list_item_next
+ .text.update_time
+                0x00000000000059f6       0x78 contiki-sky.a(etimer.o)
+ .text.etimer_request_poll
+                0x0000000000005a6e        0xa contiki-sky.a(etimer.o)
+                0x0000000000005a6e                etimer_request_poll
+ .text.process_thread_etimer_process
+                0x0000000000005a78       0xcc contiki-sky.a(etimer.o)
+ .text.add_timer
+                0x0000000000005b44       0x40 contiki-sky.a(etimer.o)
+ .text.etimer_set
+                0x0000000000005b84       0x12 contiki-sky.a(etimer.o)
+                0x0000000000005b84                etimer_set
+ .text.etimer_reset
+                0x0000000000005b96       0x12 contiki-sky.a(etimer.o)
+                0x0000000000005b96                etimer_reset
+ .text.etimer_pending
+                0x0000000000005ba8        0xc contiki-sky.a(etimer.o)
+                0x0000000000005ba8                etimer_pending
+ .text.etimer_next_expiration_time
+                0x0000000000005bb4       0x16 contiki-sky.a(etimer.o)
+                0x0000000000005bb4                etimer_next_expiration_time
+ .text.process_thread_ctimer_process
+                0x0000000000005bca       0xa8 contiki-sky.a(ctimer.o)
+ .text.ctimer_init
+                0x0000000000005c72       0x18 contiki-sky.a(ctimer.o)
+                0x0000000000005c72                ctimer_init
+ .text.ctimer_set
+                0x0000000000005c8a       0x5a contiki-sky.a(ctimer.o)
+                0x0000000000005c8a                ctimer_set
+ .text.ctimer_reset
+                0x0000000000005ce4       0x3a contiki-sky.a(ctimer.o)
+                0x0000000000005ce4                ctimer_reset
+ .text.energest_init
+                0x0000000000005d1e       0x26 contiki-sky.a(energest.o)
+                0x0000000000005d1e                energest_init
+ .text.energest_type_time
+                0x0000000000005d44       0x48 contiki-sky.a(energest.o)
+                0x0000000000005d44                energest_type_time
+ .text.energest_type_set
+                0x0000000000005d8c        0xe contiki-sky.a(energest.o)
+                0x0000000000005d8c                energest_type_set
+ .text.energest_flush
+                0x0000000000005d9a       0x48 contiki-sky.a(energest.o)
+                0x0000000000005d9a                energest_flush
+ .text.rtimer_init
+                0x0000000000005de2        0x6 contiki-sky.a(rtimer.o)
+                0x0000000000005de2                rtimer_init
+ .text.rtimer_run_next
+                0x0000000000005de8       0x26 contiki-sky.a(rtimer.o)
+                0x0000000000005de8                rtimer_run_next
+ .text.random_init
+                0x0000000000005e0e        0x6 contiki-sky.a(random.o)
+                0x0000000000005e0e                random_init
+ .text.random_rand
+                0x0000000000005e14        0x6 contiki-sky.a(random.o)
+                0x0000000000005e14                random_rand
+ .text.ringbuf_init
+                0x0000000000005e1a       0x14 contiki-sky.a(ringbuf.o)
+                0x0000000000005e1a                ringbuf_init
+ .text.ringbuf_put
+                0x0000000000005e2e       0x38 contiki-sky.a(ringbuf.o)
+                0x0000000000005e2e                ringbuf_put
+ .text.ringbuf_get
+                0x0000000000005e66       0x32 contiki-sky.a(ringbuf.o)
+                0x0000000000005e66                ringbuf_get
+ .text.packetbuf_hdrreduce
+                0x0000000000005e98       0x1a contiki-sky.a(packetbuf.o)
+                0x0000000000005e98                packetbuf_hdrreduce
+ .text.packetbuf_set_datalen
+                0x0000000000005eb2        0x6 contiki-sky.a(packetbuf.o)
+                0x0000000000005eb2                packetbuf_set_datalen
+ .text.packetbuf_dataptr
+                0x0000000000005eb8        0xe contiki-sky.a(packetbuf.o)
+                0x0000000000005eb8                packetbuf_dataptr
+ .text.packetbuf_hdrptr
+                0x0000000000005ec6        0xa contiki-sky.a(packetbuf.o)
+                0x0000000000005ec6                packetbuf_hdrptr
+ .text.packetbuf_is_reference
+                0x0000000000005ed0        0xe contiki-sky.a(packetbuf.o)
+                0x0000000000005ed0                packetbuf_is_reference
+ .text.packetbuf_compact
+                0x0000000000005ede       0x48 contiki-sky.a(packetbuf.o)
+                0x0000000000005ede                packetbuf_compact
+ .text.packetbuf_datalen
+                0x0000000000005f26        0x6 contiki-sky.a(packetbuf.o)
+                0x0000000000005f26                packetbuf_datalen
+ .text.packetbuf_totlen
+                0x0000000000005f2c       0x10 contiki-sky.a(packetbuf.o)
+                0x0000000000005f2c                packetbuf_totlen
+ .text.packetbuf_hdralloc
+                0x0000000000005f3c       0x2e contiki-sky.a(packetbuf.o)
+                0x0000000000005f3c                packetbuf_hdralloc
+ .text.packetbuf_attr_clear
+                0x0000000000005f6a       0x2c contiki-sky.a(packetbuf.o)
+                0x0000000000005f6a                packetbuf_attr_clear
+ .text.packetbuf_clear
+                0x0000000000005f96       0x1a contiki-sky.a(packetbuf.o)
+                0x0000000000005f96                packetbuf_clear
+ .text.packetbuf_copyfrom
+                0x0000000000005fb0       0x2e contiki-sky.a(packetbuf.o)
+                0x0000000000005fb0                packetbuf_copyfrom
+ .text.packetbuf_attr_copyfrom
+                0x0000000000005fde       0x22 contiki-sky.a(packetbuf.o)
+                0x0000000000005fde                packetbuf_attr_copyfrom
+ .text.queuebuf_init
+                0x0000000000006000       0x1a contiki-sky.a(queuebuf.o)
+                0x0000000000006000                queuebuf_init
+ .text.queuebuf_to_packetbuf
+                0x000000000000601a       0x6e contiki-sky.a(queuebuf.o)
+                0x000000000000601a                queuebuf_to_packetbuf
+ .text.owreadb  0x0000000000006088       0x50 contiki-sky.a(ds2411.o)
+ .text.ds2411_init
+                0x00000000000060d8      0x120 contiki-sky.a(ds2411.o)
+                0x00000000000060d8                ds2411_init
+ .text.node_id_restore
+                0x00000000000061f8       0x38 contiki-sky.a(node-id.o)
+                0x00000000000061f8                node_id_restore
+ .text.strobe   0x0000000000006230       0x1c contiki-sky.a(cc2420.o)
+ .text.status   0x000000000000624c       0x22 contiki-sky.a(cc2420.o)
+ .text.getreg   0x000000000000626e       0x4c contiki-sky.a(cc2420.o)
+ .text.setreg   0x00000000000062ba       0x4c contiki-sky.a(cc2420.o)
+ .text.set_txpower
+                0x0000000000006306       0x24 contiki-sky.a(cc2420.o)
+ .text.cc2420_receiving_packet
+                0x000000000000632a        0xc contiki-sky.a(cc2420.o)
+ .text.pending_packet
+                0x0000000000006336        0x8 contiki-sky.a(cc2420.o)
+ .text.on       0x000000000000633e       0x44 contiki-sky.a(cc2420.o)
+ .text.flushrx  0x0000000000006382       0x6c contiki-sky.a(cc2420.o)
+ .text.off      0x00000000000063ee       0x72 contiki-sky.a(cc2420.o)
+ .text.RELEASE_LOCK
+                0x0000000000006460       0x28 contiki-sky.a(cc2420.o)
+ .text.cc2420_prepare
+                0x0000000000006488       0x82 contiki-sky.a(cc2420.o)
+ .text.getrxdata
+                0x000000000000650a       0x50 contiki-sky.a(cc2420.o)
+ .text.cc2420_on
+                0x000000000000655a       0x22 contiki-sky.a(cc2420.o)
+                0x000000000000655a                cc2420_on
+ .text.cc2420_off
+                0x000000000000657c       0x30 contiki-sky.a(cc2420.o)
+                0x000000000000657c                cc2420_off
+ .text.cc2420_cca
+                0x00000000000065ac       0x82 contiki-sky.a(cc2420.o)
+ .text.cc2420_read
+                0x000000000000662e       0xda contiki-sky.a(cc2420.o)
+ .text.process_thread_cc2420_process
+                0x0000000000006708       0x54 contiki-sky.a(cc2420.o)
+ .text.cc2420_set_channel
+                0x000000000000675c       0x80 contiki-sky.a(cc2420.o)
+                0x000000000000675c                cc2420_set_channel
+ .text.cc2420_set_pan_addr
+                0x00000000000067dc      0x13e contiki-sky.a(cc2420.o)
+                0x00000000000067dc                cc2420_set_pan_addr
+ .text.cc2420_init
+                0x000000000000691a       0xca contiki-sky.a(cc2420.o)
+                0x000000000000691a                cc2420_init
+ .text.cc2420_interrupt
+                0x00000000000069e4       0x1e contiki-sky.a(cc2420.o)
+                0x00000000000069e4                cc2420_interrupt
+ .text.cc2420_set_txpower
+                0x0000000000006a02        0xe contiki-sky.a(cc2420.o)
+                0x0000000000006a02                cc2420_set_txpower
+ .text.cc2420_get_txpower
+                0x0000000000006a10       0x1e contiki-sky.a(cc2420.o)
+                0x0000000000006a10                cc2420_get_txpower
+ .text.cc2420_transmit
+                0x0000000000006a2e      0x1a6 contiki-sky.a(cc2420.o)
+ .text.cc2420_send
+                0x0000000000006bd4       0x12 contiki-sky.a(cc2420.o)
+ .text.cc2420_port1_interrupt
+                0x0000000000006be6       0x62 contiki-sky.a(cc2420-arch.o)
+                0x0000000000006be6                __isr_4
+                0x0000000000006be6                cc2420_port1_interrupt
+ .text.cc2420_arch_init
+                0x0000000000006c48       0x1a contiki-sky.a(cc2420-arch.o)
+                0x0000000000006c48                cc2420_arch_init
+ .text.handle_rxdma_timer
+                0x0000000000006c62       0x3a contiki-sky.a(uart1.o)
+ .text.uart1_active
+                0x0000000000006c9c       0x18 contiki-sky.a(uart1.o)
+                0x0000000000006c9c                uart1_active
+ .text.uart1_set_input
+                0x0000000000006cb4       0x20 contiki-sky.a(uart1.o)
+                0x0000000000006cb4                uart1_set_input
+ .text.uart1_writeb
+                0x0000000000006cd4       0x18 contiki-sky.a(uart1.o)
+                0x0000000000006cd4                uart1_writeb
+ .text.uart1_init
+                0x0000000000006cec       0xf4 contiki-sky.a(uart1.o)
+                0x0000000000006cec                uart1_init
+ .text.putchar  0x0000000000006de0       0x10 contiki-sky.a(uart1-putchar.o)
+                0x0000000000006de0                putchar
+ .text.msp430_init_dco
+                0x0000000000006df0       0x82 contiki-sky.a(msp430.o)
+                0x0000000000006df0                msp430_init_dco
+ .text.msp430_add_lpm_req
+                0x0000000000006e72        0xc contiki-sky.a(msp430.o)
+                0x0000000000006e72                msp430_add_lpm_req
+ .text.msp430_cpu_init
+                0x0000000000006e7e       0x2a contiki-sky.a(msp430.o)
+                0x0000000000006e7e                msp430_cpu_init
+ .text.splhigh_
+                0x0000000000006ea8        0x8 contiki-sky.a(msp430.o)
+                0x0000000000006ea8                splhigh_
+ .text.msp430_sync_dco
+                0x0000000000006eb0       0x6c contiki-sky.a(msp430.o)
+                0x0000000000006eb0                msp430_sync_dco
+ .text.timera1  0x0000000000006f1c       0xfe contiki-sky.a(clock.o)
+                0x0000000000006f1c                __isr_5
+                0x0000000000006f1c                timera1
+ .text.clock_time
+                0x000000000000701a       0x1a contiki-sky.a(clock.o)
+                0x000000000000701a                clock_time
+ .text.clock_init
+                0x0000000000007034       0x28 contiki-sky.a(clock.o)
+                0x0000000000007034                clock_init
+ .text.clock_delay
+                0x000000000000705c        0xc contiki-sky.a(clock.o)
+                0x000000000000705c                clock_delay
+ .text.show_leds
+                0x0000000000007068      0x100 contiki-sky.a(leds.o)
+ .text.leds_init
+                0x0000000000007168        0xe contiki-sky.a(leds.o)
+                0x0000000000007168                leds_init
+ .text.leds_on  0x0000000000007176       0x14 contiki-sky.a(leds.o)
+                0x0000000000007176                leds_on
+ .text.leds_off
+                0x000000000000718a       0x14 contiki-sky.a(leds.o)
+                0x000000000000718a                leds_off
+ .text.leds_arch_init
+                0x000000000000719e        0xe contiki-sky.a(leds-arch.o)
+                0x000000000000719e                leds_arch_init
+ .text.leds_arch_set
+                0x00000000000071ac       0x38 contiki-sky.a(leds-arch.o)
+                0x00000000000071ac                leds_arch_set
+ .text.watchdog_interrupt
+                0x00000000000071e4        0x6 contiki-sky.a(watchdog.o)
+                0x00000000000071e4                __isr_10
+                0x00000000000071e4                watchdog_interrupt
+ .text.watchdog_start
+                0x00000000000071ea       0x14 contiki-sky.a(watchdog.o)
+                0x00000000000071ea                watchdog_start
+ .text.watchdog_periodic
+                0x00000000000071fe       0x12 contiki-sky.a(watchdog.o)
+                0x00000000000071fe                watchdog_periodic
+ .text.watchdog_stop
+                0x0000000000007210       0x16 contiki-sky.a(watchdog.o)
+                0x0000000000007210                watchdog_stop
+ .text.watchdog_init
+                0x0000000000007226       0x12 contiki-sky.a(watchdog.o)
+                0x0000000000007226                watchdog_init
+ .text.rtimer_arch_init
+                0x0000000000007238        0xe contiki-sky.a(rtimer-arch.o)
+                0x0000000000007238                rtimer_arch_init
+ .text.rtimer_arch_now
+                0x0000000000007246        0xe contiki-sky.a(rtimer-arch.o)
+                0x0000000000007246                rtimer_arch_now
+ .text.timera0  0x0000000000007254       0x70 contiki-sky.a(rtimer-arch.o)
+                0x0000000000007254                __isr_6
+                0x0000000000007254                timera0
+ .text.rtimer_arch_schedule
+                0x00000000000072c4        0x6 contiki-sky.a(rtimer-arch.o)
+                0x00000000000072c4                rtimer_arch_schedule
+ .text.field_len
+                0x00000000000072ca       0x90 contiki-sky.a(frame802154.o)
+ .text.frame802154_hdrlen
+                0x000000000000735a       0x2e contiki-sky.a(frame802154.o)
+                0x000000000000735a                frame802154_hdrlen
+ .text.frame802154_create
+                0x0000000000007388      0x172 contiki-sky.a(frame802154.o)
+                0x0000000000007388                frame802154_create
+ .text.frame802154_parse
+                0x00000000000074fa      0x1c4 contiki-sky.a(frame802154.o)
+                0x00000000000074fa                frame802154_parse
+ .text.memb_init
+                0x00000000000076be       0x36 contiki-sky.a(memb.o)
+                0x00000000000076be                memb_init
+ .text.memb_inmemb
+                0x00000000000076f4       0x2a contiki-sky.a(memb.o)
+                0x00000000000076f4                memb_inmemb
+ .text.spi_init
+                0x000000000000771e       0x30 contiki-sky.a(spi.o)
+                0x000000000000771e                spi_init
+ .text.wait_ready
+                0x000000000000774e       0x4a contiki-sky.a(xmem.o)
+ .text.xmem_pread
+                0x0000000000007798       0xe0 contiki-sky.a(xmem.o)
+                0x0000000000007798                xmem_pread
+ .text.libgcc   0x0000000000007878       0x40 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod32.o)
+                0x0000000000007878                __udivsi3
+                0x0000000000007878                __ext_udivmod32
+                0x00000000000078ae                __umodsi3
+ .text          0x00000000000078b8      0x308 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_addsub_sf.o)
+                0x0000000000007b24                __addsf3
+                0x0000000000007b70                __subsf3
+ .text          0x0000000000007bc0      0x204 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_mul_sf.o)
+                0x0000000000007bc0                __mulsf3
+ .text          0x0000000000007dc4      0x148 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_div_sf.o)
+                0x0000000000007dc4                __divsf3
+ .text          0x0000000000007f0c       0x4e /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_gt_sf.o)
+                0x0000000000007f0c                __gtsf2
+ .text          0x0000000000007f5a       0x4e /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_ge_sf.o)
+                0x0000000000007f5a                __gesf2
+ .text          0x0000000000007fa8       0x4e /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_lt_sf.o)
+                0x0000000000007fa8                __ltsf2
+ .text          0x0000000000007ff6       0xa8 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_si_to_sf.o)
+                0x0000000000007ff6                __floatsisf
+ .text          0x000000000000809e       0x72 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clzsi2.o)
+                0x000000000000809e                __clzsi2
+ .text          0x0000000000008110      0x1da /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_pack_sf.o)
+                0x0000000000008110                __pack_f
+ .text          0x00000000000082ea      0x13c /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_unpack_sf.o)
+                0x00000000000082ea                __unpack_f
+ .text          0x0000000000008426       0xa4 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_fpcmp_parts_sf.o)
+                0x0000000000008426                __fpcmp_parts_f
+ .text.printf   0x00000000000084ca       0x10 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(printf.o)
+                0x00000000000084ca                printf
+ .text.print_field
+                0x00000000000084da      0x194 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o)
+ .text.vuprintf
+                0x000000000000866e      0x63c /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o)
+                0x000000000000866e                vuprintf
+ .text.puts     0x0000000000008caa       0x2c /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(puts.o)
+                0x0000000000008caa                puts
+ .text.rand     0x0000000000008cd6       0x26 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(rand.o)
+                0x0000000000008cd6                rand
+ .text.srand    0x0000000000008cfc        0xa /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(rand.o)
+                0x0000000000008cfc                srand
+ .text.memcmp   0x0000000000008d06       0x30 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcmp.o)
+                0x0000000000008d06                memcmp
+ .text.memcpy   0x0000000000008d36       0xfa /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcpy.o)
+                0x0000000000008d36                memcpy
+ .text.memset   0x0000000000008e30       0x6a /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memset.o)
+                0x0000000000008e30                memset
+ .text.libgcc   0x0000000000008e9a       0x2c /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_mulsi3.o)
+                0x0000000000008e9a                __mulsi3
+ .text.libgcc   0x0000000000008ec6       0x22 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod16.o)
+                0x0000000000008ec6                __udivhi3
+                0x0000000000008ec6                __ext_udivmod16
+                0x0000000000008ee0                __umodhi3
+ .text.libgcc   0x0000000000008ee8       0xf0 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod64.o)
+                0x0000000000008ee8                __xabi_udivmod64
+                0x0000000000008f46                __udivdi3
+                0x0000000000008f6c                __umoddi3
+                0x0000000000008f9a                __udivmoddi4
+ .text.crt0     0x0000000000008fd8        0x2 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_unexpected_.o)
+                0x0000000000008fd8                _unexpected_
+ *(.near.text .near.text.*)
+
+.rodata         0x0000000000008fda      0x361
+                0x0000000000008fda                . = ALIGN (0x2)
+ *(.rodata .rodata.* .gnu.linkonce.r.*)
+ .rodata        0x0000000000008fda      0x172 garetto-fast.co
+                0x000000000000912e                autostart_processes
+ .rodata        0x000000000000914c       0x34 obj_sky/contiki-sky-main.o
+ .rodata        0x0000000000009180        0x2 contiki-sky.a(rimeaddr.o)
+                0x0000000000009180                rimeaddr_null
+ .rodata        0x0000000000009182        0xc contiki-sky.a(rime.o)
+                0x0000000000009188                rime_driver
+ .rodata        0x000000000000918e        0x4 contiki-sky.a(broadcast-annou)
+ .rodata        0x0000000000009192        0x8 contiki-sky.a(broadcast.o)
+ .rodata        0x000000000000919a        0x2 contiki-sky.a(abc.o)
+ .rodata        0x000000000000919c       0x10 contiki-sky.a(chameleon-bitop)
+                0x000000000000919c                chameleon_bitopt
+ .rodata        0x00000000000091ac       0x16 contiki-sky.a(nullmac.o)
+                0x00000000000091b4                nullmac_driver
+ .rodata        0x00000000000091c2       0x18 contiki-sky.a(nullrdc.o)
+                0x00000000000091ca                nullrdc_driver
+ .rodata        0x00000000000091da        0x4 contiki-sky.a(framer-802154.o)
+                0x00000000000091da                framer_802154
+ .rodata        0x00000000000091de        0xe contiki-sky.a(serial-line.o)
+ .rodata        0x00000000000091ec        0xc contiki-sky.a(etimer.o)
+ .rodata        0x00000000000091f8        0xf contiki-sky.a(ctimer.o)
+ *fill*         0x0000000000009207        0x1 00
+ .rodata        0x0000000000009208       0x22 contiki-sky.a(cc2420.o)
+                0x0000000000009208                cc2420_driver
+ .rodata        0x000000000000922a        0x2 contiki-sky.a(frame802154.o)
+ .rodata        0x000000000000922c        0x8 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_thenan_sf.o)
+                0x000000000000922c                __thenan_sf
+ .rodata        0x0000000000009234      0x100 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clz.o)
+                0x0000000000009234                __clz_tab
+ .rodata.vuprintf
+                0x0000000000009334        0x7 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o)
+ *(.near.rodata .near.rodata.*)
+                0x000000000000933c                . = ALIGN (0x2)
+                0x000000000000933c                _etext = .
+
+.data           0x0000000000001100       0x50 load address 0x000000000000933c
+                0x0000000000001100                . = ALIGN (0x2)
+                0x0000000000001100                __data_start = .
+ *(.data .data.* .gnu.linkonce.d.*)
+ .data          0x0000000000001100        0xa garetto-fast.co
+                0x0000000000001100                markov_process
+ .data          0x000000000000110a        0xa contiki-sky.a(serial-line.o)
+                0x000000000000110a                serial_line_process
+ .data          0x0000000000001114        0xa contiki-sky.a(etimer.o)
+                0x0000000000001114                etimer_process
+ .data          0x000000000000111e        0xa contiki-sky.a(ctimer.o)
+                0x000000000000111e                ctimer_process
+ .data          0x0000000000001128       0x18 contiki-sky.a(queuebuf.o)
+ .data          0x0000000000001140        0xa contiki-sky.a(cc2420.o)
+                0x0000000000001140                cc2420_process
+ .data          0x000000000000114a        0x2 contiki-sky.a(msp430.o)
+ .data.next     0x000000000000114c        0x4 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(rand.o)
+ *(.near.data .near.data.*)
+                0x0000000000001150                . = ALIGN (0x2)
+                0x0000000000001150                _edata = .
+                0x000000000000933c                __data_load_start = LOADADDR (.data)
+                0x0000000000000050                __data_size = SIZEOF (.data)
+
+.bss            0x0000000000001150     0x189e load address 0x000000000000938c
+                0x0000000000001150                __bss_start = .
+ *(.bss .bss.*)
+ .bss           0x0000000000001150      0x87c garetto-fast.co
+                0x0000000000001150                statevs
+                0x0000000000001152                cs
+                0x0000000000001154                maxmax
+                0x0000000000001156                maxsame
+ .bss           0x00000000000019cc        0xc obj_sky/contiki-sky-main.o
+ .bss           0x00000000000019d8        0x2 contiki-sky.a(rime.o)
+ .bss           0x00000000000019da        0x6 contiki-sky.a(announcement.o)
+ .bss           0x00000000000019e0       0x46 contiki-sky.a(broadcast-annou)
+ .bss           0x0000000000001a26        0x2 contiki-sky.a(channel.o)
+ .bss           0x0000000000001a28        0x2 contiki-sky.a(framer-802154.o)
+ .bss           0x0000000000001a2a       0x42 contiki-sky.a(process.o)
+                0x0000000000001a2a                process_current
+                0x0000000000001a2c                process_list
+ .bss           0x0000000000001a6c      0x10a contiki-sky.a(serial-line.o)
+ .bss           0x0000000000001b76        0x6 contiki-sky.a(etimer.o)
+ .bss           0x0000000000001b7c        0x4 contiki-sky.a(ctimer.o)
+ .bss           0x0000000000001b80        0x2 contiki-sky.a(rtimer.o)
+ .bss           0x0000000000001b82       0xba contiki-sky.a(packetbuf.o)
+ .bss           0x0000000000001c3c      0xc4e contiki-sky.a(queuebuf.o)
+ .bss           0x000000000000288a        0x2 contiki-sky.a(node-id.o)
+                0x000000000000288a                node_id
+ .bss           0x000000000000288c        0xa contiki-sky.a(cc2420.o)
+ .bss           0x0000000000002896       0x9a contiki-sky.a(uart1.o)
+ .bss           0x0000000000002930        0xa contiki-sky.a(clock.o)
+ .bss           0x000000000000293a        0x2 contiki-sky.a(leds.o)
+ .bss           0x000000000000293c        0x2 contiki-sky.a(watchdog.o)
+ *(.near.bss .near.bss.*)
+ *(COMMON)
+ COMMON         0x000000000000293e        0x2 contiki-sky.a(rimeaddr.o)
+                0x000000000000293e                rimeaddr_node_addr
+ COMMON         0x0000000000002940        0x1 contiki-sky.a(process.o)
+                0x0000000000002940                process_maxevents
+ COMMON         0x0000000000002941        0x1 contiki-sky.a(serial-line.o)
+                0x0000000000002941                serial_line_event_message
+ COMMON         0x0000000000002942       0x56 contiki-sky.a(energest.o)
+                0x0000000000002942                energest_total_time
+                0x0000000000002972                energest_total_count
+                0x0000000000002974                energest_current_mode
+                0x0000000000002980                energest_current_time
+ COMMON         0x0000000000002998       0x38 contiki-sky.a(packetbuf.o)
+                0x0000000000002998                packetbuf_addrs
+                0x00000000000029a0                packetbuf_attrs
+ COMMON         0x00000000000029d0        0x8 contiki-sky.a(ds2411.o)
+                0x00000000000029d0                ds2411_id
+ COMMON         0x00000000000029d8       0x14 contiki-sky.a(cc2420.o)
+                0x00000000000029d8                cc2420_last_rssi
+                0x00000000000029da                cc2420_packets_read
+                0x00000000000029dc                cc2420_packets_seen
+                0x00000000000029de                cc2420_sfd_start_time
+                0x00000000000029e0                cc2420_time_of_departure
+                0x00000000000029e2                cc2420_time_of_arrival
+                0x00000000000029e4                cc2420_last_correlation
+                0x00000000000029e6                cc2420_authority_level_of_sender
+                0x00000000000029e8                cc2420_sfd_counter
+                0x00000000000029ea                cc2420_sfd_end_time
+ COMMON         0x00000000000029ec        0x2 contiki-sky.a(msp430.o)
+                0x00000000000029ec                msp430_dco_required
+                0x00000000000029ee                . = ALIGN (0x2)
+                0x00000000000029ee                __bss_end = .
+                0x000000000000189e                __bss_size = SIZEOF (.bss)
+
+.noinit         0x00000000000029ee        0x2 load address 0x000000000000938c
+                0x00000000000029ee                . = ALIGN (0x2)
+                0x00000000000029ee                __noinit_start = .
+ *(.noinit .noinit.*)
+ .noinit.crt0   0x00000000000029ee        0x2 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__watchdog_support.o)
+                0x00000000000029ee                __wdt_clear_value
+                0x00000000000029f0                . = ALIGN (0x2)
+                0x00000000000029f0                __noinit_end = .
+                0x00000000000029f0                . = ALIGN (0x2)
+                0x00000000000029f0                _end = .
+
+.infomem        0x0000000000001000        0x0
+                0x0000000000001000                . = ALIGN (0x2)
+ *(.infomem .infomem.*)
+
+.infomemnobits  0x0000000000001000        0x0
+                0x0000000000001000                . = ALIGN (0x2)
+ *(.infomemnobits .infomemnobits.*)
+
+.infoa          0x0000000000001080        0x0
+                0x0000000000001080                . = ALIGN (0x2)
+ *(.infoa .infoa.*)
+
+.infob          0x0000000000001000        0x0
+                0x0000000000001000                . = ALIGN (0x2)
+ *(.infob .infob.*)
+
+.infoc          0x0000000000000000        0x0
+                0x0000000000000000                . = ALIGN (0x2)
+ *(.infoc .infoc.*)
+
+.infod          0x0000000000000000        0x0
+                0x0000000000000000                . = ALIGN (0x2)
+ *(.infod .infod.*)
+                0x000000000000ffff                PROVIDE (__vte_0, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_1, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_2, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_3, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_4, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_5, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_6, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_7, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_8, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_9, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_10, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_11, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_12, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_13, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_14, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_15, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_16, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_17, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_18, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_19, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_20, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_21, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_22, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_23, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_24, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_25, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_26, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_27, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_28, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_29, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_30, 0xffff)
+                0x000000000000ffff                PROVIDE (__vte_31, 0xffff)
+
+.vectors        0x000000000000ffe0       0x20
+                0x000000000000ffe0                __vectors_start = .
+ *(.vectors*)
+ .vectors       0x000000000000ffe0       0x20 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/crt0ivtbl16.o
+                0x000000000000ffe0                __ivtbl_16
+                0x0000000000010000                _vectors_end = .
+
+.fartext        0x0000000000000000        0x0
+                0x0000000000000000                . = ALIGN (0x2)
+ *(.fartext .fartext.*)
+
+.far.text       0x0000000000000000        0x0
+                0x0000000000000000                . = ALIGN (0x2)
+ *(.far.text .far.text.*)
+
+.far.rodata     0x0000000000000000        0x0
+                0x0000000000000000                . = ALIGN (0x2)
+ *(.far.rodata .far.rodata.*)
+                0x0000000000000000                . = ALIGN (0x2)
+                0x0000000000000000                _efartext = .
+
+.far.data       0x0000000000000000        0x0
+                0x0000000000000000                . = ALIGN (0x2)
+                0x0000000000000000                __far_data_start = .
+ *(.far.data .far.data.*)
+                0x0000000000000000                . = ALIGN (0x2)
+                0x0000000000000000                _efardata = .
+                0x0000000000000000                __far_data_load_start = LOADADDR (.far.data)
+                0x0000000000000000                __far_data_size = SIZEOF (.far.data)
+
+.far.bss        0x0000000000000000        0x0
+                0x0000000000000000                . = ALIGN (0x2)
+                0x0000000000000000                __far_bss_start = .
+ *(.far.bss .far.bss.*)
+                0x0000000000000000                . = ALIGN (0x2)
+                0x0000000000000000                __far_bss_end = .
+                0x0000000000000000                __far_bss_size = SIZEOF (.far.bss)
+                0x0000000000000000                . = ALIGN (0x2)
+                0x0000000000000000                _far_end = .
+
+.profiler
+ *(.profiler)
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment        0x0000000000000000       0x30
+ *(.comment)
+ .comment       0x0000000000000000       0x30 garetto-fast.co
+                                         0x31 (size before relaxing)
+ .comment       0x0000000000000000       0x31 obj_sky/contiki-sky-main.o
+ .comment       0x0000000000000000       0x31 contiki-sky.a(rimeaddr.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(rime.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(announcement.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(broadcast-annou)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(broadcast.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(abc.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(chameleon.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(channel.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(chameleon-bitop)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(nullmac.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(nullrdc.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(mac.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(framer-802154.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(process.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(autostart.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(serial-line.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(timer.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(list.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(etimer.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(ctimer.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(energest.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(rtimer.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(random.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(ringbuf.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(packetbuf.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(queuebuf.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(ds2411.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(node-id.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(cc2420.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(cc2420-arch.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(uart1.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(uart1-putchar.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(msp430.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(clock.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(leds.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(leds-arch.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(watchdog.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(rtimer-arch.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(frame802154.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(memb.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(spi.o)
+ .comment       0x0000000000000000       0x31 contiki-sky.a(xmem.o)
+ .comment       0x0000000000000000       0x31 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_addsub_sf.o)
+ .comment       0x0000000000000000       0x31 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_mul_sf.o)
+ .comment       0x0000000000000000       0x31 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_div_sf.o)
+ .comment       0x0000000000000000       0x31 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_gt_sf.o)
+ .comment       0x0000000000000000       0x31 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_ge_sf.o)
+ .comment       0x0000000000000000       0x31 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_lt_sf.o)
+ .comment       0x0000000000000000       0x31 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_si_to_sf.o)
+ .comment       0x0000000000000000       0x31 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_thenan_sf.o)
+ .comment       0x0000000000000000       0x31 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clzsi2.o)
+ .comment       0x0000000000000000       0x31 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_pack_sf.o)
+ .comment       0x0000000000000000       0x31 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_unpack_sf.o)
+ .comment       0x0000000000000000       0x31 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_fpcmp_parts_sf.o)
+ .comment       0x0000000000000000       0x31 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clz.o)
+ .comment       0x0000000000000000       0x31 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(printf.o)
+ .comment       0x0000000000000000       0x31 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o)
+ .comment       0x0000000000000000       0x31 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(puts.o)
+ .comment       0x0000000000000000       0x31 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(rand.o)
+ .comment       0x0000000000000000       0x31 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcmp.o)
+ .comment       0x0000000000000000       0x31 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcpy.o)
+ .comment       0x0000000000000000       0x31 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memset.o)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x0000000000000000      0x274
+ *(.debug_aranges)
+ .debug_aranges
+                0x0000000000000000       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/crt0ivtbl16.o
+ .debug_aranges
+                0x0000000000000014       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod32.o)
+ .debug_aranges
+                0x0000000000000028       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_addsub_sf.o)
+ .debug_aranges
+                0x000000000000003c       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_mul_sf.o)
+ .debug_aranges
+                0x0000000000000050       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_div_sf.o)
+ .debug_aranges
+                0x0000000000000064       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_gt_sf.o)
+ .debug_aranges
+                0x0000000000000078       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_ge_sf.o)
+ .debug_aranges
+                0x000000000000008c       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_lt_sf.o)
+ .debug_aranges
+                0x00000000000000a0       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_si_to_sf.o)
+ .debug_aranges
+                0x00000000000000b4       0x10 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_thenan_sf.o)
+ .debug_aranges
+                0x00000000000000c4       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clzsi2.o)
+ .debug_aranges
+                0x00000000000000d8       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_pack_sf.o)
+ .debug_aranges
+                0x00000000000000ec       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_unpack_sf.o)
+ .debug_aranges
+                0x0000000000000100       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_fpcmp_parts_sf.o)
+ .debug_aranges
+                0x0000000000000114       0x10 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clz.o)
+ .debug_aranges
+                0x0000000000000124       0x18 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(printf.o)
+ .debug_aranges
+                0x000000000000013c       0x18 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o)
+ .debug_aranges
+                0x0000000000000154       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(puts.o)
+ .debug_aranges
+                0x0000000000000168       0x1c /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(rand.o)
+ .debug_aranges
+                0x0000000000000184       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcmp.o)
+ .debug_aranges
+                0x0000000000000198       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcpy.o)
+ .debug_aranges
+                0x00000000000001ac       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memset.o)
+ .debug_aranges
+                0x00000000000001c0       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_mulsi3.o)
+ .debug_aranges
+                0x00000000000001d4       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod16.o)
+ .debug_aranges
+                0x00000000000001e8       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod64.o)
+ .debug_aranges
+                0x00000000000001fc       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__watchdog_support.o)
+ .debug_aranges
+                0x0000000000000210       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__init_stack.o)
+ .debug_aranges
+                0x0000000000000224       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_copy_data.o)
+ .debug_aranges
+                0x0000000000000238       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_clear_bss.o)
+ .debug_aranges
+                0x000000000000024c       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_endless_loop__.o)
+ .debug_aranges
+                0x0000000000000260       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_unexpected_.o)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info     0x0000000000000000     0x3550
+ *(.debug_info)
+ .debug_info    0x0000000000000000       0x99 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/crt0ivtbl16.o
+ .debug_info    0x0000000000000099       0x96 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod32.o)
+ .debug_info    0x000000000000012f      0x50d /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_addsub_sf.o)
+ .debug_info    0x000000000000063c      0x447 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_mul_sf.o)
+ .debug_info    0x0000000000000a83      0x3d3 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_div_sf.o)
+ .debug_info    0x0000000000000e56      0x2fa /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_gt_sf.o)
+ .debug_info    0x0000000000001150      0x2fa /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_ge_sf.o)
+ .debug_info    0x000000000000144a      0x2fa /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_lt_sf.o)
+ .debug_info    0x0000000000001744      0x243 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_si_to_sf.o)
+ .debug_info    0x0000000000001987      0x167 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_thenan_sf.o)
+ .debug_info    0x0000000000001aee      0x111 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clzsi2.o)
+ .debug_info    0x0000000000001bff      0x2b6 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_pack_sf.o)
+ .debug_info    0x0000000000001eb5      0x24a /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_unpack_sf.o)
+ .debug_info    0x00000000000020ff      0x1dd /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_fpcmp_parts_sf.o)
+ .debug_info    0x00000000000022dc       0xc3 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clz.o)
+ .debug_info    0x000000000000239f      0x16e /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(printf.o)
+ .debug_info    0x000000000000250d      0x5d4 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o)
+ .debug_info    0x0000000000002ae1       0xc7 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(puts.o)
+ .debug_info    0x0000000000002ba8      0x146 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(rand.o)
+ .debug_info    0x0000000000002cee       0xe5 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcmp.o)
+ .debug_info    0x0000000000002dd3      0x12c /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcpy.o)
+ .debug_info    0x0000000000002eff      0x117 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memset.o)
+ .debug_info    0x0000000000003016       0x96 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_mulsi3.o)
+ .debug_info    0x00000000000030ac       0x96 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod16.o)
+ .debug_info    0x0000000000003142       0x96 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod64.o)
+ .debug_info    0x00000000000031d8       0x94 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__watchdog_support.o)
+ .debug_info    0x000000000000326c       0x94 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__init_stack.o)
+ .debug_info    0x0000000000003300       0x94 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_copy_data.o)
+ .debug_info    0x0000000000003394       0x94 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_clear_bss.o)
+ .debug_info    0x0000000000003428       0x94 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_endless_loop__.o)
+ .debug_info    0x00000000000034bc       0x94 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_unexpected_.o)
+ *(.gnu.linkonce.wi.*)
+
+.debug_abbrev   0x0000000000000000     0x1a64
+ *(.debug_abbrev)
+ .debug_abbrev  0x0000000000000000       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/crt0ivtbl16.o
+ .debug_abbrev  0x0000000000000014       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod32.o)
+ .debug_abbrev  0x0000000000000028      0x202 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_addsub_sf.o)
+ .debug_abbrev  0x000000000000022a      0x23a /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_mul_sf.o)
+ .debug_abbrev  0x0000000000000464      0x223 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_div_sf.o)
+ .debug_abbrev  0x0000000000000687      0x1a5 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_gt_sf.o)
+ .debug_abbrev  0x000000000000082c      0x1a5 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_ge_sf.o)
+ .debug_abbrev  0x00000000000009d1      0x1a5 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_lt_sf.o)
+ .debug_abbrev  0x0000000000000b76      0x19e /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_si_to_sf.o)
+ .debug_abbrev  0x0000000000000d14       0xc5 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_thenan_sf.o)
+ .debug_abbrev  0x0000000000000dd9       0xaf /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clzsi2.o)
+ .debug_abbrev  0x0000000000000e88      0x195 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_pack_sf.o)
+ .debug_abbrev  0x000000000000101d      0x150 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_unpack_sf.o)
+ .debug_abbrev  0x000000000000116d      0x10e /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_fpcmp_parts_sf.o)
+ .debug_abbrev  0x000000000000127b       0x75 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clz.o)
+ .debug_abbrev  0x00000000000012f0       0xfa /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(printf.o)
+ .debug_abbrev  0x00000000000013ea      0x23e /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o)
+ .debug_abbrev  0x0000000000001628       0xa3 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(puts.o)
+ .debug_abbrev  0x00000000000016cb       0xfb /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(rand.o)
+ .debug_abbrev  0x00000000000017c6       0x9e /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcmp.o)
+ .debug_abbrev  0x0000000000001864       0xab /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcpy.o)
+ .debug_abbrev  0x000000000000190f       0xa1 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memset.o)
+ .debug_abbrev  0x00000000000019b0       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_mulsi3.o)
+ .debug_abbrev  0x00000000000019c4       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod16.o)
+ .debug_abbrev  0x00000000000019d8       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod64.o)
+ .debug_abbrev  0x00000000000019ec       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__watchdog_support.o)
+ .debug_abbrev  0x0000000000001a00       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__init_stack.o)
+ .debug_abbrev  0x0000000000001a14       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_copy_data.o)
+ .debug_abbrev  0x0000000000001a28       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_clear_bss.o)
+ .debug_abbrev  0x0000000000001a3c       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_endless_loop__.o)
+ .debug_abbrev  0x0000000000001a50       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_unexpected_.o)
+
+.debug_line     0x0000000000000000     0x1446
+ *(.debug_line)
+ .debug_line    0x0000000000000000       0x67 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/crt0ivtbl16.o
+ .debug_line    0x0000000000000067       0x82 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod32.o)
+ .debug_line    0x00000000000000e9       0xfe /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_addsub_sf.o)
+ .debug_line    0x00000000000001e7       0xea /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_mul_sf.o)
+ .debug_line    0x00000000000002d1       0xb2 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_div_sf.o)
+ .debug_line    0x0000000000000383       0x72 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_gt_sf.o)
+ .debug_line    0x00000000000003f5       0x72 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_ge_sf.o)
+ .debug_line    0x0000000000000467       0x72 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_lt_sf.o)
+ .debug_line    0x00000000000004d9       0x8a /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_si_to_sf.o)
+ .debug_line    0x0000000000000563       0x96 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_thenan_sf.o)
+ .debug_line    0x00000000000005f9       0x95 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clzsi2.o)
+ .debug_line    0x000000000000068e       0xbb /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_pack_sf.o)
+ .debug_line    0x0000000000000749       0x9e /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_unpack_sf.o)
+ .debug_line    0x00000000000007e7       0xb2 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_fpcmp_parts_sf.o)
+ .debug_line    0x0000000000000899       0x98 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clz.o)
+ .debug_line    0x0000000000000931       0xa3 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(printf.o)
+ .debug_line    0x00000000000009d4      0x304 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o)
+ .debug_line    0x0000000000000cd8       0x65 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(puts.o)
+ .debug_line    0x0000000000000d3d       0x68 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(rand.o)
+ .debug_line    0x0000000000000da5       0x89 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcmp.o)
+ .debug_line    0x0000000000000e2e      0x112 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcpy.o)
+ .debug_line    0x0000000000000f40       0xec /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memset.o)
+ .debug_line    0x000000000000102c       0x7a /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_mulsi3.o)
+ .debug_line    0x00000000000010a6       0x73 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod16.o)
+ .debug_line    0x0000000000001119       0xcc /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_udivmod64.o)
+ .debug_line    0x00000000000011e5       0x65 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__watchdog_support.o)
+ .debug_line    0x000000000000124a       0x63 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(__init_stack.o)
+ .debug_line    0x00000000000012ad       0x69 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_copy_data.o)
+ .debug_line    0x0000000000001316       0x69 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_clear_bss.o)
+ .debug_line    0x000000000000137f       0x64 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_endless_loop__.o)
+ .debug_line    0x00000000000013e3       0x63 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libcrt0.a(_unexpected_.o)
+
+.debug_frame    0x0000000000000000      0x3ec
+ *(.debug_frame)
+ .debug_frame   0x0000000000000000       0x6a /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_addsub_sf.o)
+ .debug_frame   0x000000000000006a       0x4a /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_mul_sf.o)
+ .debug_frame   0x00000000000000b4       0x3a /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_div_sf.o)
+ .debug_frame   0x00000000000000ee       0x22 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_gt_sf.o)
+ .debug_frame   0x0000000000000110       0x22 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_ge_sf.o)
+ .debug_frame   0x0000000000000132       0x22 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_lt_sf.o)
+ .debug_frame   0x0000000000000154       0x2c /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_si_to_sf.o)
+ .debug_frame   0x0000000000000180       0x2e /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clzsi2.o)
+ .debug_frame   0x00000000000001ae       0x32 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_pack_sf.o)
+ .debug_frame   0x00000000000001e0       0x32 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_unpack_sf.o)
+ .debug_frame   0x0000000000000212       0x24 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_fpcmp_parts_sf.o)
+ .debug_frame   0x0000000000000236       0x2a /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(printf.o)
+ .debug_frame   0x0000000000000260       0xa0 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o)
+ .debug_frame   0x0000000000000300       0x24 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(puts.o)
+ .debug_frame   0x0000000000000324       0x3c /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(rand.o)
+ .debug_frame   0x0000000000000360       0x28 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcmp.o)
+ .debug_frame   0x0000000000000388       0x32 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcpy.o)
+ .debug_frame   0x00000000000003ba       0x32 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memset.o)
+
+.debug_str      0x0000000000000000      0x6f8
+ *(.debug_str)
+ .debug_str     0x0000000000000000      0x202 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_addsub_sf.o)
+                                        0x264 (size before relaxing)
+ .debug_str     0x0000000000000202       0x27 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_mul_sf.o)
+                                        0x21d (size before relaxing)
+ .debug_str     0x0000000000000229       0x35 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_div_sf.o)
+                                        0x226 (size before relaxing)
+ .debug_str     0x000000000000025e       0x20 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_gt_sf.o)
+                                        0x1f3 (size before relaxing)
+ .debug_str     0x000000000000027e        0x8 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_ge_sf.o)
+                                        0x1f3 (size before relaxing)
+ .debug_str     0x0000000000000286        0x8 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_lt_sf.o)
+                                        0x1f3 (size before relaxing)
+ .debug_str     0x000000000000028e       0x27 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_si_to_sf.o)
+                                        0x1cf (size before relaxing)
+ .debug_str     0x00000000000002b5       0x57 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_thenan_sf.o)
+                                        0x1d9 (size before relaxing)
+ .debug_str     0x000000000000030c       0x74 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clzsi2.o)
+                                        0x14a (size before relaxing)
+ .debug_str     0x0000000000000380        0x7 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_pack_sf.o)
+                                        0x1df (size before relaxing)
+ .debug_str     0x0000000000000000      0x1c1 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_unpack_sf.o)
+ .debug_str     0x0000000000000000      0x1a5 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_fpcmp_parts_sf.o)
+ .debug_str     0x0000000000000000      0x184 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clz.o)
+ .debug_str     0x0000000000000387       0x92 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(printf.o)
+                                        0x138 (size before relaxing)
+ .debug_str     0x0000000000000419      0x20f /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o)
+                                        0x383 (size before relaxing)
+ .debug_str     0x0000000000000628       0x1d /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(puts.o)
+                                         0xfd (size before relaxing)
+ .debug_str     0x0000000000000645       0x2f /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(rand.o)
+                                        0x114 (size before relaxing)
+ .debug_str     0x0000000000000674       0x20 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcmp.o)
+                                        0x100 (size before relaxing)
+ .debug_str     0x0000000000000694       0x3e /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcpy.o)
+                                        0x12e (size before relaxing)
+ .debug_str     0x00000000000006d2       0x26 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memset.o)
+                                        0x12c (size before relaxing)
+
+.debug_loc      0x0000000000000000     0x188c
+ *(.debug_loc)
+ .debug_loc     0x0000000000000000      0x3be /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_addsub_sf.o)
+ .debug_loc     0x00000000000003be      0x1e1 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_mul_sf.o)
+ .debug_loc     0x000000000000059f      0x143 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_div_sf.o)
+ .debug_loc     0x00000000000006e2       0x54 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_gt_sf.o)
+ .debug_loc     0x0000000000000736       0x54 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_ge_sf.o)
+ .debug_loc     0x000000000000078a       0x54 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_lt_sf.o)
+ .debug_loc     0x00000000000007de       0xf1 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_si_to_sf.o)
+ .debug_loc     0x00000000000008cf       0x80 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clzsi2.o)
+ .debug_loc     0x000000000000094f      0x155 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_pack_sf.o)
+ .debug_loc     0x0000000000000aa4      0x167 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_unpack_sf.o)
+ .debug_loc     0x0000000000000c0b       0xb5 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_fpcmp_parts_sf.o)
+ .debug_loc     0x0000000000000cc0       0x4c /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(printf.o)
+ .debug_loc     0x0000000000000d0c      0x7fa /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o)
+ .debug_loc     0x0000000000001506       0x26 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(puts.o)
+ .debug_loc     0x000000000000152c       0x4f /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(rand.o)
+ .debug_loc     0x000000000000157b       0x4d /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcmp.o)
+ .debug_loc     0x00000000000015c8      0x1e3 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcpy.o)
+ .debug_loc     0x00000000000017ab       0xe1 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memset.o)
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_pubtypes
+ *(.debug_pubtypes)
+
+.debug_ranges   0x0000000000000000       0xc4
+ *(.debug_ranges)
+ .debug_ranges  0x0000000000000000       0x14 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_addsub_sf.o)
+ .debug_ranges  0x0000000000000014       0x24 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_mul_sf.o)
+ .debug_ranges  0x0000000000000038       0x20 /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_div_sf.o)
+ .debug_ranges  0x0000000000000058        0xc /usr/local/msp430/lib/gcc/msp430/4.7.0/mmpy-16/libgcc.a(_clzsi2.o)
+ .debug_ranges  0x0000000000000064        0xc /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(printf.o)
+ .debug_ranges  0x0000000000000070       0x24 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(vuprintf.o)
+ .debug_ranges  0x0000000000000094        0x8 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(puts.o)
+ .debug_ranges  0x000000000000009c       0x10 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(rand.o)
+ .debug_ranges  0x00000000000000ac        0x8 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcmp.o)
+ .debug_ranges  0x00000000000000b4        0x8 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memcpy.o)
+ .debug_ranges  0x00000000000000bc        0x8 /usr/local/msp430/lib/gcc/msp430/4.7.0/../../../../msp430/lib/mmpy-16/libc.a(memset.o)
+                0x0000000000003900                PROVIDE (__stack, (ORIGIN (ram) + 0x2800))
+                0x000000000000933c                __data_start_rom = _etext
+                0x000000000000938c                __data_end_rom = (_etext + SIZEOF (.data))
+OUTPUT(garetto-fast.sky elf32-msp430)

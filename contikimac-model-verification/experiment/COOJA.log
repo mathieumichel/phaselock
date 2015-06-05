@@ -1,0 +1,16 @@
+[16:47:52 - main] [Cooja.java:1321] [INFO] - > Starting Cooja
+[16:47:52 - main] [Cooja.java:2841] [INFO] - External tools default settings: /external_tools_win32.config
+[16:47:52 - main] [Cooja.java:2871] [INFO] - External tools user settings: C:\Users\nvt\.cooja.user.properties
+[16:47:53 - main] [Cooja.java:1585] [WARN] - Could not load plugin class: org.contikios.cooja.serialsocket.SerialSocketClient
+[16:47:53 - main] [Cooja.java:1585] [WARN] - Could not load plugin class: org.contikios.cooja.serialsocket.SerialSocketServer
+[16:47:53 - main] [Simulation.java:420] [INFO] - Simulation random seed: -4702740135100902156
+[16:47:53 - main] [CompileContiki.java:140] [INFO] - > make net-test.sky TARGET=sky 
+[16:47:55 - main] [MspMote.java:232] [INFO] - Loading firmware from: C:\cygwin\home\nvt\repos\relyonit\source\contikimac-model-verification\experiment\net-test.sky
+[16:47:55 - main] [MspMote.java:232] [INFO] - Loading firmware from: C:\cygwin\home\nvt\repos\relyonit\source\contikimac-model-verification\experiment\net-test.sky
+[16:47:56 - main] [Visualizer.java:221] [INFO] - Registered external visualizer: org.contikios.cooja.plugins.skins.DGRMVisualizerSkin
+[16:47:56 - main] [ScriptRunner.java:421] [INFO] - Test script deactivated
+[16:47:56 - main] [LogScriptEngine.java:265] [INFO] - Script timeout in 36000000 ms
+[16:47:56 - main] [ScriptRunner.java:378] [INFO] - Test script activated
+[16:47:57 - main] [TimeLine.java:567] [INFO] - Zoom level: 500.0 microseconds/pixel 
+[16:48:02 - Thread-4] [Simulation.java:252] [INFO] - Simulation main loop started, system time: 1417621682529
+[16:48:17 - Thread-4] [Simulation.java:311] [INFO] - Simulation main loop stopped, system time: 1417621697660	Duration: 15131 ms	Simulated time 428264 ms	Ratio 28.30374727380874

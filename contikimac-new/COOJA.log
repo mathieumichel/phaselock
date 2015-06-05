@@ -1,0 +1,6 @@
+[13:38:34 - main] [GUI.java:3159] [WARN] - JAVA_HOME environment variable not set, Cooja motes may not compile
+[13:38:34 - main] [GUI.java:1360] [INFO] - > Starting Cooja
+[13:38:34 - main] [GUI.java:2846] [INFO] - External tools default settings: /external_tools_linux_64.config
+[13:38:34 - main] [GUI.java:2876] [INFO] - External tools user settings: /home/macfly/.cooja.user.properties
+[13:38:35 - main] [GUI.java:1366] [INFO] - > Creating simulation
+[13:38:40 - main] [GUI.java:1371] [FATAL] - No simulation, aborting quickstart
