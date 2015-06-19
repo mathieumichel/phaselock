@@ -842,6 +842,7 @@ PROCESS_THREAD(cc2420_process, ev, data)
 
     int frame_type = ((uint8_t*)packetbuf_dataptr())[0] & 7;
     if (frame_type == FRAME802154_ACKFRAME || frame_type == 3 || frame_type == 7 || frame_type==0) {
+      printf("tchup\n");
       len = 0;
     }
     packetbuf_set_datalen(len);

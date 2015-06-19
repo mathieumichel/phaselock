@@ -56,8 +56,6 @@ CFLAGS += -DCONTIKI=1 -DCONTIKI_TARGET_$(TARGET_UPPERCASE)=1
 
 include $(CONTIKI)/core/net/rime/Makefile.rime
 include $(CONTIKI)/core/net/mac/Makefile.mac
-
-
 SYSTEM  = process.c procinit.c autostart.c elfloader.c profile.c \
           timetable.c timetable-aggregate.c compower.c serial-line.c
 THREADS = mt.c
@@ -67,7 +65,6 @@ DEV     = nullradio.c
 
 include $(CONTIKI)/core/net/Makefile.uip
 include $(CONTIKI)/core/net/rpl/Makefile.rpl
-
 
 CTK     = ctk.c
 CTKVNC  = $(CTK) ctk-vncserver.c libconio.c vnc-server.c vnc-out.c ctk-vncfont.c
@@ -106,7 +103,6 @@ ifdef APPS
   DSC_SOURCES = ${foreach APP, $(APPS), $($(APP)_dsc)}
   CONTIKI_SOURCEFILES += $(APP_SOURCES) $(DSC_SOURCES)
 endif
-
 
 ### Include target makefile (TODO Unsafe?)
 
