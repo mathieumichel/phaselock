@@ -1,0 +1,114 @@
+obj_sky/rpl-log.o: tools/rpl-log.c \
+ /home/macfly/Git/contiki/core/./contiki.h \
+ /home/macfly/Git/contiki/core/./contiki-version.h \
+ /home/macfly/Git/contiki/platform/sky/./contiki-conf.h \
+ /home/macfly/Git/contiki/platform/sky/./platform-conf.h \
+ /home/macfly/Git/contiki/cpu/msp430/./msp430def.h project-conf.h \
+ /home/macfly/Git/contiki/core/./contiki-default-conf.h \
+ /home/macfly/Git/contiki/core/./sys/process.h \
+ /home/macfly/Git/contiki/core/./sys/pt.h \
+ /home/macfly/Git/contiki/core/./sys/lc.h \
+ /home/macfly/Git/contiki/core/./sys/lc-switch.h \
+ /home/macfly/Git/contiki/core/./sys/cc.h \
+ /home/macfly/Git/contiki/core/./sys/autostart.h \
+ /home/macfly/Git/contiki/core/./sys/process.h \
+ /home/macfly/Git/contiki/core/./sys/timer.h \
+ /home/macfly/Git/contiki/core/./sys/clock.h \
+ /home/macfly/Git/contiki/core/./sys/ctimer.h \
+ /home/macfly/Git/contiki/core/./sys/etimer.h \
+ /home/macfly/Git/contiki/core/./sys/timer.h \
+ /home/macfly/Git/contiki/core/./sys/etimer.h \
+ /home/macfly/Git/contiki/core/./sys/rtimer.h \
+ /home/macfly/Git/contiki/cpu/msp430/./rtimer-arch.h \
+ /home/macfly/Git/contiki/core/./sys/rtimer.h \
+ /home/macfly/Git/contiki/core/./sys/pt.h \
+ /home/macfly/Git/contiki/core/./sys/procinit.h \
+ /home/macfly/Git/contiki/core/./sys/loader.h \
+ /home/macfly/Git/contiki/core/./sys/clock.h \
+ /home/macfly/Git/contiki/core/./sys/energest.h tools/deployment.h \
+ /home/macfly/Git/contiki/core/./sys/node-id.h \
+ /home/macfly/Git/contiki/core/./net/ip/uip.h \
+ /home/macfly/Git/contiki/core/./net/ip/uipopt.h \
+ /home/macfly/Git/contiki/core/./net/ip/tcpip.h \
+ /home/macfly/Git/contiki/core/./net/linkaddr.h net/rpl/rpl.h \
+ /home/macfly/Git/contiki/core/net/rpl/rpl-conf.h \
+ /home/macfly/Git/contiki/core/./lib/list.h \
+ /home/macfly/Git/contiki/core/./net/ipv6/uip-ds6.h \
+ /home/macfly/Git/contiki/core/./sys/stimer.h \
+ /home/macfly/Git/contiki/core/./net/ipv6/uip-nd6.h \
+ /home/macfly/Git/contiki/core/./net/ipv6/uip-ds6-route.h \
+ /home/macfly/Git/contiki/core/./net/ipv6/uip-ds6-nbr.h \
+ /home/macfly/Git/contiki/core/./net/nbr-table.h \
+ /home/macfly/Git/contiki/core/./net/netstack.h \
+ /home/macfly/Git/contiki/core/./net/llsec/llsec.h \
+ /home/macfly/Git/contiki/core/./net/mac/mac.h \
+ /home/macfly/Git/contiki/core/./dev/radio.h \
+ /home/macfly/Git/contiki/core/./net/mac/rdc.h \
+ /home/macfly/Git/contiki/core/./net/mac/framer.h \
+ /home/macfly/Git/contiki/core/./sys/ctimer.h net/rpl/rpl-private.h \
+ /home/macfly/Git/contiki/core/./net/ipv6/multicast/uip-mcast6.h \
+ /home/macfly/Git/contiki/core/./net/ipv6/multicast/uip-mcast6-engines.h \
+ /home/macfly/Git/contiki/core/./net/ipv6/multicast/uip-mcast6-route.h \
+ /home/macfly/Git/contiki/core/./net/ipv6/multicast/smrf.h \
+ /home/macfly/Git/contiki/core/./net/ipv6/multicast/roll-tm.h \
+ /home/macfly/Git/contiki/core/./net/ipv6/multicast/uip-mcast6-stats.h \
+ /home/macfly/Git/contiki/core/./net/packetbuf.h \
+ /home/macfly/Git/contiki/core/./net/llsec/llsec802154.h \
+ /home/macfly/Git/contiki/core/./net/mac/frame802154.h tools/rpl-log.h
+tools/rpl-log.c :
+ /home/macfly/Git/contiki/core/./contiki.h :
+ /home/macfly/Git/contiki/core/./contiki-version.h :
+ /home/macfly/Git/contiki/platform/sky/./contiki-conf.h :
+ /home/macfly/Git/contiki/platform/sky/./platform-conf.h :
+ /home/macfly/Git/contiki/cpu/msp430/./msp430def.h project-conf.h :
+ /home/macfly/Git/contiki/core/./contiki-default-conf.h :
+ /home/macfly/Git/contiki/core/./sys/process.h :
+ /home/macfly/Git/contiki/core/./sys/pt.h :
+ /home/macfly/Git/contiki/core/./sys/lc.h :
+ /home/macfly/Git/contiki/core/./sys/lc-switch.h :
+ /home/macfly/Git/contiki/core/./sys/cc.h :
+ /home/macfly/Git/contiki/core/./sys/autostart.h :
+ /home/macfly/Git/contiki/core/./sys/process.h :
+ /home/macfly/Git/contiki/core/./sys/timer.h :
+ /home/macfly/Git/contiki/core/./sys/clock.h :
+ /home/macfly/Git/contiki/core/./sys/ctimer.h :
+ /home/macfly/Git/contiki/core/./sys/etimer.h :
+ /home/macfly/Git/contiki/core/./sys/timer.h :
+ /home/macfly/Git/contiki/core/./sys/etimer.h :
+ /home/macfly/Git/contiki/core/./sys/rtimer.h :
+ /home/macfly/Git/contiki/cpu/msp430/./rtimer-arch.h :
+ /home/macfly/Git/contiki/core/./sys/rtimer.h :
+ /home/macfly/Git/contiki/core/./sys/pt.h :
+ /home/macfly/Git/contiki/core/./sys/procinit.h :
+ /home/macfly/Git/contiki/core/./sys/loader.h :
+ /home/macfly/Git/contiki/core/./sys/clock.h :
+ /home/macfly/Git/contiki/core/./sys/energest.h tools/deployment.h :
+ /home/macfly/Git/contiki/core/./sys/node-id.h :
+ /home/macfly/Git/contiki/core/./net/ip/uip.h :
+ /home/macfly/Git/contiki/core/./net/ip/uipopt.h :
+ /home/macfly/Git/contiki/core/./net/ip/tcpip.h :
+ /home/macfly/Git/contiki/core/./net/linkaddr.h net/rpl/rpl.h :
+ /home/macfly/Git/contiki/core/net/rpl/rpl-conf.h :
+ /home/macfly/Git/contiki/core/./lib/list.h :
+ /home/macfly/Git/contiki/core/./net/ipv6/uip-ds6.h :
+ /home/macfly/Git/contiki/core/./sys/stimer.h :
+ /home/macfly/Git/contiki/core/./net/ipv6/uip-nd6.h :
+ /home/macfly/Git/contiki/core/./net/ipv6/uip-ds6-route.h :
+ /home/macfly/Git/contiki/core/./net/ipv6/uip-ds6-nbr.h :
+ /home/macfly/Git/contiki/core/./net/nbr-table.h :
+ /home/macfly/Git/contiki/core/./net/netstack.h :
+ /home/macfly/Git/contiki/core/./net/llsec/llsec.h :
+ /home/macfly/Git/contiki/core/./net/mac/mac.h :
+ /home/macfly/Git/contiki/core/./dev/radio.h :
+ /home/macfly/Git/contiki/core/./net/mac/rdc.h :
+ /home/macfly/Git/contiki/core/./net/mac/framer.h :
+ /home/macfly/Git/contiki/core/./sys/ctimer.h net/rpl/rpl-private.h :
+ /home/macfly/Git/contiki/core/./net/ipv6/multicast/uip-mcast6.h :
+ /home/macfly/Git/contiki/core/./net/ipv6/multicast/uip-mcast6-engines.h :
+ /home/macfly/Git/contiki/core/./net/ipv6/multicast/uip-mcast6-route.h :
+ /home/macfly/Git/contiki/core/./net/ipv6/multicast/smrf.h :
+ /home/macfly/Git/contiki/core/./net/ipv6/multicast/roll-tm.h :
+ /home/macfly/Git/contiki/core/./net/ipv6/multicast/uip-mcast6-stats.h :
+ /home/macfly/Git/contiki/core/./net/packetbuf.h :
+ /home/macfly/Git/contiki/core/./net/llsec/llsec802154.h :
+ /home/macfly/Git/contiki/core/./net/mac/frame802154.h tools/rpl-log.h :
