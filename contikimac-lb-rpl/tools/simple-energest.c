@@ -9,11 +9,6 @@ static uint32_t last_tx, last_rx, last_time;
 static uint32_t delta_tx, delta_rx, delta_time;
 static uint32_t curr_tx, curr_rx, curr_time;
 
-#if WITH_ENERGY_THRESHOLD
-static uint32_t total_dc_spent;
-extern uint8_t dead;//use to signal at the app that the node is down
-#define ENERGY_THRESHOLD 2500 //when the total duty-cycle-spent is higher than this thrshold the node dies
-#endif /* WITH_ENERGY_THRESHOLD */
 
 /*---------------------------------------------------------------------------*/
 void simple_energest_start() {

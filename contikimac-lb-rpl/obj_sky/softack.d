@@ -43,7 +43,7 @@ obj_sky/softack.o: softack.c ../contikimac-lb-rpl/softack.h \
  /home/macfly/Git/contiki/dev/cc2420/cc2420_const.h \
  /home/macfly/Git/contiki/core/./lib/aes-128.h tools/cooja-debug.h \
  /home/macfly/Git/contiki/core/sys/node-id.h \
- /home/macfly/Git/contiki/core/net/linkaddr.h
+ /home/macfly/Git/contiki/core/net/linkaddr.h tools/rpl-log.h
 softack.c ../contikimac-lb-rpl/softack.h :
  /home/macfly/Git/contiki/core/net/mac/contikimac/contikimac.h :
  /home/macfly/Git/contiki/core/./sys/rtimer.h :
@@ -89,4 +89,4 @@ softack.c ../contikimac-lb-rpl/softack.h :
  /home/macfly/Git/contiki/dev/cc2420/cc2420_const.h :
  /home/macfly/Git/contiki/core/./lib/aes-128.h tools/cooja-debug.h :
  /home/macfly/Git/contiki/core/sys/node-id.h :
- /home/macfly/Git/contiki/core/net/linkaddr.h :
+ /home/macfly/Git/contiki/core/net/linkaddr.h tools/rpl-log.h :

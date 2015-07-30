@@ -42,6 +42,22 @@ obj_z1/cc2420-arch.o: \
  /home/macfly/Git/contiki/core/./net/ip/uip-udp-packet.h \
  /home/macfly/Git/contiki/core/./net/ip/simple-udp.h \
  /home/macfly/Git/contiki/core/./net/ip/uip-nameserver.h \
+ /home/macfly/Git/contiki/core/./net/ipv6/uip-icmp6.h \
+ /home/macfly/Git/contiki/core/./net/ipv6/uip-ds6.h \
+ /home/macfly/Git/contiki/core/./sys/stimer.h \
+ /home/macfly/Git/contiki/core/./net/ipv6/uip-nd6.h \
+ /home/macfly/Git/contiki/core/./net/ipv6/uip-ds6-route.h \
+ /home/macfly/Git/contiki/core/./lib/list.h \
+ /home/macfly/Git/contiki/core/./net/ipv6/uip-ds6-nbr.h \
+ /home/macfly/Git/contiki/core/./net/nbr-table.h \
+ /home/macfly/Git/contiki/core/./net/linkaddr.h \
+ /home/macfly/Git/contiki/core/./net/netstack.h \
+ /home/macfly/Git/contiki/core/./net/llsec/llsec.h \
+ /home/macfly/Git/contiki/core/./net/mac/mac.h \
+ /home/macfly/Git/contiki/core/./dev/radio.h \
+ /home/macfly/Git/contiki/core/./net/mac/rdc.h \
+ /home/macfly/Git/contiki/core/./net/mac/framer.h \
+ /home/macfly/Git/contiki/core/./net/ipv6/uip-ds6.h \
  /home/macfly/Git/contiki/core/./net/ip/resolv.h \
  /home/macfly/Git/contiki/core/./net/ip/uip.h \
  /home/macfly/Git/contiki/core/./net/ip/psock.h \
@@ -54,7 +70,6 @@ obj_z1/cc2420-arch.o: \
  /home/macfly/Git/contiki/core/./net/ip/tcp-socket.h \
  /home/macfly/Git/contiki/core/./net/rime/rime.h \
  /home/macfly/Git/contiki/core/./net/rime/announcement.h \
- /home/macfly/Git/contiki/core/./net/linkaddr.h \
  /home/macfly/Git/contiki/core/./net/rime/collect.h \
  /home/macfly/Git/contiki/core/./net/rime/runicast.h \
  /home/macfly/Git/contiki/core/./net/rime/stunicast.h \
@@ -71,7 +86,6 @@ obj_z1/cc2420-arch.o: \
  /home/macfly/Git/contiki/core/./net/rime/neighbor-discovery.h \
  /home/macfly/Git/contiki/core/./net/rime/collect-neighbor.h \
  /home/macfly/Git/contiki/core/./net/rime/collect-link-estimate.h \
- /home/macfly/Git/contiki/core/./lib/list.h \
  /home/macfly/Git/contiki/core/./net/rime/packetqueue.h \
  /home/macfly/Git/contiki/core/./lib/memb.h \
  /home/macfly/Git/contiki/core/./net/rime/ipolite.h \
@@ -86,13 +100,8 @@ obj_z1/cc2420-arch.o: \
  /home/macfly/Git/contiki/core/./net/rime/route.h \
  /home/macfly/Git/contiki/core/./net/rime/rucb.h \
  /home/macfly/Git/contiki/core/./net/rime/timesynch.h \
- /home/macfly/Git/contiki/core/./net/mac/mac.h \
- /home/macfly/Git/contiki/core/./dev/radio.h \
  /home/macfly/Git/contiki/core/./net/rime/trickle.h \
  /home/macfly/Git/contiki/core/./net/netstack.h \
- /home/macfly/Git/contiki/core/./net/llsec/llsec.h \
- /home/macfly/Git/contiki/core/./net/mac/rdc.h \
- /home/macfly/Git/contiki/core/./net/mac/framer.h \
  /home/macfly/Git/contiki/core/./dev/spi.h \
  /home/macfly/Git/contiki/dev/cc2420/cc2420.h \
  /home/macfly/Git/contiki/dev/cc2420/cc2420_const.h \
@@ -142,6 +151,22 @@ obj_z1/cc2420-arch.o: \
  /home/macfly/Git/contiki/core/./net/ip/uip-udp-packet.h :
  /home/macfly/Git/contiki/core/./net/ip/simple-udp.h :
  /home/macfly/Git/contiki/core/./net/ip/uip-nameserver.h :
+ /home/macfly/Git/contiki/core/./net/ipv6/uip-icmp6.h :
+ /home/macfly/Git/contiki/core/./net/ipv6/uip-ds6.h :
+ /home/macfly/Git/contiki/core/./sys/stimer.h :
+ /home/macfly/Git/contiki/core/./net/ipv6/uip-nd6.h :
+ /home/macfly/Git/contiki/core/./net/ipv6/uip-ds6-route.h :
+ /home/macfly/Git/contiki/core/./lib/list.h :
+ /home/macfly/Git/contiki/core/./net/ipv6/uip-ds6-nbr.h :
+ /home/macfly/Git/contiki/core/./net/nbr-table.h :
+ /home/macfly/Git/contiki/core/./net/linkaddr.h :
+ /home/macfly/Git/contiki/core/./net/netstack.h :
+ /home/macfly/Git/contiki/core/./net/llsec/llsec.h :
+ /home/macfly/Git/contiki/core/./net/mac/mac.h :
+ /home/macfly/Git/contiki/core/./dev/radio.h :
+ /home/macfly/Git/contiki/core/./net/mac/rdc.h :
+ /home/macfly/Git/contiki/core/./net/mac/framer.h :
+ /home/macfly/Git/contiki/core/./net/ipv6/uip-ds6.h :
  /home/macfly/Git/contiki/core/./net/ip/resolv.h :
  /home/macfly/Git/contiki/core/./net/ip/uip.h :
  /home/macfly/Git/contiki/core/./net/ip/psock.h :
@@ -154,7 +179,6 @@ obj_z1/cc2420-arch.o: \
  /home/macfly/Git/contiki/core/./net/ip/tcp-socket.h :
  /home/macfly/Git/contiki/core/./net/rime/rime.h :
  /home/macfly/Git/contiki/core/./net/rime/announcement.h :
- /home/macfly/Git/contiki/core/./net/linkaddr.h :
  /home/macfly/Git/contiki/core/./net/rime/collect.h :
  /home/macfly/Git/contiki/core/./net/rime/runicast.h :
  /home/macfly/Git/contiki/core/./net/rime/stunicast.h :
@@ -171,7 +195,6 @@ obj_z1/cc2420-arch.o: \
  /home/macfly/Git/contiki/core/./net/rime/neighbor-discovery.h :
  /home/macfly/Git/contiki/core/./net/rime/collect-neighbor.h :
  /home/macfly/Git/contiki/core/./net/rime/collect-link-estimate.h :
- /home/macfly/Git/contiki/core/./lib/list.h :
  /home/macfly/Git/contiki/core/./net/rime/packetqueue.h :
  /home/macfly/Git/contiki/core/./lib/memb.h :
  /home/macfly/Git/contiki/core/./net/rime/ipolite.h :
@@ -186,13 +209,8 @@ obj_z1/cc2420-arch.o: \
  /home/macfly/Git/contiki/core/./net/rime/route.h :
  /home/macfly/Git/contiki/core/./net/rime/rucb.h :
  /home/macfly/Git/contiki/core/./net/rime/timesynch.h :
- /home/macfly/Git/contiki/core/./net/mac/mac.h :
- /home/macfly/Git/contiki/core/./dev/radio.h :
  /home/macfly/Git/contiki/core/./net/rime/trickle.h :
  /home/macfly/Git/contiki/core/./net/netstack.h :
- /home/macfly/Git/contiki/core/./net/llsec/llsec.h :
- /home/macfly/Git/contiki/core/./net/mac/rdc.h :
- /home/macfly/Git/contiki/core/./net/mac/framer.h :
  /home/macfly/Git/contiki/core/./dev/spi.h :
  /home/macfly/Git/contiki/dev/cc2420/cc2420.h :
  /home/macfly/Git/contiki/dev/cc2420/cc2420_const.h :

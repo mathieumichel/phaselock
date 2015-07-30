@@ -66,7 +66,7 @@
  //period between two checks (used with ctimer) based on the sending rate
 #define LB_CHECK_PERIOD 2*60*CLOCK_SECOND
 //guard timer before starting load balancing
-#define LB_GUARD_PERIOD 4*60*CLOCK_SECOND
+#define LB_GUARD_PERIOD 10*60*CLOCK_SECOND
 
 static struct ctimer ct_check;//timer used to manage the cycle
 static struct ctimer ct_guard; //timer used for the guard_time
@@ -76,7 +76,7 @@ static struct ctimer ct_guard; //timer used for the guard_time
 #define CYCLE_MIN (125 * RTIMER_ARCH_SECOND/1000) // wake-up interval min bound
 #define CYCLE_STEP_MAX (CYCLE_MIN)//we don't want to move too fast (related to transmission rate (4m = /2 --- 2m = /4)
 
-#define HYSTERESIS 2 // 0.0x
+#define HYSTERESIS 1 // 0.0x
 
 #ifdef CONTIKIMAC_CONF_CYCLE_TIME
 uint32_t cycle_time=CONTIKIMAC_CONF_CYCLE_TIME;
@@ -119,9 +119,9 @@ uint16_t obj_value, weighted_value, avg_value, periodic_value, last_periodic_val
 #endif
 
 /* XXX TV */
-#define RANDOM_SCALE 4096U
+//#define RANDOM_SCALE 4096U
 /* Default: 90% packet reception probability. */
-#define RANDOM_DROP_LIMIT (unsigned)(RANDOM_SCALE * 1)
+//#define RANDOM_DROP_LIMIT (unsigned)(RANDOM_SCALE * 1)
 
 
 #if NETSTACK_RDC_CHANNEL_CHECK_RATE >= 64
@@ -486,7 +486,7 @@ powercycle(struct rtimer *t, void *ptr)
              false positive: a spurious radio interference that was not
              caused by an incoming packet. */
         if(NETSTACK_RADIO.channel_clear() == 0) {
-          packet_seen = (random_rand() % RANDOM_SCALE) > RANDOM_DROP_LIMIT;
+          packet_seen = 1;//(random_rand() % RANDOM_SCALE) > RANDOM_DROP_LIMIT;
 
           break;
         }
@@ -604,9 +604,10 @@ static void managecycle(void *ptr){
   {
     static uint16_t cpt;
 #if WITH_DIO_TARGET
-    obj_value=dio_dc_objective;
+    //obj_value=dio_dc_objective;
+    obj_value=4;
 #else
-    obj_value=1;
+    obj_value=4;
 #endif
 
     if(weighted_value==0){
@@ -621,60 +622,38 @@ static void managecycle(void *ptr){
 
     printf("LB: %u - %u - %u",periodic_value,weighted_value,avg_value);
 
-    if(weighted_value < obj_value){
-      printf("plop\n");
-      cycle_time=CYCLE_MAX;
-    }
-
 //    if(loadbalancing_is_on){
-//
-//      if(avg_value > obj_value + HYSTERESIS || avg_value < obj_value - HYSTERESIS)
-//      {
+//      if(avg_value > obj_value + HYSTERESIS || avg_value < obj_value - HYSTERESIS){
 //        uint32_t temp_cycle;
-//        uint16_t weight=0;//the weight must be defined based on the current duty-cycle
 //        uint32_t cycle_diff;
-//        if(weighted_value  > obj_value){
-//          weight = ((uint16_t)((weighted_value-obj_value)*100/obj_value));
+//        if(weighted_value < obj_value - HYSTERESIS){
+//          cycle_time-=CYCLE_STEP_MAX;
 //        }
-//        else if(weighted_value  < obj_value){
-//          weight = ((uint16_t)((obj_value-weighted_value)*100/obj_value));
+//        else if(weighted_value  > obj_value + HYSTERESIS){
+//          cycle_time+=CYCLE_STEP_MAX;
 //        }
-//
-//        if(weight > 100){
-//          weight=100;
+//        if(cycle_time > CYCLE_MAX){
+//          cycle_time=CYCLE_MAX;
 //        }
-//        cycle_diff= ((CYCLE_STEP_MAX/100ul) * weight);
-//        //cycle_diff=CYCLE_STEP_MAX;
-//        if(weighted_value > obj_value){
-//          temp_cycle = cycle_time+cycle_diff;
-//
-//          if(temp_cycle > CYCLE_MAX){
-//            temp_cycle=CYCLE_MAX;
-//          }
+//        if(cycle_time < CYCLE_MIN){
+//          cycle_time=CYCLE_MIN;
 //        }
-//        else{
-//          temp_cycle = cycle_time-cycle_diff;
-//          if(temp_cycle < CYCLE_MIN){
-//            temp_cycle=CYCLE_MIN;
-//          }
-//        }
-//        cycle_time=temp_cycle;
 //      }
+//      printf(" -> %lu",(unsigned long)(CYCLE_TIME* 1000/RTIMER_ARCH_SECOND));
+//
+//    }
+//    else{
+//      printf(" -> %lu (F)",(unsigned long)(CYCLE_TIME* 1000/RTIMER_ARCH_SECOND));
+//    }
 
+    printf("\n");
 
- //     LOG_NULL(" -> %lu",(unsigned long)(CYCLE_TIME* 1000/RTIMER_ARCH_SECOND));
-  //  }
-    //else{
-      printf(" -> %lu (F)",(unsigned long)(CYCLE_TIME* 1000/RTIMER_ARCH_SECOND));
-    //}
-printf("\n");
-
-    LOG_NULL("Duty Cycle: [%u %u] %8lu +%8lu /%8lu (%lu)",
-                  node_id,
-                  cpt++,
-                  delta_tx, delta_rx, delta_time,
-                  (unsigned long)(CYCLE_TIME* 1000/RTIMER_ARCH_SECOND)
-    );
+//    LOG_NULL("Duty Cycle: [%u %u] %8lu +%8lu /%8lu (%lu)",
+//                  node_id,
+//                  cpt++,
+//                  delta_tx, delta_rx, delta_time,
+//                  (unsigned long)(CYCLE_TIME* 1000/RTIMER_ARCH_SECOND)
+//    );
     last_periodic_value=periodic_value;
     periodic_value=0;
     ctimer_reset(&ct_check);
@@ -762,7 +741,7 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
       return MAC_TX_COLLISION;
     }
   } else {
-#if UIP_CONF_IPV6
+#if NETSTACK_CONF_WITH_IPV6
     PRINTDEBUG("contikimac: send unicast to %02x%02x:%02x%02x:%02x%02x:%02x%02x\n",
                packetbuf_addr(PACKETBUF_ADDR_RECEIVER)->u8[0],
                packetbuf_addr(PACKETBUF_ADDR_RECEIVER)->u8[1],
@@ -772,11 +751,11 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
                packetbuf_addr(PACKETBUF_ADDR_RECEIVER)->u8[5],
                packetbuf_addr(PACKETBUF_ADDR_RECEIVER)->u8[6],
                packetbuf_addr(PACKETBUF_ADDR_RECEIVER)->u8[7]);
-#else /* UIP_CONF_IPV6 */
+#else /* NETSTACK_CONF_WITH_IPV6 */
     PRINTDEBUG("contikimac: send unicast to %u.%u\n",
                packetbuf_addr(PACKETBUF_ADDR_RECEIVER)->u8[0],
                packetbuf_addr(PACKETBUF_ADDR_RECEIVER)->u8[1]);
-#endif /* UIP_CONF_IPV6 */
+#endif /* NETSTACK_CONF_WITH_IPV6 */
   }
 #if NETSTACK_CONF_WITH_RIME
   is_reliable = packetbuf_attr(PACKETBUF_ATTR_RELIABLE) ||
@@ -957,7 +936,7 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
 //      break;
 //    }
 
-    //len = 0;
+    len = 0;
 
     {
       rtimer_clock_t wt;
@@ -992,19 +971,21 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
 #else /* RDC_CONF_HARDWARE_ACK */
      /* Wait for the ACK packet */
       wt = RTIMER_NOW();
-      while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + INTER_PACKET_INTERVAL)) { }
+      while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt +  INTER_PACKET_INTERVAL)) { }
 
       if(!is_broadcast && (NETSTACK_RADIO.receiving_packet() ||
                            NETSTACK_RADIO.pending_packet() ||
                            NETSTACK_RADIO.channel_clear() == 0)) {
+
+
         uint8_t ackbuf[ACK_LEN];
         wt = RTIMER_NOW();
-        while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + 3*AFTER_ACK_DETECTECT_WAIT_TIME / 4)) { }
+        while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + AFTER_ACK_DETECTECT_WAIT_TIME + (AFTER_ACK_DETECTECT_WAIT_TIME / 4))) { }
 
         len = NETSTACK_RADIO.read(ackbuf, ACK_LEN);
 
 #if WITH_ADVANCED_PHASELOCK
-        if(len == ACK_LEN && seqno == ackbuf[2]) {
+        if(len == ACK_LEN && seqno == ackbuf[2]){
 #else
         if(len == ACK_LEN && seqno == ackbuf[ACK_LEN - 1]) {
 #endif
@@ -1256,9 +1237,10 @@ input_packet(void)
 #endif /* CONTIKIMAC_CONF_COMPOWER */
       if(linkaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
                     &linkaddr_node_addr)){
+#if WITH_LB && DIO_TARGET
         periodic_value++;
-
-        printf("contikimac: data (%u)-%u\n", packetbuf_datalen(),periodic_value);
+#endif
+        //printf("contikimac: data (%u)-%u\n", packetbuf_datalen(),periodic_value);
       }
 
       NETSTACK_MAC.input();

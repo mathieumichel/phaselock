@@ -51,6 +51,7 @@
 #include "rtimer-arch.h"
 #include "node-id.h"
 #include "linkaddr.h"
+#include "tools/rpl-log.h"
 
 
 
@@ -64,7 +65,7 @@
 #define PRINTDEBUG(...)
 #endif
 static void softack_acked_callback(const uint8_t *buf, uint8_t len);
-static void softack_input_callback(const uint8_t *buf, uint8_t len, uint8_t **ackbufptr, uint8_t *acklen);
+static void softack_input_callback(const uint8_t *buf, uint8_t len, uint8_t **ackbufptr, uint8_t *acklen, uint8_t *code);
 
 extern rtimer_clock_t phaselock_target;
 extern uint32_t cycle_target;
@@ -74,11 +75,9 @@ extern volatile rtimer_clock_t current_cycle_start_time;
 static unsigned char ackbuf[3 + 10 + 4] = {0x02, 0x00};
 /* Seqno of the last acked frame */
 static uint8_t last_acked_seqno = -1;
-
-
 /* Called for every incoming frame from interrupt if concerned we ack and then add our phase*/
 static void
-softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufptr, uint8_t *acklen)
+softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufptr, uint8_t *acklen, uint8_t *code)
 {
   rtimer_clock_t encounter_time = RTIMER_NOW();
   uint8_t fcf, is_data, is_ack, ack_required, seqno;
@@ -93,35 +92,61 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
   dest_addr = frame + 3 + 2;
   seqno = frame[2];
   *acklen=0;
+  *code=SOFTACK_NULL;
   if(is_ack){
     linkaddr_t dest;
     memcpy(&dest, frame+3, 8);
     if(linkaddr_cmp(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
                       &dest)){
+     printf("ACK\n");
      memcpy(&cycle_target,frame+13,4);
      memcpy(&phaselock_target,frame+11,2);
-
+     *code=SOFTACK_ACK;
     }
     do_ack=0;
   }
 
 
   else if(is_data) {
+    *code=SOFTACK_DATA;
+    //printf("D1\n");
     if(ack_required) {
+      //printf("D2\n");
       uint8_t dest_addr_host_order[8];
       int i;
       /* Convert from 802.15.4 little endian to Contiki's big-endian addresses */
+
       for(i=0; i<8; i++) {
         dest_addr_host_order[i] = dest_addr[7-i];
-      }
-     // printf("got data1\n");
+      };
+
       if(linkaddr_cmp((linkaddr_t*)dest_addr_host_order, &linkaddr_node_addr)){
         /* Unicast, for us */
-        //printf("got data2\n");
+
         do_ack = 1;
 
       }
-    }
+//      else{
+//        printf("Data %02x%02x:%02x%02x:%02x%02x:%02x%02x",
+//               dest_addr_host_order[0],
+//               dest_addr_host_order[1],
+//               dest_addr_host_order[2],
+//               dest_addr_host_order[3],
+//               dest_addr_host_order[4],
+//               dest_addr_host_order[5],
+//               dest_addr_host_order[6],
+//               dest_addr_host_order[7]);
+//        printf(" vs %02x%02x:%02x%02x:%02x%02x:%02x%02x\n",
+//                       linkaddr_node_addr.u8[0],
+//                       linkaddr_node_addr.u8[1],
+//                       linkaddr_node_addr.u8[2],
+//                       linkaddr_node_addr.u8[3],
+//                       linkaddr_node_addr.u8[4],
+//                       linkaddr_node_addr.u8[5],
+//                       linkaddr_node_addr.u8[6],
+//                       linkaddr_node_addr.u8[7]);
+//      }
+   }
   }
 
   if(do_ack) { /* Prepare ack */

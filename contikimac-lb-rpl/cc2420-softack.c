@@ -193,10 +193,10 @@ LIST(rf_list);
 #define RXFIFO_ADDR(index) (RXFIFO_START + (index) % RXFIFO_SIZE)
 
 static softack_input_callback_f *softack_input_callback;
-static softack_coll_callback_f *softack_acked_callback;
+static softack_acked_callback_f *softack_acked_callback;
 
 void
-cc2420_softack_subscribe(softack_input_callback_f *input_callback,softack_acked_callback_f *acked_callback)
+cc2420_softack_subscribe(softack_input_callback_f *input_callback, softack_acked_callback_f *acked_callback)
 {
   softack_input_callback = input_callback;
   softack_acked_callback = acked_callback;
@@ -640,7 +640,7 @@ cc2420_init(void)
   /* Enabling CRC in hardware; this is required by AUTOACK anyway
      and provides us with RSSI and link quality indication (LQI)
      information. */
-  reg |= AUTOCRC;//MF
+  //reg |= AUTOCRC;//MF
 
   setreg(CC2420_MDMCTRL0, reg);
 
@@ -922,11 +922,9 @@ cc2420_interrupt(void)
   uint8_t code = 0;//can be used for other stuff
 
   int do_ack;
-  int do_probe;
-  int do_vote;
   int frame_valid = 0;
   struct received_frame_s *rf;
-  //CC2420_CLEAR_FIFOP_INT();
+  
   process_poll(&cc2420_process);
 
 #if CC2420_TIMETABLE_PROFILING
@@ -966,6 +964,7 @@ cc2420_interrupt(void)
     CC2420_CLEAR_FIFOP_INT();
     return 1;
   }
+  
   last_packet_timestamp = cc2420_sfd_start_time;
   list_add(rf_list, rf);
 
@@ -981,10 +980,10 @@ cc2420_interrupt(void)
   seqno = rf->buf[2];
   rf->seqno = seqno;
   if(softack_input_callback) {
-    softack_input_callback(rf->buf, len_a, &ackbuffer, &acklen);
+    softack_input_callback(rf->buf, len_a, &ackbuffer, &acklen, &code);
   }
-
-  do_ack = acklen > 0;
+  
+  do_ack = (code==SOFTACK_DATA && acklen > 0);
   if(do_ack) {
     uint8_t total_acklen = acklen + AUX_LEN;
     /* Write ack in fifo */
@@ -1010,13 +1009,12 @@ cc2420_interrupt(void)
     frame_valid = 1;
   } else { /* CRC is wrong */
     if(do_ack) {
-
       strobe(CC2420_SFLUSHTX); /* Flush Tx fifo */
     }
-
-    list_chop(rf_list);
-    memb_free(&rf_memb, rf);
-
+    if(code!=SOFTACK_ACK){
+      list_chop(rf_list);
+      memb_free(&rf_memb, rf);
+    }
 
   }
 
@@ -1029,7 +1027,7 @@ cc2420_interrupt(void)
     /* Turn the radio off as early as possible */
     off();
   }
-  if(frame_valid && do_ack) {
+  if(frame_valid && do_ack && len_b>0) {
     if(softack_acked_callback) {
       softack_acked_callback(rf->buf, len_a);
     }
@@ -1096,8 +1094,9 @@ PROCESS_THREAD(cc2420_process, ev, data)
    // current_is_acked = 0;
     len = cc2420_read(packetbuf_dataptr(), PACKETBUF_SIZE);
     int frame_type = ((uint8_t*)packetbuf_dataptr())[0] & 7;
-    if (frame_type == FRAME802154_ACKFRAME ) {
-      len = 0;
+    
+    if(frame_type == FRAME802154_ACKFRAME) {
+         len = 0;
     }
     packetbuf_set_datalen(len);
     //packetbuf_set_attr(PACKETBUF_ATTR_ACKED, current_is_acked);

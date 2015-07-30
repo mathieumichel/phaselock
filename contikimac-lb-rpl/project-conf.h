@@ -12,10 +12,8 @@
 
 
 #define WITH_LB 1
-#define WITH_DIO_TARGET 0
+#define WITH_DIO_TARGET 1
 
-#undef UIP_CONF_IPV6_CHECKS
-#define UIP_CONF_IPV6_CHECKS 0
 /* The IEEE 802.15.4 channel in use */
 #undef RF_CHANNEL
 #define RF_CHANNEL            15
@@ -29,7 +27,7 @@
 /* The ContikiMAC wakeup interval */
 #define CONTIKIMAC_CONF_CYCLE_TIME (RTIMER_ARCH_SECOND/2)
 
-#define RTIMER_CONF_SECOND (4096UL*8)
+//#define RTIMER_CONF_SECOND (4096UL*8)
 typedef uint32_t rtimer_clock_t;
 #define RTIMER_CLOCK_LT(a,b)     ((int32_t)(((rtimer_clock_t)a)-((rtimer_clock_t)b)) < 0)
 
@@ -64,6 +62,9 @@ typedef uint32_t rtimer_clock_t;
 /* Our softack implementation for cc2420 requires to disable DCO synch */
 #undef DCOSYNCH_CONF_ENABLED
 #define DCOSYNCH_CONF_ENABLED 0
+
+#undef UIP_CONF_IPV6
+#define UIP_CONF_IPV6 1
 
 /* Our softack implementation for cc2420 requires SFD timestamps */
 #undef CC2420_CONF_SFD_TIMESTAMPS
@@ -110,7 +111,7 @@ typedef uint32_t rtimer_clock_t;
 
 /* The neighbor table size */
 #undef NBR_TABLE_CONF_MAX_NEIGHBORS
-#define NBR_TABLE_CONF_MAX_NEIGHBORS 48
+#define NBR_TABLE_CONF_MAX_NEIGHBORS 10//48
 
 
 /* Space saving */

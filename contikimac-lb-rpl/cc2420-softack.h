@@ -44,8 +44,12 @@
 
 #include "cc2420.h"
 
+#define SOFTACK_NULL  0
+#define SOFTACK_ACK   1
+#define SOFTACK_DATA  2
 
-typedef void(softack_input_callback_f)(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufptr, uint8_t *acklen);
+
+typedef void(softack_input_callback_f)(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufptr, uint8_t *acklen, uint8_t *code);
 typedef void(softack_coll_callback_f)(uint8_t **probebufptr, uint8_t *probelen);
 typedef void(softack_vote_callback_f)(uint8_t **signalbufptr, uint8_t *signallen, uint16_t len);
 typedef void(softack_acked_callback_f)(const uint8_t *frame, uint8_t framelen);

@@ -1,5 +1,4 @@
-obj_z1/csma.o: /home/macfly/Git/contiki/core/net/mac/csma.c \
- /home/macfly/Git/contiki/core/./net/mac/csma.h \
+obj_z1/csma.o: csma.c /home/macfly/Git/contiki/core/./net/mac/csma.h \
  /home/macfly/Git/contiki/core/./net/mac/mac.h \
  /home/macfly/Git/contiki/platform/z1/./contiki-conf.h \
  /home/macfly/Git/contiki/platform/z1/./platform-conf.h \
@@ -45,8 +44,7 @@ obj_z1/csma.o: /home/macfly/Git/contiki/core/net/mac/csma.c \
  /home/macfly/Git/contiki/core/./net/mac/framer.h \
  /home/macfly/Git/contiki/core/./lib/list.h \
  /home/macfly/Git/contiki/core/./lib/memb.h
-/home/macfly/Git/contiki/core/net/mac/csma.c :
- /home/macfly/Git/contiki/core/./net/mac/csma.h :
+csma.c /home/macfly/Git/contiki/core/./net/mac/csma.h :
  /home/macfly/Git/contiki/core/./net/mac/mac.h :
  /home/macfly/Git/contiki/platform/z1/./contiki-conf.h :
  /home/macfly/Git/contiki/platform/z1/./platform-conf.h :

@@ -1,5 +1,4 @@
-obj_z1/phase.o: /home/macfly/Git/contiki/core/net/mac/phase.c \
- /home/macfly/Git/contiki/core/./net/mac/phase.h \
+obj_z1/phase.o: phase.c phase.h \
  /home/macfly/Git/contiki/core/./net/linkaddr.h \
  /home/macfly/Git/contiki/platform/z1/./contiki-conf.h \
  /home/macfly/Git/contiki/platform/z1/./platform-conf.h \
@@ -45,8 +44,7 @@ obj_z1/phase.o: /home/macfly/Git/contiki/core/net/mac/phase.c \
  /home/macfly/Git/contiki/core/./sys/ctimer.h \
  /home/macfly/Git/contiki/core/./net/queuebuf.h \
  /home/macfly/Git/contiki/core/./net/nbr-table.h
-/home/macfly/Git/contiki/core/net/mac/phase.c :
- /home/macfly/Git/contiki/core/./net/mac/phase.h :
+phase.c phase.h :
  /home/macfly/Git/contiki/core/./net/linkaddr.h :
  /home/macfly/Git/contiki/platform/z1/./contiki-conf.h :
  /home/macfly/Git/contiki/platform/z1/./platform-conf.h :

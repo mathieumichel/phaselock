@@ -118,7 +118,7 @@ PROCESS_THREAD(rpl_log_process, ev, data)
   PROCESS_BEGIN();
   //etimer_set(&periodic, 60 * CLOCK_SECOND);
   etimer_set(&periodic, 2 * 60 * CLOCK_SECOND);//put to 120 second (send_interval) to have same check interval than orpl
-  simple_energest_start();
+  //simple_energest_start();
 
   while(1) {
     static int cnt = 0;

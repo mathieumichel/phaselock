@@ -152,12 +152,13 @@ handle_dio_timer(void *ptr)
 
 #if WITH_LB && WITH_DIO_TARGET
   if(node_id == ROOT_ID){
+    printf("LB: dc_objective %u-%u (prev %u)",target_metric,target_metric_count,dio_dc_objective);
     if(target_metric !=0){
       target_metric=target_metric/target_metric_count;
     }
     //printf("ORPL_LB: dc_objective %u-%u-%u  %lu\n",dio_dc_objective,dc_min,dc_max,target_metric);
 
-    LOG_NULL("LB: dc_objective %u (prev %u)\n",target_metric,dio_dc_objective);
+    printf("--> %u \n",target_metric);
     dio_dc_objective=target_metric;
     dio_dc_obj_sn=dio_dc_obj_sn++;
     target_metric=0;//reset
