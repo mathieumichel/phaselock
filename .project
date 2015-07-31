@@ -25,4 +25,10 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
+	<variableList>
+		<variable>
+			<name>CONTIKI_MAIN</name>
+			<value>file:/home/macfly/Git/contiki</value>
+		</variable>
+	</variableList>
 </projectDescription>

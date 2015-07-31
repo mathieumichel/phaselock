@@ -75,7 +75,7 @@ extern volatile uint8_t contikimac_keep_radio_on;
 #define CC2420_CONF_AUTOACK 0
 #endif /* CC2420_CONF_AUTOACK */
 
-#define CHECKSUM_LEN       2
+#define CHECKSUM_LEN       0
 #define FOOTER_LEN          2
 #define FOOTER1_CRC_OK      0x80
 #define FOOTER1_CORRELATION 0x7f
@@ -519,11 +519,11 @@ off(void)
   strobe(CC2420_SRFOFF);
   CC2420_DISABLE_FIFOP_INT();
 
-#if !WITH_ADVANCED_PHASELOCK
+//#if !WITH_ADVANCED_PHASELOCK
   if(!CC2420_FIFOP_IS_1) {
     flushrx();
   }
-#endif
+//#endif
 }
 /*---------------------------------------------------------------------------*/
 //static uint8_t locked, lock_on, lock_off;
@@ -1011,10 +1011,8 @@ cc2420_interrupt(void)
     if(do_ack) {
       strobe(CC2420_SFLUSHTX); /* Flush Tx fifo */
     }
-    if(code!=SOFTACK_ACK){
       list_chop(rf_list);
       memb_free(&rf_memb, rf);
-    }
 
   }
 
@@ -1138,6 +1136,7 @@ cc2420_read(void *buf, unsigned short bufsize)
 {
   GET_LOCK();
   struct received_frame_s *rf = list_pop(rf_list);
+
   if(rf == NULL) {
     RELEASE_LOCK();
     return 0;

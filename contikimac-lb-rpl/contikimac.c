@@ -713,6 +713,8 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
   uint8_t contikimac_was_on;
   uint8_t seqno;
   
+  uint16_t dest_id=log_node_id_from_rimeaddr(packetbuf_addr(PACKETBUF_ADDR_RECEIVER));//MF
+
 
 #if WITH_CONTIKIMAC_HEADER
   struct hdr *chdr
@@ -1006,12 +1008,13 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
   if(!is_broadcast){
 #if WITH_ADVANCED_PHASELOCK
 
-    printf("contikimac: send (strobes=%u, len=%u, %s, %s, phase=%lu / %lu), done\n",strobes,
+    printf("contikimac: send (strobes=%u, len=%u, %s, %s, phase=%lu / %lu) to %u, done\n",strobes,
                packetbuf_totlen(),
                got_strobe_ack ? "ack" : "no ack",
                collisions ? "collision" : "no collision",
               (unsigned long)((unsigned long)phaselock_target* 1000/RTIMER_ARCH_SECOND),
-              cycle_target* 1000ul/RTIMER_ARCH_SECOND);
+              cycle_target* 1000ul/RTIMER_ARCH_SECOND,
+              dest_id);
 
 #else
   PRINTF("contikimac: send (strobes=%u, len=%u, %s, %s), done\n", strobes,
