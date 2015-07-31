@@ -109,7 +109,7 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
 
   else if(is_data) {
     *code=SOFTACK_DATA;
-    //printf("D1\n");
+    printf("D1\n");
     if(ack_required) {
       //printf("D2\n");
       uint8_t dest_addr_host_order[8];
@@ -122,20 +122,20 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
 
       if(linkaddr_cmp((linkaddr_t*)dest_addr_host_order, &linkaddr_node_addr)){
         /* Unicast, for us */
-
+        printf("D3\n");
         do_ack = 1;
 
       }
-//      else{
-//        printf("Data %02x%02x:%02x%02x:%02x%02x:%02x%02x",
-//               dest_addr_host_order[0],
-//               dest_addr_host_order[1],
-//               dest_addr_host_order[2],
-//               dest_addr_host_order[3],
-//               dest_addr_host_order[4],
-//               dest_addr_host_order[5],
-//               dest_addr_host_order[6],
-//               dest_addr_host_order[7]);
+      else{
+        printf("Data %02x%02x:%02x%02x:%02x%02x:%02x%02x\n",
+               dest_addr_host_order[0],
+               dest_addr_host_order[1],
+               dest_addr_host_order[2],
+               dest_addr_host_order[3],
+               dest_addr_host_order[4],
+               dest_addr_host_order[5],
+               dest_addr_host_order[6],
+               dest_addr_host_order[7]);
 //        printf(" vs %02x%02x:%02x%02x:%02x%02x:%02x%02x\n",
 //                       linkaddr_node_addr.u8[0],
 //                       linkaddr_node_addr.u8[1],
@@ -145,7 +145,7 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
 //                       linkaddr_node_addr.u8[5],
 //                       linkaddr_node_addr.u8[6],
 //                       linkaddr_node_addr.u8[7]);
-//      }
+     }
    }
   }
 
