@@ -109,9 +109,7 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
 
   else if(is_data) {
     *code=SOFTACK_DATA;
-   // printf("D1\n");
     if(ack_required) {
-      //printf("D2\n");
       uint8_t dest_addr_host_order[8];
       int i;
       /* Convert from 802.15.4 little endian to Contiki's big-endian addresses */
@@ -122,11 +120,10 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
 
       if(linkaddr_cmp((linkaddr_t*)dest_addr_host_order, &linkaddr_node_addr)){
         /* Unicast, for us */
-        //printf("D3\n");
         do_ack = 1;
 
       }
-      else{
+ //     else{
 //        printf("Data %02x%02x:%02x%02x:%02x%02x:%02x%02x\n",
 //               dest_addr_host_order[0],
 //               dest_addr_host_order[1],
@@ -145,7 +142,7 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
 //                       linkaddr_node_addr.u8[5],
 //                       linkaddr_node_addr.u8[6],
 //                       linkaddr_node_addr.u8[7]);
-     }
+ //    }
    }
   }
 

@@ -982,7 +982,7 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
 
         uint8_t ackbuf[ACK_LEN];
         wt = RTIMER_NOW();
-        while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + AFTER_ACK_DETECTECT_WAIT_TIME + (AFTER_ACK_DETECTECT_WAIT_TIME / 4))) { }
+        while(RTIMER_CLOCK_LT(RTIMER_NOW(), wt + AFTER_ACK_DETECTECT_WAIT_TIME * 2)){}//+ (AFTER_ACK_DETECTECT_WAIT_TIME / 4))) { }
 
         len = NETSTACK_RADIO.read(ackbuf, ACK_LEN);
 
