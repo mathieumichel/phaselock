@@ -640,7 +640,7 @@ cc2420_init(void)
   /* Enabling CRC in hardware; this is required by AUTOACK anyway
      and provides us with RSSI and link quality indication (LQI)
      information. */
-  //reg |= AUTOCRC;//MF
+  reg |= AUTOCRC;//MF
 
   setreg(CC2420_MDMCTRL0, reg);
 
@@ -1023,7 +1023,7 @@ cc2420_interrupt(void)
  * this softack code. The current workaroud is ContikiMAC-specific.
  */
   extern volatile unsigned char we_are_sending;
-  if(we_are_sending){
+  if(!we_are_sending){
     /* Turn the radio off as early as possible */
     off();
   }
