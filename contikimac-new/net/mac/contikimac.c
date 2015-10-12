@@ -943,8 +943,13 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
   if(!is_broadcast) {
 #if WITH_ADVANCED_PHASELOCK
     if(collisions == 0 && is_receiver_awake == 0) {
+#if WITH_AUTO_CORRECT
       phase_update(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
        encounter_time-phaselock_target, ret);
+#else
+      phase_update(packetbuf_addr(PACKETBUF_ADDR_RECEIVER),
+       encounter_time, ret);
+#endif
     }
 #else /* WITH_ADVANCED_PHASELOCK */
     if(collisions == 0 && is_receiver_awake == 0) {

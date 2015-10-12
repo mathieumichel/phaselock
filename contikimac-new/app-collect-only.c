@@ -23,7 +23,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define SEND_INTERVAL   (2 * 60 * CLOCK_SECOND)
+
 #define UDP_PORT 1234
 
 static struct simple_udp_connection unicast_connection;
@@ -94,13 +94,14 @@ PROCESS_THREAD(unicast_sender_process, ev, data)
   simple_udp_register(&unicast_connection, UDP_PORT,
                       NULL, UDP_PORT, receiver);
 
+
   if(node_id == ROOT_ID) {
     uip_ipaddr_t my_ipaddr;
     set_ipaddr_from_id(&my_ipaddr, node_id);
     NETSTACK_RDC.off(1);
   }
   else {
-    etimer_set(&periodic_timer,2 * 60 * CLOCK_SECOND);
+    etimer_set(&periodic_timer,1 * 30 * CLOCK_SECOND);
 
     PROCESS_WAIT_EVENT_UNTIL(etimer_expired(&periodic_timer));
     etimer_set(&periodic_timer, SEND_INTERVAL);

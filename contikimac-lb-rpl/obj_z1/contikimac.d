@@ -77,14 +77,7 @@ obj_z1/contikimac.o: contikimac.c \
  /home/macfly/Git/contiki/core/./net/rime/trickle.h \
  /home/macfly/Git/contiki/core/./sys/compower.h tools/rpl-log.h \
  tools/cooja-debug.h /home/macfly/Git/contiki/core/net/mac/frame802154.h \
- softack.h net/rpl/rpl.h /home/macfly/Git/contiki/core/net/rpl/rpl-conf.h \
- /home/macfly/Git/contiki/core/./net/ipv6/uip-ds6.h \
- /home/macfly/Git/contiki/core/./sys/stimer.h \
- /home/macfly/Git/contiki/core/./net/ipv6/uip-nd6.h \
- /home/macfly/Git/contiki/core/./net/ipv6/uip-ds6-route.h \
- /home/macfly/Git/contiki/core/./net/ipv6/uip-ds6-nbr.h \
- /home/macfly/Git/contiki/core/./net/nbr-table.h \
- /home/macfly/Git/contiki/core/sys/node-id.h phase.h
+ softack.h phase.h
 contikimac.c :
  /home/macfly/Git/contiki/platform/z1/./contiki-conf.h :
  /home/macfly/Git/contiki/platform/z1/./platform-conf.h :
@@ -164,11 +157,4 @@ contikimac.c :
  /home/macfly/Git/contiki/core/./net/rime/trickle.h :
  /home/macfly/Git/contiki/core/./sys/compower.h tools/rpl-log.h :
  tools/cooja-debug.h /home/macfly/Git/contiki/core/net/mac/frame802154.h :
- softack.h net/rpl/rpl.h /home/macfly/Git/contiki/core/net/rpl/rpl-conf.h :
- /home/macfly/Git/contiki/core/./net/ipv6/uip-ds6.h :
- /home/macfly/Git/contiki/core/./sys/stimer.h :
- /home/macfly/Git/contiki/core/./net/ipv6/uip-nd6.h :
- /home/macfly/Git/contiki/core/./net/ipv6/uip-ds6-route.h :
- /home/macfly/Git/contiki/core/./net/ipv6/uip-ds6-nbr.h :
- /home/macfly/Git/contiki/core/./net/nbr-table.h :
- /home/macfly/Git/contiki/core/sys/node-id.h phase.h :
+ softack.h phase.h :

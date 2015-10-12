@@ -35,12 +35,23 @@
 #define __PROJECT_CONF_H__
 
 
-#define WITH_ADVANCED_PHASELOCK 0
+#define IN_UMONS 1
+
+#define WITH_ADVANCED_PHASELOCK 1
+#define WITH_AUTOCORRECT	1
+
+#define SEND_INTERVAL   (1 * 10 * CLOCK_SECOND)
+
 #define WITH_CSMA_ADVANCED 1
 
 /* The IEEE 802.15.4 channel in use */
 #undef RF_CHANNEL
 #define RF_CHANNEL            15
+
+#if IN_UMONS
+#undef RF_CHANNEL
+#define RF_CHANNEL			26
+#endif
 
 /* The cc2420 transmission power (min:0, max: 31) */
 #define RF_POWER                31

@@ -54,8 +54,8 @@
 #include "net/ip/uip.h"
 #include "lib/list.h"
 #include "lib/memb.h"
-#include "../contikimac-lb-rpl/cc2420-softack.h"
-#include "../contikimac-lb-rpl/softack.h"
+#include "cc2420-softack.h"
+#include "softack.h"
 volatile int need_flush;
 extern volatile uint8_t contikimac_keep_radio_on;
 #define FIFOP_THRESHOLD 44

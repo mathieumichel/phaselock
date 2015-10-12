@@ -93,6 +93,12 @@ uint16_t obj_value, weighted_value, avg_value, periodic_value, last_periodic_val
 #endif /*WITH_LB*/
 #endif /*WITH_ADVANCED_PHASELOCK*/
 
+#ifdef CONTIKIMAC_CONF_CYCLE_TIME
+uint32_t cycle_time=CONTIKIMAC_CONF_CYCLE_TIME;
+#else /*CONTIKIMAC_CONF_CYCLE_TIME*/
+uint32_t cycle_time=RTIMER_ARCH_SECOND / NETSTACK_RDC_CHANNEL_CHECK_RATE
+#endif /*CONTIKIMAC_CONF_CYCLE_TIME*/
+
 #include <string.h>
 
 /* TX/RX cycles are synchronized with neighbor wake periods */
@@ -282,7 +288,7 @@ static int we_are_receiving_burst = 0;
 #endif
 
 #if WITH_ADVANCED_PHASELOCK
-#define ACK_LEN 3 + 10 + 4//EXTRA_ACK_LEN
+#define ACK_LEN 3 + 10//EXTRA_ACK_LEN
 #else
 #define ACK_LEN 3
 #endif
@@ -1012,8 +1018,8 @@ send_packet(mac_callback_t mac_callback, void *mac_callback_ptr,
                packetbuf_totlen(),
                got_strobe_ack ? "ack" : "no ack",
                collisions ? "collision" : "no collision",
-              (unsigned long)((unsigned long)phaselock_target* 1000/RTIMER_ARCH_SECOND),
-              cycle_target* 1000ul/RTIMER_ARCH_SECOND,
+              phaselock_target* 1000ul/RTIMER_ARCH_SECOND,
+              cycle_time* 1000ul/RTIMER_ARCH_SECOND,
               dest_id);
 
 #else

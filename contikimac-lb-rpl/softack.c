@@ -38,7 +38,7 @@
  */
 
 
-#include "../contikimac-lb-rpl/softack.h"
+#include "softack.h"
 
 #include "contikimac.h"
 #include "net/packetbuf.h"
@@ -72,7 +72,7 @@ extern uint32_t cycle_target;
 
 extern uint32_t cycle_time;
 extern volatile rtimer_clock_t current_cycle_start_time;
-static unsigned char ackbuf[3 + 10 + 4] = {0x02, 0x00};
+static unsigned char ackbuf[3 + 10] = {0x02, 0x00};
 /* Seqno of the last acked frame */
 static uint8_t last_acked_seqno = -1;
 /* Called for every incoming frame from interrupt if concerned we ack and then add our phase*/
@@ -109,9 +109,9 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
 
   else if(is_data) {
     *code=SOFTACK_DATA;
-    printf("da");
+    //printf("da");
     if(ack_required) {
-      printf("t");
+      //printf("t");
       uint8_t dest_addr_host_order[8];
       int i;
       /* Convert from 802.15.4 little endian to Contiki's big-endian addresses */
@@ -123,7 +123,7 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
       if(linkaddr_cmp((linkaddr_t*)dest_addr_host_order, &linkaddr_node_addr)){
         /* Unicast, for us */
         do_ack = 1;
-        printf("a");
+        //printf("a");
 
       }
  //     else{
@@ -148,7 +148,7 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
  //    }
    }
 
-    printf("\n");
+    //printf("\n");
   }
 
   if(do_ack) { /* Prepare ack */
@@ -174,10 +174,10 @@ softack_input_callback(const uint8_t *frame, uint8_t framelen, uint8_t **ackbufp
       //memcpy(ackbuf+11,&phase, 2);//two bytes needed to store the phase info
       ackbuf[3+8] = phase & 0xff;
       ackbuf[3+8+1] = (phase >> 8)& 0xff;
-      ackbuf[13] = cycle_time & 0xff;
-      ackbuf[14] = (cycle_time >> 8) & 0xff;
-      ackbuf[15] = (cycle_time >> 16) & 0xff;
-      ackbuf[16] = (cycle_time >> 24) & 0xff;
+//      ackbuf[13] = cycle_time & 0xff;
+//      ackbuf[14] = (cycle_time >> 8) & 0xff;
+//      ackbuf[15] = (cycle_time >> 16) & 0xff;
+//      ackbuf[16] = (cycle_time >> 24) & 0xff;
     } else if(!do_vote) {
       *acklen = 0;
     }

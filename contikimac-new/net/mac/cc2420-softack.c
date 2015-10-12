@@ -662,7 +662,7 @@ cc2420_interrupt(void)
 {
   uint8_t len, seqno, footer1;
   uint8_t len_a, len_b;
-  uint8_t *ackbuffer, acklen=0;
+  uint8_t *ackbuf, acklen=0;
   uint8_t code = 0;//can be used for other stuff
 
 
@@ -673,6 +673,7 @@ cc2420_interrupt(void)
   int frame_valid = 0;
   struct received_frame_s *rf;
   process_poll(&cc2420_process);
+  
 #if CC2420_TIMETABLE_PROFILING
   timetable_clear(&cc2420_timetable);
   TIMETABLE_TIMESTAMP(cc2420_timetable, "interrupt");
@@ -729,18 +730,17 @@ cc2420_interrupt(void)
   rf->seqno = seqno;
 
   if(softack_input_callback) {
-    softack_input_callback(rf->buf, len_a, &ackbuffer, &acklen, &code);
+    softack_input_callback(rf->buf, len_a, &ackbuf, &acklen, &code);
   }
 
   do_ack=code==SOFTACK_ACK;
-  do_vote=code==SOFTACK_VOTE;
-  if(do_ack || do_vote) {
+  if(do_ack) {
 
 	  uint8_t total_acklen = acklen + AUX_LEN;
 	  /* Write ack in fifo */
 	  CC2420_STROBE(CC2420_SFLUSHTX);
 	  CC2420_WRITE_FIFO_BUF(&total_acklen, 1);
-	  CC2420_WRITE_FIFO_BUF(ackbuffer, acklen);
+	  CC2420_WRITE_FIFO_BUF(ackbuf, acklen);
   }
 
   /* Wait for end of reception */
@@ -753,7 +753,6 @@ cc2420_interrupt(void)
 
 
   if(!overflow && (footer1 & FOOTER1_CRC_OK)) { /* CRC is correct */
-
     if(do_ack) {
       strobe(CC2420_STXON); /* Send ACK */
       rf->acked = 1;
@@ -775,7 +774,7 @@ cc2420_interrupt(void)
  * this softack code. The current workaroud is ContikiMAC-specific.
  */
   extern volatile unsigned char we_are_sending;
-  if(we_are_sending){
+  if(!we_are_sending){
     /* Turn the radio off as early as possible */
     off();
   }
@@ -785,7 +784,7 @@ cc2420_interrupt(void)
     }
   }
 
-  if(rf && frame_valid) { /* Get rest of the data.
+  if(rf && frame_valid && len_b >0) { /* Get rest of the data.
    No need to read the footer; we already checked it in place
    before acking. */
     CC2420_READ_RAM(rf->buf + len_a, RXFIFO_ADDR(1 + len_a), len_b);
@@ -841,8 +840,8 @@ PROCESS_THREAD(cc2420_process, ev, data)
     len = cc2420_read(packetbuf_dataptr(), PACKETBUF_SIZE);
 
     int frame_type = ((uint8_t*)packetbuf_dataptr())[0] & 7;
-    if (frame_type == FRAME802154_ACKFRAME || frame_type == 3 || frame_type == 7 || frame_type==0) {
-      printf("tchup\n");
+    if (frame_type == FRAME802154_ACKFRAME) {
+      //printf("tchup\n");
       len = 0;
     }
     packetbuf_set_datalen(len);

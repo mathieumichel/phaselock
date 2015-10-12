@@ -7,16 +7,16 @@
 #undef CONTIKIMAC_CONF_WITH_PHASE_OPTIMIZATION
 #define CONTIKIMAC_CONF_WITH_PHASE_OPTIMIZATION     1
 
-#define WITH_CSMA_ADVANCED 1
+#define WITH_CSMA_ADVANCED 0
+#define IN_UMONS 1
 
 
-
-#define WITH_LB 1
-#define WITH_DIO_TARGET 1
+#define WITH_LB 0
+#define WITH_DIO_TARGET 0
 
 /* The IEEE 802.15.4 channel in use */
 #undef RF_CHANNEL
-#define RF_CHANNEL            15
+#define RF_CHANNEL            26//15
 
 /* The cc2420 transmission power (min:0, max: 31) */
 #define RF_POWER                31

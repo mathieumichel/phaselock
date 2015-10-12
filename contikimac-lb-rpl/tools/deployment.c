@@ -40,7 +40,9 @@
 #include "sys/node-id.h"
 #include "net/rpl/rpl.h"
 #include "random.h"
+#if !IN_UMONS
 #include "ds2411.h"
+#endif
 #include <string.h>
 
 /* Our global IPv6 prefix */
